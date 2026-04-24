@@ -6,516 +6,254 @@
     <title>The Work - 마음 기록 관리 도구</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        :root {
-            --bg-color: #f8f9fa;
-            --container-bg: #ffffff;
-            --text-color: #000000;
-            --header-color: #2c3e50;
-            --border-color: #edf2f7;
-            --input-bg: #ffffff;
-            --accent-color: #2980b9;
-            --tab-inactive: #f1f1f1;
-            --record-item-bg: #ffffff;
-            --sub-label-color: #7f8c8d;
-        }
+        html, body { margin: 0; padding: 0; width: 100%; background-color: #f8f9fa; }
+        body { font-family: 'Pretendard', -apple-system, sans-serif; color: #333; line-height: 1.6; font-size: 13px; }
+        .container { max-width: 800px; margin: 0 auto; padding: 14px 20px; box-sizing: border-box; background-color: #fff; min-height: 100vh; }
+        @media (max-width: 600px) { .container { padding: 10px 10px; } }
 
-        html, body { margin: 0; padding: 0; width: 100%; background-color: var(--bg-color); }
-        body { font-family: 'Pretendard', -apple-system, sans-serif; color: var(--text-color); line-height: 1.6; font-size: 15px; }
-        .container { max-width: 1000px; margin: 0 auto; padding: 15px; box-sizing: border-box; background-color: var(--container-bg); min-height: 100vh; box-shadow: 0 0 100px rgba(0,0,0,0.05); }
-        
-        .util-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: var(--tab-inactive); padding: 10px 15px; border-radius: 12px; gap: 15px; flex-wrap: wrap; }
-        .timer-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        #timer-display { font-family: 'Courier New', monospace; font-size: 1.2em; font-weight: bold; color: var(--accent-color); min-width: 60px; }
-        
-        .case-name-input { border: 1px solid var(--border-color); border-radius: 6px; padding: 6px 10px; font-size: 13px; min-width: 150px; outline: none; }
-        .case-name-input:focus { border-color: var(--accent-color); }
-
-        .util-btn { background: var(--accent-color); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; }
-        .util-btn.secondary { background: #95a5a6; }
-
-        .tabs { display: flex; gap: 5px; margin-bottom: 25px; border-bottom: 2px solid var(--border-color); position: sticky; top: 0; background: var(--container-bg); z-index: 10; padding-top: 10px; }
-        .tab-button { padding: 12px 15px; cursor: pointer; border: none; background: var(--tab-inactive); font-size: 14px; font-weight: bold; border-radius: 8px 8px 0 0; white-space: nowrap; flex: 1; transition: 0.3s; color: #7f8c8d; }
-        .tab-button.active { background: var(--accent-color); color: #fff; }
-        .tab-content { display: none; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* 탭 스타일 */
+        .tabs { display: flex; gap: 5px; margin-bottom: 25px; border-bottom: 2px solid #eee; overflow-x: auto; position: sticky; top: 0; background: #fff; z-index: 10; }
+        .tab-button { padding: 12px 15px; cursor: pointer; border: none; background: #eee; font-size: 13px; font-weight: bold; border-radius: 8px 8px 0 0; white-space: nowrap; flex-shrink: 0; transition: 0.3s; }
+        .tab-button.active { background: #2980b9; color: #fff; }
+        .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        .question-group { background: var(--record-item-bg); padding: 12px; border: 1px solid var(--border-color); border-left: 4px solid var(--accent-color); margin-bottom: 20px; border-radius: 0 5px 5px 0; position: relative; }
-        label { font-weight: bold; color: var(--header-color); font-size: 1.05em; line-height: 1.4; }
+        label { font-weight: bold; display: block; margin-bottom: 4px; color: #2980b9; font-size: 1.1em; }
+        .question-group { background: #fdfdfd; padding: 18px; border: 1px solid #edf2f7; border-left: 4px solid #2980b9; margin-bottom: 15px; border-radius: 0 10px 10px 0; }
         
-        textarea { width: 100%; min-height: 100px; padding: 10px; border: 1px solid var(--border-color); border-radius: 5px; resize: none; box-sizing: border-box; font-size: 15px; line-height: 1.6; background-color: var(--input-bg); color: #000000; transition: border 0.2s; }
+        textarea { width: 100%; min-height: 60px; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px; resize: none; box-sizing: border-box; font-size: 15px; line-height: 1.6; overflow: hidden; display: block; background-color: #fff; }
+        textarea:focus { outline: 2px solid #3498db; border-color: transparent; }
         
-        .import-btn { background: var(--tab-inactive); color: var(--accent-color); border: 1px solid var(--accent-color); padding: 5px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; font-weight: bold; }
+        .check-group { margin: 10px 0; display: flex; gap: 20px; align-items: center; }
+        .check-group input { transform: scale(1.2); cursor: pointer; }
+        .check-group label { display: inline; font-weight: normal; color: #555; margin-bottom: 0; cursor: pointer; font-size: 14px; }
 
-        .check-group { margin: 12px 0; display: flex; gap: 25px; align-items: center; background: var(--tab-inactive); padding: 10px; border-radius: 8px; }
+        /* 기록 목록 스타일 */
+        .record-item { border: 1px solid #eee; padding: 20px; margin-bottom: 20px; border-radius: 10px; background: #fafafa; position: relative; }
+        .record-date { font-size: 12px; color: #999; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .record-sub-title { font-weight: bold; color: #34495e; margin-top: 15px; display: block; font-size: 1.1em; border-left: 3px solid #34495e; padding-left: 8px; }
+        .record-text { font-size: 14px; color: #444; margin: 8px 0; white-space: pre-wrap; padding-left: 10px; }
+
+        /* 버튼 영역 */
+        .buttons { display: flex; flex-direction: column; gap: 10px; margin: 30px 0; padding-bottom: 50px; align-items: center; }
+        .main-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 450px; }
+        button.action-btn { padding: 14px; font-size: 14px; border-radius: 8px; cursor: pointer; border: none; font-weight: bold; transition: 0.2s; }
         
-        .turnaround-set { background: var(--tab-inactive); padding: 10px 15px; border-radius: 10px; margin-bottom: 12px; border: 1px solid var(--border-color); }
-        .turnaround-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-        .turnaround-body { display: block; margin-top: 15px; }
-        .turnaround-set.collapsed .turnaround-body { display: none; }
-        .toggle-icon::before { content: '▼'; font-size: 10px; color: var(--accent-color); margin-right: 5px; }
-        .collapsed .toggle-icon::before { content: '▶'; }
-
-        .btn-add-turn { background: #16a085; color: white; border: none; padding: 10px 20px; border-radius: 8px; width: 100%; cursor: pointer; font-weight: bold; margin-top: 10px; }
-
-        /* 기록 아이템 스타일 강화 */
-        .record-item { border: 1px solid var(--border-color); padding: 15px; margin-bottom: 15px; border-radius: 12px; background: var(--record-item-bg); position: relative; transition: transform 0.2s; cursor: pointer; }
-        .record-item:hover { transform: scale(1.01); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .record-date { font-size: 12px; color: #94a3b8; margin-bottom: 5px; }
-        .record-case-title { font-weight: bold; font-size: 1.1em; color: var(--accent-color); margin-bottom: 5px; }
-        .record-brief { font-size: 13px; color: #555; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 80%; }
-        .record-actions { margin-top: 10px; display: flex; gap: 10px; }
-        .mini-btn { font-size: 11px; padding: 4px 8px; border-radius: 4px; cursor: pointer; border: 1px solid #ddd; background: #fff; }
-        .mini-btn.share { background: #fee500; border: none; }
-        .mini-btn.delete { color: #e74c3c; }
-
-        .buttons { display: flex; flex-direction: column; gap: 12px; margin: 40px 0; padding-bottom: 60px; align-items: center; }
-        .main-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; max-width: 500px; }
-        button.action-btn { padding: 16px; font-size: 15px; border-radius: 10px; cursor: pointer; border: none; font-weight: bold; transition: all 0.2s; }
-        .btn-record { background-color: #27ae60; color: #fff; grid-column: span 2; }
+        .btn-record { background-color: #27ae60; color: #fff; grid-column: span 2; font-size: 16px; } 
+        .btn-record:hover { background-color: #2ecc71; }
+        
         .btn-share { background-color: #fee500; color: #3c1e1e; }
-        .btn-reset { background-color: #95a5a6; color: #fff; }
+        .btn-reset { background-color: #e74c3c; color: #fff; }
         
-        #loading { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); color: #fff; z-index: 9999; justify-content: center; align-items: center; flex-direction: column; gap: 15px; }
-
-        .tag-selector { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-        .tag-item { padding: 5px 12px; border-radius: 20px; border: 1px solid var(--accent-color); font-size: 12px; cursor: pointer; color: var(--accent-color); }
-        .tag-item.active { background: var(--accent-color); color: white; }
+        #loading { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); color: #fff; z-index: 9999; justify-content: center; align-items: center; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div id="loading">
-    <div style="width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-    <div id="loading-text">이미지 생성 중...</div>
-</div>
+<div id="loading">이미지 생성 중... 잠시만 기다려주세요.</div>
 
 <div class="container" id="capture-target">
-    <div class="util-bar">
-        <div class="timer-group">
-            <span id="timer-display">05:00</span>
-            <button class="util-btn" id="timer-ctrl" onclick="toggleTimer()">시작</button>
-            <button class="util-btn secondary" onclick="resetTimer()">리셋</button>
-            <input type="text" id="case-name" class="case-name-input" placeholder="사건명을 입력하세요" oninput="saveDraft()">
-        </div>
-        <div style="font-size: 15px; font-weight: bold; color: var(--accent-color);">괴로운 생각으로부터 자유로워지는 네 가지 질문</div>
-    </div>
-
-    <header style="margin-bottom: 30px; text-align: center;">
-        <h1 style="margin: 0; font-size: 1.8em; color: var(--accent-color);">The Work (작업)</h1>
+    <header style="margin-bottom: 25px; text-align: center;">
+        <h1 style="margin: 0; font-size: 1.6em; color: #2c3e50;">The Work (작업)</h1>
+        <p style="margin: 5px 0; color: #7f8c8d; font-size: 0.9em;">자유로운 마음을 위한 네 가지 질문과 뒤집기</p>
     </header>
 
     <div class="tabs" id="tab-nav">
-        <button class="tab-button active" id="btn-step6" onclick="openTab(event, 'step6')">1단계: 판단</button>
-        <button class="tab-button" id="btn-step4" onclick="openTab(event, 'step4')">2단계: 조사</button>
+        <button class="tab-button active" id="btn-step6" onclick="openTab(event, 'step6')">1단계: 6가지 판단</button>
+        <button class="tab-button" id="btn-step4" onclick="openTab(event, 'step4')">2단계: 4가지 질문</button>
         <button class="tab-button" id="record-tab-btn" onclick="openTab(event, 'record-list')">기록 목록(0)</button>
     </div>
 
-    <div id="step6" class="tab-content active capture-section">
-        <div class="question-group">
-            <label>어떤 분야에 대한 괴로움인가요? (태그)</label>
-            <div class="tag-selector" id="keyword-tags">
-                <div class="tag-item" onclick="toggleTag(this)">가족</div>
-                <div class="tag-item" onclick="toggleTag(this)">직장/동료</div>
-                <div class="tag-item" onclick="toggleTag(this)">연애/배우자</div>
-                <div class="tag-item" onclick="toggleTag(this)">돈/경제력</div>
-                <div class="tag-item" onclick="toggleTag(this)">건강/외모</div>
-                <div class="tag-item" onclick="toggleTag(this)">자기자신</div>
-            </div>
-        </div>
-        <div class="question-group">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                <label>1. 누가 당신을 화나게, 슬프게 하나요?</label>
-                <button class="import-btn" onclick="copyToStep2(0)">+</button>
-            </div>
-            <textarea class="q-step1" oninput="handleInput(this)" placeholder="예: 나는 (이름)이 나를 무시해서 화가 난다."></textarea>
-        </div>
-        <div class="question-group">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                <label>2. 그 사람이 어떻게 변하기를 바라나요?</label>
-                <button class="import-btn" onclick="copyToStep2(1)">+</button>
-            </div>
-            <textarea class="q-step1" oninput="handleInput(this)"></textarea>
-        </div>
-        <div class="question-group">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                <label>3. 그 사람에게 줄 수 있는 조언은?</label>
-                <button class="import-btn" onclick="copyToStep2(2)">+</button>
-            </div>
-            <textarea class="q-step1" oninput="handleInput(this)"></textarea>
-        </div>
-        <div class="question-group">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                <label>4. 당신이 행복하기 위해 그가 무엇을 해야 하나요?</label>
-                <button class="import-btn" onclick="copyToStep2(3)">+</button>
-            </div>
-            <textarea class="q-step1" oninput="handleInput(this)"></textarea>
-        </div>
-        <div class="question-group">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                <label>5. 그 사람에 대한 당신의 생각은?</label>
-                <button class="import-btn" onclick="copyToStep2(4)">+</button>
-            </div>
-            <textarea class="q-step1" oninput="handleInput(this)"></textarea>
-        </div>
-        <div class="question-group">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                <label>6. 다시는 경험하고 싶지 않은 상황은?</label>
-                <button class="import-btn" onclick="copyToStep2(5)">+</button>
-            </div>
-            <textarea class="q-step1" oninput="handleInput(this)"></textarea>
-        </div>
+    <div id="step6" class="tab-content active">
+        <div class="question-group"><label>1. 누가 당신을 화나게, 슬프게, 혹은 혼란스럽게 하나요?</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="예: 나는 어머니가 나를 이해해 주지 않아서 화가 난다."></textarea></div>
+        <div class="question-group"><label>2. 그 상황에서 그 사람이 어떻게 변하기를 바라나요?</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="그가 어떻게 해야 할까요?"></textarea></div>
+        <div class="question-group"><label>3. 그 사람이 무엇을 해야 하거나 하지 말아야 하나요?</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="그에게 줄 수 있는 조언은?"></textarea></div>
+        <div class="question-group"><label>4. 당신이 행복해지기 위해 그 사람이 무엇을 해야 하나요?</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="당신에게 무엇을 해주어야 하나요?"></textarea></div>
+        <div class="question-group"><label>5. 그 사람에 대해 어떻게 생각하나요? 목록을 만들어보세요.</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="그는 이기적이다, 무책임하다 등..."></textarea></div>
+        <div class="question-group"><label>6. 다시는 겪고 싶지 않은 경험은 무엇인가요?</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="나는 다시는 ... 하고 싶지 않다."></textarea></div>
     </div>
 
-    <div id="step4" class="tab-content capture-section">
-        <div class="question-group" style="border-left-color: #95a5a6;">
-            <label style="color: #95a5a6;">0. 조사할 문장</label>
-            <textarea class="q-step2" id="target-statement" oninput="handleInput(this)"></textarea>
-        </div>
+    <div id="step4" class="tab-content">
+        <div class="question-group" style="border-left-color: #7f8c8d;"><label style="color: #7f8c8d;">0. 조사할 문장 (1단계에서 가장 와닿는 한 문장을 가져오세요)</label><textarea class="q-step2" oninput="autoResize(this)"></textarea></div>
         <div class="question-group">
             <label>1. 그 생각이 진실인가요?</label>
             <div class="check-group">
-                <input type="radio" name="q1" id="q1y" value="예" onchange="saveDraft()"><label for="q1y">예</label>
-                <input type="radio" name="q1" id="q1n" value="아니오" onchange="saveDraft()"><label for="q1n">아니오</label>
+                <input type="radio" name="q1" id="q1y" value="예"><label for="q1y">예</label>
+                <input type="radio" name="q1" id="q1n" value="아니오"><label for="q1n">아니오</label>
             </div>
-            <textarea class="q-step2" oninput="handleInput(this)"></textarea>
+            <textarea class="q-step2" oninput="autoResize(this)" placeholder="마음의 소리를 들어보세요..."></textarea>
         </div>
         <div class="question-group">
-            <label>2. 그게 진실이라는 것을 확실히 알 수 있나요?</label>
+            <label>2. 그 생각이 진실이라는 것을 확실히 알 수 있나요?</label>
             <div class="check-group">
-                <input type="radio" name="q2" id="q2y" value="예" onchange="saveDraft()"><label for="q2y">예</label>
-                <input type="radio" name="q2" id="q2n" value="아니오" onchange="saveDraft()"><label for="q2n">아니오</label>
+                <input type="radio" name="q2" id="q2y" value="예"><label for="q2y">예</label>
+                <input type="radio" name="q2" id="q2n" value="아니오"><label for="q2n">아니오</label>
             </div>
-            <textarea class="q-step2" oninput="handleInput(this)"></textarea>
+            <textarea class="q-step2" oninput="autoResize(this)"></textarea>
         </div>
-        <div class="question-group">
-            <label>3. 그 생각을 믿을 때 당신은 어떻게 반응하나요?</label>
-            <textarea class="q-step2" oninput="handleInput(this)"></textarea>
-        </div>
-        <div class="question-group">
-            <label>4. 그 생각이 없다면 당신은 누구일까요?</label>
-            <textarea class="q-step2" oninput="handleInput(this)"></textarea>
-        </div>
-        <div class="question-group" style="border-left-color: #16a085;">
-            <label style="color: #16a085;">5. 생각 뒤집기 & 사례 찾기</label>
-            <div id="turnaround-container" style="margin-top:10px;"></div>
-            <button class="btn-add-turn" onclick="addTurnaroundSet()">+ 뒤집기 추가</button>
-        </div>
+        <div class="question-group"><label>3. 그 생각을 믿을 때 당신은 어떻게 반응하나요?</label><textarea class="q-step2" oninput="autoResize(this)" placeholder="어떤 감정이 들고, 몸의 어디가 느껴지나요?"></textarea></div>
+        <div class="question-group"><label>4. 그 생각이 없다면 당신은 누구일까요?</label><textarea class="q-step2" oninput="autoResize(this)" placeholder="생각이 사라진 당신의 모습을 상상해보세요."></textarea></div>
+        <div class="question-group" style="border-left-color: #16a085;"><label style="color: #16a085;">5. 생각 뒤집기 (반대로 생각해보는 시간)</label><textarea class="q-step2" oninput="autoResize(this)" placeholder="나에게로, 상대에게로, 정반대로 뒤집어보세요."></textarea></div>
     </div>
 
     <div id="record-list" class="tab-content">
-        <div id="records-container"></div>
+        <div id="records-container" style="padding-top: 10px;">
+            </div>
     </div>
 
     <div class="buttons" id="action-btns">
         <div class="main-btns">
-            <button class="action-btn btn-record" onclick="addRecord()">기록 완료 및 저장</button>
-            <button class="action-btn btn-share" onclick="shareAsImage()">현재 화면 이미지 공유</button>
+            <button class="action-btn btn-record" onclick="addRecord()">작업 내용 기록 및 저장하기</button>
+            <button class="action-btn btn-share" onclick="shareAsImage()">이미지로 저장/공유</button>
             <button class="action-btn btn-reset" onclick="resetForm()">전체 초기화</button>
         </div>
     </div>
 </div>
 
 <script>
+    // 페이지 로드 시 로컬 스토리지에서 데이터 불러오기
     let records = JSON.parse(localStorage.getItem('theWorkRecords')) || [];
-    let timerInterval = null;
-    let secondsLeft = 300;
-    const bgMusic = new Audio('https://orangefreesounds.com/wp-content/uploads/2026/04/Moderate-rain-on-hard-surface-sound-effect.mp3?_=1');
-    bgMusic.loop = true;
 
     window.onload = () => {
-        const draftStr = localStorage.getItem('theWorkDraft');
-        if(!draftStr) {
-            addTurnaroundSet("① 나에게로 돌려보기", "예: 내가 나를 무시한다.");
-            addTurnaroundSet("② 타인에게로 돌려보기", "예: 내가 그를 무시한다.");
-            addTurnaroundSet("③ 정반대로 돌려보기", "예: 그는 나를 무시하지 않는다.");
-        }
-        loadDraft();
         updateRecordUI();
     };
 
-    // 타이머 함수들
-    function toggleTimer() {
-        const btn = document.getElementById('timer-ctrl');
-        if (timerInterval) {
-            clearInterval(timerInterval);
-            timerInterval = null;
-            btn.innerText = "계속";
-            bgMusic.pause();
-        } else {
-            btn.innerText = "정지";
-            bgMusic.play().catch(e => console.log("음악 재생 실패"));
-            timerInterval = setInterval(() => {
-                secondsLeft--;
-                updateTimerDisplay();
-                if (secondsLeft <= 0) { 
-                    clearInterval(timerInterval); 
-                    timerInterval = null;
-                    btn.innerText = "시작";
-                    bgMusic.pause();
-                    bgMusic.currentTime = 0;
-                    alert("시간이 종료되었습니다."); 
-                }
-            }, 1000);
-        }
-    }
-
-    function resetTimer() {
-        clearInterval(timerInterval);
-        timerInterval = null;
-        secondsLeft = 300;
-        updateTimerDisplay();
-        document.getElementById('timer-ctrl').innerText = "시작";
-        bgMusic.pause(); bgMusic.currentTime = 0;
-    }
-
-    function updateTimerDisplay() {
-        const m = Math.floor(secondsLeft / 60);
-        const s = secondsLeft % 60;
-        document.getElementById('timer-display').innerText = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-    }
-
-    // 탭 이동 및 입력 관리
     function openTab(evt, tabName) {
-        document.querySelectorAll(".tab-content").forEach(tc => tc.classList.remove("active"));
-        document.querySelectorAll(".tab-button").forEach(tb => tb.classList.remove("active"));
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) tabcontent[i].classList.remove("active");
+        tablinks = document.getElementsByClassName("tab-button");
+        for (i = 0; i < tablinks.length; i++) tablinks[i].classList.remove("active");
         document.getElementById(tabName).classList.add("active");
         if(evt) evt.currentTarget.classList.add("active");
-        window.scrollTo(0, 0);
+        else document.getElementById('record-tab-btn').classList.add("active");
     }
 
-    function handleInput(textarea) {
+    function autoResize(textarea) {
         textarea.style.height = 'auto';
         textarea.style.height = (textarea.scrollHeight) + 'px';
-        saveDraft();
-    }
-
-    function toggleTag(el) { el.classList.toggle('active'); saveDraft(); }
-
-    function copyToStep2(idx) {
-        const val = document.querySelectorAll('.q-step1')[idx].value;
-        if(!val) return alert("내용을 입력해주세요.");
-        document.getElementById('target-statement').value = val;
-        alert("2단계 '조사할 문장'으로 복사되었습니다.");
-        saveDraft();
-    }
-
-    function toggleTurnaround(el) {
-        const set = el.closest('.turnaround-set');
-        set.classList.toggle('collapsed');
-    }
-
-    function addTurnaroundSet(title = "새로운 뒤집기", placeholderText = "뒤집힌 문장을 적어보세요.") {
-        const container = document.getElementById('turnaround-container');
-        const div = document.createElement('div');
-        div.className = 'turnaround-set';
-        div.innerHTML = `
-            <div class="turnaround-header" onclick="toggleTurnaround(this)">
-                <span class="sub-label" style="margin:0; flex:1;"><span class="toggle-icon"></span>${title}</span>
-                <button onclick="event.stopPropagation(); this.parentElement.parentElement.remove(); saveDraft();" style="background:none; border:none; color:#e74c3c; cursor:pointer; font-size:12px;">삭제</button>
-            </div>
-            <div class="turnaround-body">
-                <textarea class="q-turnaround-text" oninput="handleInput(this)" placeholder="${placeholderText}"></textarea>
-                <span class="guide-text">진실일 수 있는 구체적인 사례 3가지:</span>
-                <textarea class="q-turnaround-case" oninput="handleInput(this)" placeholder="사례 1, 2, 3..." style="min-height:80px; border-style:dashed;"></textarea>
-            </div>
-        `;
-        container.appendChild(div);
-        saveDraft();
-    }
-
-    // 데이터 저장/불러오기 핵심 로직
-    function getFormData() {
-        const activeTags = Array.from(document.querySelectorAll('.tag-item.active')).map(el => el.innerText);
-        const turnarounds = Array.from(document.querySelectorAll('.turnaround-set')).map(set => ({
-            title: set.querySelector('.sub-label').innerText.replace('▼', '').replace('▶', '').trim(),
-            text: set.querySelector('.q-turnaround-text').value,
-            case: set.querySelector('.q-turnaround-case').value,
-            isCollapsed: set.classList.contains('collapsed')
-        }));
-        return {
-            caseName: document.getElementById('case-name').value,
-            tags: activeTags,
-            step1: Array.from(document.querySelectorAll('.q-step1')).map(el => el.value),
-            step2_main: Array.from(document.querySelectorAll('.q-step2')).map(el => el.value),
-            turnarounds: turnarounds,
-            q1: document.querySelector('input[name="q1"]:checked')?.value,
-            q2: document.querySelector('input[name="q2"]:checked')?.value
-        };
-    }
-
-    function setFormData(data) {
-        if(!data) return;
-        document.getElementById('case-name').value = data.caseName || "";
-        document.querySelectorAll('.tag-item').forEach(el => {
-            el.classList.toggle('active', data.tags?.includes(el.innerText));
-        });
-        const s1 = document.querySelectorAll('.q-step1');
-        if(data.step1) data.step1.forEach((v, i) => { if(s1[i]) s1[i].value = v; });
-        const s2m = document.querySelectorAll('.q-step2');
-        if(data.step2_main) data.step2_main.forEach((v, i) => { if(s2m[i]) s2m[i].value = v; });
-        
-        const container = document.getElementById('turnaround-container');
-        container.innerHTML = '';
-        if(data.turnarounds) {
-            data.turnarounds.forEach(t => {
-                addTurnaroundSet(t.title);
-                const last = container.lastElementChild;
-                last.querySelector('.q-turnaround-text').value = t.text;
-                last.querySelector('.q-turnaround-case').value = t.case;
-                if(t.isCollapsed) last.classList.add('collapsed');
-            });
-        }
-        if(data.q1) { const rb = document.querySelector(`input[name="q1"][value="${data.q1}"]`); if(rb) rb.checked = true; }
-        if(data.q2) { const rb = document.querySelector(`input[name="q2"][value="${data.q2}"]`); if(rb) rb.checked = true; }
-        
-        setTimeout(() => {
-            document.querySelectorAll('textarea').forEach(t => {
-                t.style.height = 'auto';
-                t.style.height = t.scrollHeight + 'px';
-            });
-        }, 100);
-    }
-
-    function saveDraft() {
-        localStorage.setItem('theWorkDraft', JSON.stringify(getFormData()));
-    }
-
-    function loadDraft() {
-        const draft = JSON.parse(localStorage.getItem('theWorkDraft'));
-        setFormData(draft);
     }
 
     function addRecord() {
-        const data = getFormData();
-        if(!data.caseName && !data.step2_main[0]) return alert("사건명이나 조사 문장을 입력해주세요.");
-        
-        const record = { id: Date.now(), date: new Date().toLocaleString(), ...data };
-        records.unshift(record);
-        localStorage.setItem('theWorkRecords', JSON.stringify(records));
-        localStorage.removeItem('theWorkDraft');
-        alert("기록이 저장되었습니다.");
-        location.reload();
-    }
+        const step1Inputs = document.querySelectorAll('.q-step1');
+        const step2Inputs = document.querySelectorAll('.q-step2');
+        const q1Val = document.querySelector('input[name="q1"]:checked')?.value || "-";
+        const q2Val = document.querySelector('input[name="q2"]:checked')?.value || "-";
 
-    function loadRecordToEdit(id) {
-        const rec = records.find(r => r.id === id);
-        if(!rec) return;
-        if(confirm("이 기록을 불러와 수정하시겠습니까? (현재 작성 중인 내용은 덮어씌워집니다.)")) {
-            setFormData(rec);
-            openTab(null, 'step6');
+        let hasData = false;
+        [...step1Inputs, ...step2Inputs].forEach(el => { if(el.value.trim()) hasData = true; });
+
+        if(!hasData) {
+            alert("기록할 내용이 없습니다.");
+            return;
         }
+
+        const newRecord = {
+            id: Date.now(),
+            date: new Date().toLocaleString(),
+            step1: Array.from(step1Inputs).map(el => el.value),
+            step2: Array.from(step2Inputs).map(el => el.value),
+            checks: [q1Val, q2Val]
+        };
+
+        records.unshift(newRecord); // 최신글이 위로
+        localStorage.setItem('theWorkRecords', JSON.stringify(records));
+        
+        updateRecordUI();
+        alert("기록되었습니다. 목록 탭으로 이동합니다.");
+        
+        // 작성 폼 초기화 및 목록 탭으로 이동
+        openTab(null, 'record-list');
+        const recordBtn = document.getElementById('record-tab-btn');
+        document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+        recordBtn.classList.add('active');
     }
 
     function updateRecordUI() {
         const container = document.getElementById('records-container');
         document.getElementById('record-tab-btn').innerText = `기록 목록(${records.length})`;
-        if(records.length === 0) { container.innerHTML = `<p style="text-align:center; margin-top:50px;">저장된 기록이 없습니다.</p>`; return; }
         
-        container.innerHTML = records.map(rec => `
-            <div class="record-item" onclick="loadRecordToEdit(${rec.id})">
-                <div class="record-date">${rec.date}</div>
-                <div class="record-case-title">${rec.caseName || '제목 없음'}</div>
-                <div class="record-brief">핵심 문장: ${rec.step2_main[0] || '-'}</div>
-                <div class="record-actions">
-                    <button class="mini-btn share" onclick="event.stopPropagation(); shareRecordImage(${rec.id})">이미지 공유</button>
-                    <button class="mini-btn delete" onclick="event.stopPropagation(); deleteRecord(${rec.id})">삭제</button>
-                </div>
+        if (records.length === 0) {
+            container.innerHTML = '<p style="text-align: center; color: #999; margin-top:50px;">아직 저장된 기록이 없습니다.</p>';
+            return;
+        }
+
+        container.innerHTML = records.map((rec, idx) => `
+            <div class="record-item">
+                <div class="record-date">#${records.length - idx} - 기록 일시: ${rec.date}</div>
+                <span class="record-sub-title">1단계: 판단</span>
+                ${rec.step1.map((val, i) => val ? `<div class="record-text">Q${i+1}: ${val}</div>` : '').join('')}
+                <span class="record-sub-title">2단계: 조사</span>
+                <div class="record-text"><strong>조사 문장:</strong> ${rec.step2[0] || "미입력"}</div>
+                <div class="record-text"><strong>Q1 진실인가:</strong> [${rec.checks[0]}] ${rec.step2[1] || ""}</div>
+                <div class="record-text"><strong>Q2 확실한가:</strong> [${rec.checks[1]}] ${rec.step2[2] || ""}</div>
+                <div class="record-text"><strong>Q3 반응:</strong> ${rec.step2[3] || ""}</div>
+                <div class="record-text"><strong>Q4 없다면:</strong> ${rec.step2[4] || ""}</div>
+                <div class="record-text"><strong>뒤집기:</strong> ${rec.step2[5] || ""}</div>
+                <button onclick="deleteRecord(${rec.id})" style="position:absolute; top:15px; right:15px; background:none; border:none; color:#e74c3c; cursor:pointer; font-size:12px;">삭제</button>
             </div>
         `).join('');
     }
 
     function deleteRecord(id) {
-        if(confirm("이 기록을 삭제하시겠습니까?")) {
+        if(confirm("이 기록을 삭제할까요?")) {
             records = records.filter(r => r.id !== id);
             localStorage.setItem('theWorkRecords', JSON.stringify(records));
             updateRecordUI();
         }
     }
 
-    // 이미지 생성 및 공유 로직
-    async function captureElement(elId) {
-        const targetEl = document.getElementById(elId);
-        const originalDisplay = targetEl.style.display;
-        const collapsedSets = targetEl.querySelectorAll('.turnaround-set.collapsed');
-        
-        collapsedSets.forEach(s => s.classList.remove('collapsed'));
-        targetEl.style.display = 'block'; 
-
-        const canvas = await html2canvas(targetEl, {
-            backgroundColor: '#ffffff',
-            scale: 2,
-            useCORS: true,
-            onclone: (clonedDoc) => {
-                const target = clonedDoc.getElementById(elId);
-                target.style.width = '800px';
-                target.style.padding = '40px';
-                target.querySelectorAll('textarea, label, span, div, p, h1, h2').forEach(el => {
-                    el.style.color = '#000000';
-                    el.style.fontWeight = '700';
-                    if (el.tagName === 'TEXTAREA') {
-                        el.style.border = '1px solid #000';
-                        el.style.webkitTextFillColor = '#000';
-                    }
-                });
-            }
-        });
-
-        collapsedSets.forEach(s => s.classList.add('collapsed'));
-        targetEl.style.display = originalDisplay;
-        return canvas;
-    }
-
     async function shareAsImage() {
         const loading = document.getElementById('loading');
+        const target = document.getElementById('capture-target');
+        const btns = document.getElementById('action-btns');
+        const nav = document.getElementById('tab-nav');
+
         loading.style.display = 'flex';
+        btns.style.display = 'none';
+        nav.style.display = 'none';
+
         try {
-            const c1 = await captureElement('step6');
-            const c2 = await captureElement('step4');
-            const files = [
-                await canvasToFile(c1, '1단계_판단.png'),
-                await canvasToFile(c2, '2단계_조사.png')
-            ];
-
-            if (navigator.share) {
-                await navigator.share({ files, title: 'The Work 기록' });
-            } else {
-                showMultiImageModal(files);
-            }
-        } catch (e) { alert("이미지 생성 중 오류 발생"); }
-        finally { loading.style.display = 'none'; }
-    }
-
-    async function shareRecordImage(id) {
-        const rec = records.find(r => r.id === id);
-        // 현재 폼에 임시로 데이터 세팅 후 캡처
-        const originalDraft = localStorage.getItem('theWorkDraft');
-        setFormData(rec);
-        await shareAsImage();
-        // 원래 작성 중이던 내용으로 복구
-        if(originalDraft) setFormData(JSON.parse(originalDraft));
-    }
-
-    async function canvasToFile(canvas, fileName) {
-        const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
-        return new File([blob], fileName, { type: 'image/png' });
-    }
-
-    function showMultiImageModal(files) {
-        const modal = document.createElement('div');
-        modal.style = `position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:10000; display:flex; flex-direction:column; align-items:center; overflow-y:auto; padding:20px;`;
-        let html = `<p style="color:white; margin-bottom:15px;">이미지를 길게 눌러 저장하세요</p>`;
-        files.forEach(file => {
-            html += `<img src="${URL.createObjectURL(file)}" style="max-width:100%; margin-bottom:20px; border:2px solid #fff;">`;
-        });
-        modal.innerHTML = html + `<button onclick="this.parentElement.remove()" style="padding:10px 20px; cursor:pointer;">닫기</button>`;
-        document.body.appendChild(modal);
+            // 이미지 캡처 전 스타일 조정 (전체 내용이 나오도록)
+            const canvas = await html2canvas(target, { 
+                scale: 2, 
+                backgroundColor: "#ffffff",
+                useCORS: true,
+                windowWidth: target.scrollWidth,
+                windowHeight: target.scrollHeight
+            });
+            
+            canvas.toBlob(async (blob) => {
+                const file = new File([blob], "TheWork_Record.png", { type: "image/png" });
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    await navigator.share({ files: [file], title: 'The Work 기록' });
+                } else {
+                    const link = document.createElement('a');
+                    link.download = 'TheWork_Record.png';
+                    link.href = canvas.toDataURL();
+                    link.click();
+                }
+            });
+        } catch (err) { 
+            console.error(err);
+            alert("이미지 생성 중 오류가 발생했습니다."); 
+        } finally { 
+            loading.style.display = 'none'; 
+            btns.style.display = 'flex'; 
+            nav.style.display = 'flex'; 
+        }
     }
 
     function resetForm() {
-        if(confirm("모든 입력 내용을 초기화하시겠습니까? (저장된 기록 목록은 유지됩니다)")) {
-            localStorage.removeItem('theWorkDraft');
-            location.reload();
+        if(confirm("모든 입력값과 저장된 기록 목록을 완전히 삭제할까요? 이 작업은 되돌릴 수 없습니다.")) {
+            document.querySelectorAll('textarea').forEach(tan => { tan.value = ''; tan.style.height = '60px'; });
+            document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+            records = [];
+            localStorage.removeItem('theWorkRecords');
+            updateRecordUI();
+            openTab(null, 'step6');
+            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn-step6').classList.add('active');
         }
     }
 </script>
