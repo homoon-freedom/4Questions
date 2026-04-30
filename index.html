@@ -4,44 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Work - 마음 기록 관리 도구</title>
+    <!-- Google Fonts: Noto Sans KR 추가 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         html, body { margin: 0; padding: 0; width: 100%; background-color: #f8f9fa; }
-        body { font-family: 'Pretendard', -apple-system, sans-serif; color: #333; line-height: 1.6; font-size: 13px; }
+        body { 
+            font-family: 'Noto Sans KR', sans-serif; 
+            color: #333; 
+            line-height: 1.6; 
+            font-size: 14px; 
+        }
         .container { max-width: 800px; margin: 0 auto; padding: 14px 20px; box-sizing: border-box; background-color: #fff; min-height: 100vh; }
         @media (max-width: 600px) { .container { padding: 10px 10px; } }
 
         /* 탭 스타일 */
         .tabs { display: flex; gap: 5px; margin-bottom: 25px; border-bottom: 2px solid #eee; overflow-x: auto; position: sticky; top: 0; background: #fff; z-index: 10; }
-        .tab-button { padding: 12px 15px; cursor: pointer; border: none; background: #eee; font-size: 13px; font-weight: bold; border-radius: 8px 8px 0 0; white-space: nowrap; flex-shrink: 0; transition: 0.3s; }
+        .tab-button { 
+            padding: 12px 15px; 
+            cursor: pointer; 
+            border: none; 
+            background: #eee; 
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 13px; 
+            font-weight: 700; 
+            border-radius: 8px 8px 0 0; 
+            white-space: nowrap; 
+            flex-shrink: 0; 
+            transition: 0.3s; 
+        }
         .tab-button.active { background: #2980b9; color: #fff; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        label { font-weight: bold; display: block; margin-bottom: 4px; color: #2980b9; font-size: 1.1em; }
+        /* 질문 그룹 스타일 */
+        label { font-weight: 700; display: block; margin-bottom: 6px; color: #2980b9; font-size: 1.1em; letter-spacing: -0.02em; }
         .question-group { background: #fdfdfd; padding: 18px; border: 1px solid #edf2f7; border-left: 4px solid #2980b9; margin-bottom: 15px; border-radius: 0 10px 10px 0; }
         
-        textarea { width: 100%; min-height: 60px; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px; resize: none; box-sizing: border-box; font-size: 15px; line-height: 1.6; overflow: hidden; display: block; background-color: #fff; }
+        /* 헤더 내 재생 버튼 레이아웃 */
+        .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .btn-play { 
+            background: #2980b9; color: white; border: none; border-radius: 50%; 
+            width: 30px; height: 30px; cursor: pointer; font-size: 12px; 
+            display: flex; align-items: center; justify-content: center; transition: 0.2s;
+            flex-shrink: 0; margin-left: 10px;
+        }
+        .btn-play:hover { background: #1a5276; transform: scale(1.1); }
+        .btn-play.playing { background: #e74c3c; box-shadow: 0 0 8px rgba(231, 76, 60, 0.5); }
+
+        textarea { 
+            width: 100%; min-height: 60px; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px; 
+            resize: none; box-sizing: border-box; font-family: 'Noto Sans KR', sans-serif;
+            font-size: 15px; line-height: 1.6; overflow: hidden; display: block; background-color: #fff; 
+        }
         textarea:focus { outline: 2px solid #3498db; border-color: transparent; }
         
         .check-group { margin: 10px 0; display: flex; gap: 20px; align-items: center; }
         .check-group input { transform: scale(1.2); cursor: pointer; }
-        .check-group label { display: inline; font-weight: normal; color: #555; margin-bottom: 0; cursor: pointer; font-size: 14px; }
+        .check-group label { display: inline; font-weight: 400; color: #555; margin-bottom: 0; cursor: pointer; font-size: 14px; }
 
         /* 기록 목록 스타일 */
         .record-item { border: 1px solid #eee; padding: 20px; margin-bottom: 20px; border-radius: 10px; background: #fafafa; position: relative; }
         .record-date { font-size: 12px; color: #999; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-        .record-sub-title { font-weight: bold; color: #34495e; margin-top: 15px; display: block; font-size: 1.1em; border-left: 3px solid #34495e; padding-left: 8px; }
+        .record-sub-title { font-weight: 700; color: #34495e; margin-top: 15px; display: block; font-size: 1.1em; border-left: 3px solid #34495e; padding-left: 8px; }
         .record-text { font-size: 14px; color: #444; margin: 8px 0; white-space: pre-wrap; padding-left: 10px; }
 
-        /* 버튼 영역 */
+        /* 하단 버튼 */
         .buttons { display: flex; flex-direction: column; gap: 10px; margin: 30px 0; padding-bottom: 50px; align-items: center; }
         .main-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 450px; }
-        button.action-btn { padding: 14px; font-size: 14px; border-radius: 8px; cursor: pointer; border: none; font-weight: bold; transition: 0.2s; }
-        
+        button.action-btn { 
+            padding: 14px; font-size: 14px; border-radius: 8px; cursor: pointer; border: none; 
+            font-weight: 700; font-family: 'Noto Sans KR', sans-serif; transition: 0.2s; 
+        }
         .btn-record { background-color: #27ae60; color: #fff; grid-column: span 2; font-size: 16px; } 
-        .btn-record:hover { background-color: #2ecc71; }
-        
         .btn-share { background-color: #fee500; color: #3c1e1e; }
         .btn-reset { background-color: #e74c3c; color: #fff; }
         
@@ -54,8 +92,8 @@
 
 <div class="container" id="capture-target">
     <header style="margin-bottom: 25px; text-align: center;">
-        <h1 style="margin: 0; font-size: 1.6em; color: #2c3e50;">The Work (작업)</h1>
-        <p style="margin: 5px 0; color: #7f8c8d; font-size: 0.9em;">자유로운 마음을 위한 네 가지 질문과 뒤집기</p>
+        <h1 style="margin: 0; font-size: 1.6em; color: #2c3e50; font-weight: 700;">The Work (작업)</h1>
+        <p style="margin: 5px 0; color: #7f8c8d; font-size: 0.95em;">자유로운 마음을 위한 네 가지 질문과 뒤집기</p>
     </header>
 
     <div class="tabs" id="tab-nav">
@@ -64,43 +102,78 @@
         <button class="tab-button" id="record-tab-btn" onclick="openTab(event, 'record-list')">기록 목록(0)</button>
     </div>
 
+    <!-- 1단계: 6가지 판단 -->
     <div id="step6" class="tab-content active">
-        <div class="question-group"><label>1. 누가 당신을 화나게, 슬프게, 혹은 혼란스럽게 하나요?</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="예: 나는 어머니가 나를 이해해 주지 않아서 화가 난다."></textarea></div>
-        <div class="question-group"><label>2. 그 상황에서 그 사람이 어떻게 변하기를 바라나요?</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="그가 어떻게 해야 할까요?"></textarea></div>
-        <div class="question-group"><label>3. 그 사람이 무엇을 해야 하거나 하지 말아야 하나요?</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="그에게 줄 수 있는 조언은?"></textarea></div>
-        <div class="question-group"><label>4. 당신이 행복해지기 위해 그 사람이 무엇을 해야 하나요?</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="당신에게 무엇을 해주어야 하나요?"></textarea></div>
-        <div class="question-group"><label>5. 그 사람에 대해 어떻게 생각하나요? 목록을 만들어보세요.</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="그는 이기적이다, 무책임하다 등..."></textarea></div>
-        <div class="question-group"><label>6. 다시는 겪고 싶지 않은 경험은 무엇인가요?</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="나는 다시는 ... 하고 싶지 않다."></textarea></div>
+        <div class="question-group"><label>1. 당신을 화나게 하거나 슬프게 하거나 실망시키는 사람은 누구인가요? 당신은 그 사람의 어떤 점이 맘에 들지 않(았)나요?</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="나는 (이름: ) 때문에 화가 난다..."></textarea></div>
+        <div class="question-group"><label>2. 당신은 그 사람이 어떻게 바뀌기를 원하나요?</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="나는 __이(가) __하기를 원한다."></textarea></div>
+        <div class="question-group"><label>3. 그 사람이 해야 하거나 하지 말아야 할 것들은 무엇인가요?</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="__는(은) 해야 한다..."></textarea></div>
+        <div class="question-group"><label>4. 당신은 그 사람에게 무엇인가를 필요로 하나요?</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="나는 __이(가) __기를 필요로 한다."></textarea></div>
+        <div class="question-group"><label>5. 당신은 그 사람을 어떻게 생각하나요? (관대하지 마세요.)</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="__는(은) ____________."></textarea></div>
+        <div class="question-group"><label>6. 당신이 그 상황과 다시는 경험하고 싶지 않은 점은 무엇인가요?</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="나는 앞으로 다시는 ___하고 싶지 않다."></textarea></div>
     </div>
 
+    <!-- 2단계: 4가지 질문 (오디오 기능 포함) -->
     <div id="step4" class="tab-content">
-        <div class="question-group" style="border-left-color: #7f8c8d;"><label style="color: #7f8c8d;">0. 조사할 문장 (1단계에서 가장 와닿는 한 문장을 가져오세요)</label><textarea class="q-step2" oninput="autoResize(this)"></textarea></div>
+        <div class="question-group" style="border-left-color: #7f8c8d;">
+            <label style="color: #7f8c8d;">0. 조사할 문장 (가장 와닿는 한 문장을 가져오세요)</label>
+            <textarea class="q-step2" oninput="autoResize(this)"></textarea>
+        </div>
+
         <div class="question-group">
-            <label>1. 그 생각이 진실인가요?</label>
+            <div class="q-header">
+                <label>1. 그 생각이 진실인가요?</label>
+                <button class="btn-play" onclick="playAudio('1.mp3', this)">▶</button>
+            </div>
             <div class="check-group">
                 <input type="radio" name="q1" id="q1y" value="예"><label for="q1y">예</label>
                 <input type="radio" name="q1" id="q1n" value="아니오"><label for="q1n">아니오</label>
             </div>
             <textarea class="q-step2" oninput="autoResize(this)" placeholder="마음의 소리를 들어보세요..."></textarea>
         </div>
+
         <div class="question-group">
-            <label>2. 그 생각이 진실이라는 것을 확실히 알 수 있나요?</label>
+            <div class="q-header">
+                <label>2. 그 생각이 진실이라는 것을 확실히 알 수 있나요?</label>
+                <button class="btn-play" onclick="playAudio('2.mp3', this)">▶</button>
+            </div>
             <div class="check-group">
                 <input type="radio" name="q2" id="q2y" value="예"><label for="q2y">예</label>
                 <input type="radio" name="q2" id="q2n" value="아니오"><label for="q2n">아니오</label>
             </div>
             <textarea class="q-step2" oninput="autoResize(this)"></textarea>
         </div>
-        <div class="question-group"><label>3. 그 생각을 믿을 때 당신은 어떻게 반응하나요?</label><textarea class="q-step2" oninput="autoResize(this)" placeholder="어떤 감정이 들고, 몸의 어디가 느껴지나요?"></textarea></div>
-        <div class="question-group"><label>4. 그 생각이 없다면 당신은 누구일까요?</label><textarea class="q-step2" oninput="autoResize(this)" placeholder="생각이 사라진 당신의 모습을 상상해보세요."></textarea></div>
-        <div class="question-group" style="border-left-color: #16a085;"><label style="color: #16a085;">5. 생각 뒤집기 (반대로 생각해보는 시간)</label><textarea class="q-step2" oninput="autoResize(this)" placeholder="나에게로, 상대에게로, 정반대로 뒤집어보세요."></textarea></div>
-    </div>
 
-    <div id="record-list" class="tab-content">
-        <div id="records-container" style="padding-top: 10px;">
+        <div class="question-group">
+            <div class="q-header">
+                <label>3. 그 생각을 믿을 때 당신은 어떻게 반응하나요?</label>
+                <button class="btn-play" onclick="playAudio('3.mp3', this)">▶</button>
             </div>
+            <textarea class="q-step2" oninput="autoResize(this)" placeholder="어떤 감정이 들고, 몸의 어디가 느껴지나요?"></textarea>
+        </div>
+
+        <div class="question-group">
+            <div class="q-header">
+                <label>4. 그 생각이 없다면 당신은 누구일까요?</label>
+                <button class="btn-play" onclick="playAudio('4.mp3', this)">▶</button>
+            </div>
+            <textarea class="q-step2" oninput="autoResize(this)" placeholder="생각이 사라진 당신의 모습을 상상해보세요."></textarea>
+        </div>
+
+        <div class="question-group" style="border-left-color: #16a085;">
+            <div class="q-header">
+                <label style="color: #16a085;">5. 생각 뒤집기 (반대로 생각해보는 시간)</label>
+                <button class="btn-play" style="background:#16a085;" onclick="playAudio('5.mp3', this)">▶</button>
+            </div>
+            <textarea class="q-step2" oninput="autoResize(this)" placeholder="나에게로, 상대에게로, 정반대로 뒤집어보세요."></textarea>
+        </div>
     </div>
 
+    <!-- 기록 목록 -->
+    <div id="record-list" class="tab-content">
+        <div id="records-container" style="padding-top: 10px;"></div>
+    </div>
+
+    <!-- 버튼 모음 -->
     <div class="buttons" id="action-btns">
         <div class="main-btns">
             <button class="action-btn btn-record" onclick="addRecord()">작업 내용 기록 및 저장하기</button>
@@ -111,29 +184,70 @@
 </div>
 
 <script>
-    // 페이지 로드 시 로컬 스토리지에서 데이터 불러오기
     let records = JSON.parse(localStorage.getItem('theWorkRecords')) || [];
+    let currentAudio = null;
+    let currentBtn = null;
 
-    window.onload = () => {
-        updateRecordUI();
-    };
+    window.onload = () => { updateRecordUI(); };
 
+    // 탭 전환
     function openTab(evt, tabName) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tab-content");
-        for (i = 0; i < tabcontent.length; i++) tabcontent[i].classList.remove("active");
-        tablinks = document.getElementsByClassName("tab-button");
-        for (i = 0; i < tablinks.length; i++) tablinks[i].classList.remove("active");
+        const tabcontent = document.getElementsByClassName("tab-content");
+        for (let i = 0; i < tabcontent.length; i++) tabcontent[i].classList.remove("active");
+        const tablinks = document.getElementsByClassName("tab-button");
+        for (let i = 0; i < tablinks.length; i++) tablinks[i].classList.remove("active");
+        
         document.getElementById(tabName).classList.add("active");
         if(evt) evt.currentTarget.classList.add("active");
         else document.getElementById('record-tab-btn').classList.add("active");
+        
+        // 탭 이동 시 재생 중인 오디오 정지
+        stopAllAudio();
     }
 
+    // 텍스트 영역 자동 높이 조절
     function autoResize(textarea) {
         textarea.style.height = 'auto';
         textarea.style.height = (textarea.scrollHeight) + 'px';
     }
 
+    // 오디오 재생 함수
+    function playAudio(fileUrl, btn) {
+        if (currentAudio && !currentAudio.paused && currentBtn === btn) {
+            stopAllAudio();
+            return;
+        }
+
+        stopAllAudio();
+
+        currentAudio = new Audio(fileUrl);
+        currentBtn = btn;
+        
+        currentAudio.play().catch(e => {
+            alert("오디오 파일을 찾을 수 없습니다. 파일명을 확인해 주세요.");
+        });
+
+        btn.classList.add('playing');
+        btn.innerText = '⏸';
+
+        currentAudio.onended = () => {
+            stopAllAudio();
+        };
+    }
+
+    function stopAllAudio() {
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio = null;
+        }
+        if (currentBtn) {
+            currentBtn.classList.remove('playing');
+            currentBtn.innerText = '▶';
+            currentBtn = null;
+        }
+    }
+
+    // 기록 추가
     function addRecord() {
         const step1Inputs = document.querySelectorAll('.q-step1');
         const step2Inputs = document.querySelectorAll('.q-step2');
@@ -143,10 +257,7 @@
         let hasData = false;
         [...step1Inputs, ...step2Inputs].forEach(el => { if(el.value.trim()) hasData = true; });
 
-        if(!hasData) {
-            alert("기록할 내용이 없습니다.");
-            return;
-        }
+        if(!hasData) { alert("기록할 내용이 없습니다."); return; }
 
         const newRecord = {
             id: Date.now(),
@@ -156,19 +267,14 @@
             checks: [q1Val, q2Val]
         };
 
-        records.unshift(newRecord); // 최신글이 위로
+        records.unshift(newRecord);
         localStorage.setItem('theWorkRecords', JSON.stringify(records));
-        
         updateRecordUI();
-        alert("기록되었습니다. 목록 탭으로 이동합니다.");
-        
-        // 작성 폼 초기화 및 목록 탭으로 이동
+        alert("기록되었습니다.");
         openTab(null, 'record-list');
-        const recordBtn = document.getElementById('record-tab-btn');
-        document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-        recordBtn.classList.add('active');
     }
 
+    // UI 업데이트
     function updateRecordUI() {
         const container = document.getElementById('records-container');
         document.getElementById('record-tab-btn').innerText = `기록 목록(${records.length})`;
@@ -185,10 +291,10 @@
                 ${rec.step1.map((val, i) => val ? `<div class="record-text">Q${i+1}: ${val}</div>` : '').join('')}
                 <span class="record-sub-title">2단계: 조사</span>
                 <div class="record-text"><strong>조사 문장:</strong> ${rec.step2[0] || "미입력"}</div>
-                <div class="record-text"><strong>Q1 진실인가:</strong> [${rec.checks[0]}] ${rec.step2[1] || ""}</div>
-                <div class="record-text"><strong>Q2 확실한가:</strong> [${rec.checks[1]}] ${rec.step2[2] || ""}</div>
-                <div class="record-text"><strong>Q3 반응:</strong> ${rec.step2[3] || ""}</div>
-                <div class="record-text"><strong>Q4 없다면:</strong> ${rec.step2[4] || ""}</div>
+                <div class="record-text"><strong>Q1:</strong> [${rec.checks[0]}] ${rec.step2[1] || ""}</div>
+                <div class="record-text"><strong>Q2:</strong> [${rec.checks[1]}] ${rec.step2[2] || ""}</div>
+                <div class="record-text"><strong>Q3:</strong> ${rec.step2[3] || ""}</div>
+                <div class="record-text"><strong>Q4:</strong> ${rec.step2[4] || ""}</div>
                 <div class="record-text"><strong>뒤집기:</strong> ${rec.step2[5] || ""}</div>
                 <button onclick="deleteRecord(${rec.id})" style="position:absolute; top:15px; right:15px; background:none; border:none; color:#e74c3c; cursor:pointer; font-size:12px;">삭제</button>
             </div>
@@ -196,13 +302,14 @@
     }
 
     function deleteRecord(id) {
-        if(confirm("이 기록을 삭제할까요?")) {
+        if(confirm("삭제할까요?")) {
             records = records.filter(r => r.id !== id);
             localStorage.setItem('theWorkRecords', JSON.stringify(records));
             updateRecordUI();
         }
     }
 
+    // 이미지 공유/저장
     async function shareAsImage() {
         const loading = document.getElementById('loading');
         const target = document.getElementById('capture-target');
@@ -214,7 +321,6 @@
         nav.style.display = 'none';
 
         try {
-            // 이미지 캡처 전 스타일 조정 (전체 내용이 나오도록)
             const canvas = await html2canvas(target, { 
                 scale: 2, 
                 backgroundColor: "#ffffff",
@@ -235,8 +341,7 @@
                 }
             });
         } catch (err) { 
-            console.error(err);
-            alert("이미지 생성 중 오류가 발생했습니다."); 
+            alert("오류가 발생했습니다."); 
         } finally { 
             loading.style.display = 'none'; 
             btns.style.display = 'flex'; 
@@ -245,15 +350,13 @@
     }
 
     function resetForm() {
-        if(confirm("모든 입력값과 저장된 기록 목록을 완전히 삭제할까요? 이 작업은 되돌릴 수 없습니다.")) {
-            document.querySelectorAll('textarea').forEach(tan => { tan.value = ''; tan.style.height = '60px'; });
+        if(confirm("모든 데이터를 삭제할까요?")) {
+            document.querySelectorAll('textarea').forEach(t => { t.value = ''; t.style.height = '60px'; });
             document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
             records = [];
             localStorage.removeItem('theWorkRecords');
             updateRecordUI();
             openTab(null, 'step6');
-            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-            document.getElementById('btn-step6').classList.add('active');
         }
     }
 </script>
