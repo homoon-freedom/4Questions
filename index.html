@@ -44,7 +44,6 @@
         label { font-weight: 700; display: block; margin-bottom: 6px; color: #2980b9; font-size: 1.1em; letter-spacing: -0.02em; }
         .question-group { background: #fdfdfd; padding: 18px; border: 1px solid #edf2f7; border-left: 4px solid #2980b9; margin-bottom: 15px; border-radius: 0 10px 10px 0; }
         
-        /* 헤더 내 재생 버튼 레이아웃 */
         .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .btn-play { 
             background: #2980b9; color: white; border: none; border-radius: 50%; 
@@ -71,6 +70,11 @@
         .record-date { font-size: 12px; color: #999; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
         .record-sub-title { font-weight: 700; color: #34495e; margin-top: 15px; display: block; font-size: 1.1em; border-left: 3px solid #34495e; padding-left: 8px; }
         .record-text { font-size: 14px; color: #444; margin: 8px 0; white-space: pre-wrap; padding-left: 10px; }
+
+        .record-btns { position: absolute; top: 15px; right: 15px; display: flex; gap: 8px; }
+        .record-btns button { background: none; border: none; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .btn-del-item { color: #e74c3c; }
+        .btn-edit-item { color: #2980b9; }
 
         /* 하단 버튼 */
         .buttons { display: flex; flex-direction: column; gap: 10px; margin: 30px 0; padding-bottom: 50px; align-items: center; }
@@ -102,69 +106,49 @@
         <button class="tab-button" id="record-tab-btn" onclick="openTab(event, 'record-list')">기록 목록(0)</button>
     </div>
 
-    <!-- 1단계: 6가지 판단 -->
+    <!-- 1단계 -->
     <div id="step6" class="tab-content active">
-        <div class="question-group"><label>1. 당신을 화나게 하거나 슬프게 하거나 실망시키는 사람은 누구인가요? 당신은 그 사람의 어떤 점이 맘에 들지 않(았)나요?</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="나는 (이름: ) 때문에 화가 난다..."></textarea></div>
+        <div class="question-group"><label>1. 당신을 화나게 하거나 슬프게 하는 사람은 누구인가요?</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="나는 (이름: ) 때문에 화가 난다..."></textarea></div>
         <div class="question-group"><label>2. 당신은 그 사람이 어떻게 바뀌기를 원하나요?</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="나는 __이(가) __하기를 원한다."></textarea></div>
         <div class="question-group"><label>3. 그 사람이 해야 하거나 하지 말아야 할 것들은 무엇인가요?</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="__는(은) 해야 한다..."></textarea></div>
         <div class="question-group"><label>4. 당신은 그 사람에게 무엇인가를 필요로 하나요?</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="나는 __이(가) __기를 필요로 한다."></textarea></div>
-        <div class="question-group"><label>5. 당신은 그 사람을 어떻게 생각하나요? (관대하지 마세요.)</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="__는(은) ____________."></textarea></div>
-        <div class="question-group"><label>6. 당신이 그 상황과 다시는 경험하고 싶지 않은 점은 무엇인가요?</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="나는 앞으로 다시는 ___하고 싶지 않다."></textarea></div>
+        <div class="question-group"><label>5. 당신은 그 사람을 어떻게 생각하나요?</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="__는(은) ____________."></textarea></div>
+        <div class="question-group"><label>6. 다시는 경험하고 싶지 않은 점은 무엇인가요?</label><textarea class="q-step1" oninput="autoResize(this)" placeholder="나는 앞으로 다시는 ___하고 싶지 않다."></textarea></div>
     </div>
 
-    <!-- 2단계: 4가지 질문 (오디오 기능 포함) -->
+    <!-- 2단계 -->
     <div id="step4" class="tab-content">
         <div class="question-group" style="border-left-color: #7f8c8d;">
-            <label style="color: #7f8c8d;">0. 조사할 문장 (가장 와닿는 한 문장을 가져오세요)</label>
+            <label style="color: #7f8c8d;">0. 조사할 문장</label>
             <textarea class="q-step2" oninput="autoResize(this)"></textarea>
         </div>
-
         <div class="question-group">
-            <div class="q-header">
-                <label>1. 그 생각이 진실인가요?</label>
-                <button class="btn-play" onclick="playAudio('1.mp3', this)">▶</button>
-            </div>
+            <div class="q-header"><label>1. 그 생각이 진실인가요?</label><button class="btn-play" onclick="playAudio('1.mp3', this)">▶</button></div>
             <div class="check-group">
                 <input type="radio" name="q1" id="q1y" value="예"><label for="q1y">예</label>
                 <input type="radio" name="q1" id="q1n" value="아니오"><label for="q1n">아니오</label>
             </div>
-            <textarea class="q-step2" oninput="autoResize(this)" placeholder="마음의 소리를 들어보세요..."></textarea>
+            <textarea class="q-step2" oninput="autoResize(this)"></textarea>
         </div>
-
         <div class="question-group">
-            <div class="q-header">
-                <label>2. 그 생각이 진실이라는 것을 확실히 알 수 있나요?</label>
-                <button class="btn-play" onclick="playAudio('2.mp3', this)">▶</button>
-            </div>
+            <div class="q-header"><label>2. 그 생각이 진실이라는 것을 확실히 알 수 있나요?</label><button class="btn-play" onclick="playAudio('2.mp3', this)">▶</button></div>
             <div class="check-group">
                 <input type="radio" name="q2" id="q2y" value="예"><label for="q2y">예</label>
                 <input type="radio" name="q2" id="q2n" value="아니오"><label for="q2n">아니오</label>
             </div>
             <textarea class="q-step2" oninput="autoResize(this)"></textarea>
         </div>
-
         <div class="question-group">
-            <div class="q-header">
-                <label>3. 그 생각을 믿을 때 당신은 어떻게 반응하나요?</label>
-                <button class="btn-play" onclick="playAudio('3.mp3', this)">▶</button>
-            </div>
-            <textarea class="q-step2" oninput="autoResize(this)" placeholder="어떤 감정이 들고, 몸의 어디가 느껴지나요?"></textarea>
+            <div class="q-header"><label>3. 그 생각을 믿을 때 당신은 어떻게 반응하나요?</label><button class="btn-play" onclick="playAudio('3.mp3', this)">▶</button></div>
+            <textarea class="q-step2" oninput="autoResize(this)"></textarea>
         </div>
-
         <div class="question-group">
-            <div class="q-header">
-                <label>4. 그 생각이 없다면 당신은 누구일까요?</label>
-                <button class="btn-play" onclick="playAudio('4.mp3', this)">▶</button>
-            </div>
-            <textarea class="q-step2" oninput="autoResize(this)" placeholder="생각이 사라진 당신의 모습을 상상해보세요."></textarea>
+            <div class="q-header"><label>4. 그 생각이 없다면 당신은 누구일까요?</label><button class="btn-play" onclick="playAudio('4.mp3', this)">▶</button></div>
+            <textarea class="q-step2" oninput="autoResize(this)"></textarea>
         </div>
-
         <div class="question-group" style="border-left-color: #16a085;">
-            <div class="q-header">
-                <label style="color: #16a085;">5. 생각 뒤집기 (반대로 생각해보는 시간)</label>
-                <button class="btn-play" style="background:#16a085;" onclick="playAudio('5.mp3', this)">▶</button>
-            </div>
-            <textarea class="q-step2" oninput="autoResize(this)" placeholder="나에게로, 상대에게로, 정반대로 뒤집어보세요."></textarea>
+            <div class="q-header"><label style="color: #16a085;">5. 생각 뒤집기</label><button class="btn-play" style="background:#16a085;" onclick="playAudio('5.mp3', this)">▶</button></div>
+            <textarea class="q-step2" oninput="autoResize(this)"></textarea>
         </div>
     </div>
 
@@ -173,10 +157,10 @@
         <div id="records-container" style="padding-top: 10px;"></div>
     </div>
 
-    <!-- 버튼 모음 -->
+    <!-- 하단 버튼 -->
     <div class="buttons" id="action-btns">
         <div class="main-btns">
-            <button class="action-btn btn-record" onclick="addRecord()">작업 내용 기록 및 저장하기</button>
+            <button class="action-btn btn-record" id="main-save-btn" onclick="addRecord()">작업 내용 기록 및 저장하기</button>
             <button class="action-btn btn-share" onclick="shareAsImage()">이미지로 저장/공유</button>
             <button class="action-btn btn-reset" onclick="resetForm()">전체 초기화</button>
         </div>
@@ -187,67 +171,43 @@
     let records = JSON.parse(localStorage.getItem('theWorkRecords')) || [];
     let currentAudio = null;
     let currentBtn = null;
+    let editingId = null; // 수정 중인 기록의 ID를 저장
 
     window.onload = () => { updateRecordUI(); };
 
-    // 탭 전환
     function openTab(evt, tabName) {
         const tabcontent = document.getElementsByClassName("tab-content");
         for (let i = 0; i < tabcontent.length; i++) tabcontent[i].classList.remove("active");
         const tablinks = document.getElementsByClassName("tab-button");
         for (let i = 0; i < tablinks.length; i++) tablinks[i].classList.remove("active");
-        
         document.getElementById(tabName).classList.add("active");
         if(evt) evt.currentTarget.classList.add("active");
         else document.getElementById('record-tab-btn').classList.add("active");
-        
-        // 탭 이동 시 재생 중인 오디오 정지
         stopAllAudio();
     }
 
-    // 텍스트 영역 자동 높이 조절
     function autoResize(textarea) {
         textarea.style.height = 'auto';
         textarea.style.height = (textarea.scrollHeight) + 'px';
     }
 
-    // 오디오 재생 함수
     function playAudio(fileUrl, btn) {
-        if (currentAudio && !currentAudio.paused && currentBtn === btn) {
-            stopAllAudio();
-            return;
-        }
-
+        if (currentAudio && !currentAudio.paused && currentBtn === btn) { stopAllAudio(); return; }
         stopAllAudio();
-
         currentAudio = new Audio(fileUrl);
         currentBtn = btn;
-        
-        currentAudio.play().catch(e => {
-            alert("오디오 파일을 찾을 수 없습니다. 파일명을 확인해 주세요.");
-        });
-
+        currentAudio.play().catch(e => { alert("오디오 파일을 찾을 수 없습니다."); });
         btn.classList.add('playing');
         btn.innerText = '⏸';
-
-        currentAudio.onended = () => {
-            stopAllAudio();
-        };
+        currentAudio.onended = () => { stopAllAudio(); };
     }
 
     function stopAllAudio() {
-        if (currentAudio) {
-            currentAudio.pause();
-            currentAudio = null;
-        }
-        if (currentBtn) {
-            currentBtn.classList.remove('playing');
-            currentBtn.innerText = '▶';
-            currentBtn = null;
-        }
+        if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+        if (currentBtn) { currentBtn.classList.remove('playing'); currentBtn.innerText = '▶'; currentBtn = null; }
     }
 
-    // 기록 추가
+    // 기록 추가 또는 수정
     function addRecord() {
         const step1Inputs = document.querySelectorAll('.q-step1');
         const step2Inputs = document.querySelectorAll('.q-step2');
@@ -256,110 +216,142 @@
 
         let hasData = false;
         [...step1Inputs, ...step2Inputs].forEach(el => { if(el.value.trim()) hasData = true; });
-
         if(!hasData) { alert("기록할 내용이 없습니다."); return; }
 
-        const newRecord = {
-            id: Date.now(),
-            date: new Date().toLocaleString(),
+        const recordData = {
+            id: editingId || Date.now(),
+            date: editingId ? `(수정됨) ${new Date().toLocaleString()}` : new Date().toLocaleString(),
             step1: Array.from(step1Inputs).map(el => el.value),
             step2: Array.from(step2Inputs).map(el => el.value),
             checks: [q1Val, q2Val]
         };
 
-        records.unshift(newRecord);
+        if (editingId) {
+            // 수정 모드: 기존 인덱스 찾아 교체
+            const index = records.findIndex(r => r.id === editingId);
+            records[index] = recordData;
+            editingId = null;
+            document.getElementById('main-save-btn').innerText = "작업 내용 기록 및 저장하기";
+            alert("수정되었습니다.");
+        } else {
+            // 신규 추가 모드
+            records.unshift(recordData);
+            alert("기록되었습니다.");
+        }
+
         localStorage.setItem('theWorkRecords', JSON.stringify(records));
+        clearInputs();
         updateRecordUI();
-        alert("기록되었습니다.");
         openTab(null, 'record-list');
     }
 
-    // UI 업데이트
+    // 기록 수정 모드 진입
+    function editRecord(id) {
+        const record = records.find(r => r.id === id);
+        if(!record) return;
+
+        editingId = id;
+        document.getElementById('main-save-btn').innerText = "수정 내용 반영하기 (저장)";
+
+        // 값 채우기
+        const step1Inputs = document.querySelectorAll('.q-step1');
+        record.step1.forEach((val, i) => { 
+            step1Inputs[i].value = val; 
+            autoResize(step1Inputs[i]);
+        });
+
+        const step2Inputs = document.querySelectorAll('.q-step2');
+        record.step2.forEach((val, i) => { 
+            step2Inputs[i].value = val; 
+            autoResize(step2Inputs[i]);
+        });
+
+        if(record.checks[0] === "예") document.getElementById('q1y').checked = true;
+        else if(record.checks[0] === "아니오") document.getElementById('q1n').checked = true;
+
+        if(record.checks[1] === "예") document.getElementById('q2y').checked = true;
+        else if(record.checks[1] === "아니오") document.getElementById('q2n').checked = true;
+
+        openTab(null, 'step6');
+        window.scrollTo(0,0);
+    }
+
+    function clearInputs() {
+        document.querySelectorAll('textarea').forEach(t => { t.value = ''; t.style.height = '60px'; });
+        document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+    }
+
     function updateRecordUI() {
         const container = document.getElementById('records-container');
         document.getElementById('record-tab-btn').innerText = `기록 목록(${records.length})`;
         
         if (records.length === 0) {
-            container.innerHTML = '<p style="text-align: center; color: #999; margin-top:50px;">아직 저장된 기록이 없습니다.</p>';
+            container.innerHTML = '<p style="text-align: center; color: #999; margin-top:50px;">저장된 기록이 없습니다.</p>';
             return;
         }
 
         container.innerHTML = records.map((rec, idx) => `
             <div class="record-item">
-                <div class="record-date">#${records.length - idx} - 기록 일시: ${rec.date}</div>
+                <div class="record-date">#${records.length - idx} - ${rec.date}</div>
+                <div class="record-btns">
+                    <button class="btn-edit-item" onclick="editRecord(${rec.id})">수정</button>
+                    <button class="btn-del-item" onclick="deleteRecord(${rec.id})">삭제</button>
+                </div>
                 <span class="record-sub-title">1단계: 판단</span>
                 ${rec.step1.map((val, i) => val ? `<div class="record-text">Q${i+1}: ${val}</div>` : '').join('')}
                 <span class="record-sub-title">2단계: 조사</span>
-                <div class="record-text"><strong>조사 문장:</strong> ${rec.step2[0] || "미입력"}</div>
+                <div class="record-text"><strong>조사 문장:</strong> ${rec.step2[0] || ""}</div>
                 <div class="record-text"><strong>Q1:</strong> [${rec.checks[0]}] ${rec.step2[1] || ""}</div>
                 <div class="record-text"><strong>Q2:</strong> [${rec.checks[1]}] ${rec.step2[2] || ""}</div>
                 <div class="record-text"><strong>Q3:</strong> ${rec.step2[3] || ""}</div>
                 <div class="record-text"><strong>Q4:</strong> ${rec.step2[4] || ""}</div>
                 <div class="record-text"><strong>뒤집기:</strong> ${rec.step2[5] || ""}</div>
-                <button onclick="deleteRecord(${rec.id})" style="position:absolute; top:15px; right:15px; background:none; border:none; color:#e74c3c; cursor:pointer; font-size:12px;">삭제</button>
             </div>
         `).join('');
     }
 
     function deleteRecord(id) {
-        if(confirm("삭제할까요?")) {
+        if(confirm("이 기록을 삭제할까요?")) {
             records = records.filter(r => r.id !== id);
             localStorage.setItem('theWorkRecords', JSON.stringify(records));
             updateRecordUI();
         }
     }
 
-    // 이미지 공유/저장
     async function shareAsImage() {
         const loading = document.getElementById('loading');
         const target = document.getElementById('capture-target');
         const btns = document.getElementById('action-btns');
         const nav = document.getElementById('tab-nav');
-
         loading.style.display = 'flex';
         btns.style.display = 'none';
         nav.style.display = 'none';
 
         try {
-            const canvas = await html2canvas(target, { 
-                scale: 2, 
-                backgroundColor: "#ffffff",
-                useCORS: true,
-                windowWidth: target.scrollWidth,
-                windowHeight: target.scrollHeight
-            });
-            
+            const canvas = await html2canvas(target, { scale: 2, backgroundColor: "#ffffff" });
             canvas.toBlob(async (blob) => {
-                const file = new File([blob], "TheWork_Record.png", { type: "image/png" });
+                const file = new File([blob], "TheWork.png", { type: "image/png" });
                 if (navigator.canShare && navigator.canShare({ files: [file] })) {
                     await navigator.share({ files: [file], title: 'The Work 기록' });
                 } else {
                     const link = document.createElement('a');
-                    link.download = 'TheWork_Record.png';
+                    link.download = 'TheWork.png';
                     link.href = canvas.toDataURL();
                     link.click();
                 }
             });
-        } catch (err) { 
-            alert("오류가 발생했습니다."); 
-        } finally { 
-            loading.style.display = 'none'; 
-            btns.style.display = 'flex'; 
-            nav.style.display = 'flex'; 
-        }
+        } catch (err) { alert("오류가 발생했습니다."); }
+        finally { loading.style.display = 'none'; btns.style.display = 'flex'; nav.style.display = 'flex'; }
     }
 
     function resetForm() {
-        if(confirm("모든 데이터를 삭제할까요?")) {
-            document.querySelectorAll('textarea').forEach(t => { t.value = ''; t.style.height = '60px'; });
-            document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+        if(confirm("모든 기록을 삭제하고 초기화할까요?")) {
+            clearInputs();
             records = [];
+            editingId = null;
             localStorage.removeItem('theWorkRecords');
             updateRecordUI();
             openTab(null, 'step6');
         }
     }
 </script>
-
-</body>
-</html>
