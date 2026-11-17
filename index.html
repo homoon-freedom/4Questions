@@ -51,7 +51,7 @@
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-      padding: 14px 24px;
+      padding: 12px 24px;
     }
 
     .header-inner {
@@ -67,19 +67,149 @@
       flex-wrap: wrap;
     }
 
+    .brand-header-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
     .brand-title {
       margin: 0;
-      font-size: 1.35rem;
+      font-size: 1.32rem;
       font-weight: 700;
       color: var(--primary);
       letter-spacing: -0.02em;
+      white-space: nowrap;
     }
 
     .brand-subtitle {
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       color: var(--text-muted);
-      margin-left: 8px;
+      margin-left: 6px;
       font-weight: 400;
+    }
+
+    /* 배경음악 오디오 플레이어 캡슐 */
+    .audio-player-bar {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #FFFFFF;
+      border: 1.5px solid #D3DDD6;
+      border-radius: 999px;
+      padding: 4px 12px 4px 6px;
+      box-shadow: var(--shadow-sm);
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .audio-player-bar.is-playing {
+      border-color: var(--primary);
+      background: #F6FAF7;
+    }
+
+    .audio-play-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      height: 30px;
+      padding: 0 11px;
+      border-radius: 999px;
+      border: none;
+      background: var(--primary);
+      color: #FFFFFF;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+      transition: background-color 0.15s ease;
+    }
+
+    .audio-play-btn:hover {
+      background: var(--primary-hover);
+    }
+
+    .audio-pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #A7E3BE;
+      display: none;
+      animation: audioPulse 1.4s infinite ease-in-out;
+    }
+
+    .audio-player-bar.is-playing .audio-pulse-dot {
+      display: inline-block;
+    }
+
+    @keyframes audioPulse {
+      0%, 100% { opacity: 0.4; transform: scale(0.85); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    .audio-progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .audio-seek {
+      width: 74px;
+      height: 4px;
+      accent-color: var(--primary);
+      cursor: pointer;
+      margin: 0;
+    }
+
+    .audio-time {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .audio-icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      cursor: pointer;
+      padding: 0;
+      transition: all 0.15s ease;
+    }
+
+    .audio-icon-btn:hover {
+      background: var(--bg-subtle);
+      color: var(--text-main);
+    }
+
+    .audio-icon-btn.active {
+      background: var(--bg-accent-soft);
+      color: var(--primary);
+      border-color: #C3D4C9;
+      font-weight: 700;
+    }
+
+    .audio-volume-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .audio-volume {
+      width: 52px;
+      height: 4px;
+      accent-color: var(--secondary);
+      cursor: pointer;
+      margin: 0;
     }
 
     .header-actions {
@@ -103,10 +233,10 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      min-height: 42px;
-      padding: 9px 15px;
+      min-height: 40px;
+      padding: 8px 14px;
       border-radius: var(--radius-sm);
-      font-size: 0.94rem;
+      font-size: 0.92rem;
       font-weight: 600;
       cursor: pointer;
       border: 1px solid transparent;
@@ -249,11 +379,11 @@
     /* 좌측 고정 사이드바 */
     .tablet-sidebar {
       position: sticky;
-      top: 88px;
+      top: 86px;
       display: flex;
       flex-direction: column;
       gap: 16px;
-      max-height: calc(100vh - 104px);
+      max-height: calc(100vh - 102px);
       overflow-y: auto;
       padding-right: 2px;
     }
@@ -1201,13 +1331,50 @@
         gap: 8px;
       }
 
+      .brand-header-row {
+        width: 100%;
+        justify-content: space-between;
+        gap: 6px;
+        flex-wrap: nowrap;
+      }
+
       .brand-title {
-        font-size: 1.25rem;
+        font-size: 1.18rem;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .brand-subtitle {
-        font-size: 0.84rem;
-        margin-left: 6px;
+        display: none;
+      }
+
+      /* 모바일용 컴팩트 오디오 플레이어 */
+      .audio-player-bar {
+        padding: 3px 8px 3px 4px;
+        gap: 5px;
+        flex-shrink: 0;
+      }
+
+      .audio-play-btn {
+        height: 26px;
+        padding: 0 9px;
+        font-size: 0.8rem;
+      }
+
+      .audio-seek,
+      .audio-volume {
+        display: none;
+      }
+
+      .audio-time {
+        font-size: 0.74rem;
+      }
+
+      .audio-icon-btn {
+        width: 24px;
+        height: 24px;
+        font-size: 0.8rem;
       }
 
       .desktop-label {
@@ -1477,16 +1644,70 @@
 </head>
 <body>
 
+  <!-- 배경음악 오디오 요소 (/audio/music.mp3) -->
+  <audio id="bgAudio" src="audio/music.mp3" preload="metadata" loop></audio>
+
   <!-- 상단 고정 헤더 -->
   <header class="app-header">
     <div class="header-inner">
       <div class="header-top">
-        <div>
+        <div class="brand-header-row">
           <h1 class="brand-title">
             내면의 작업 (The Work)
             <span class="brand-subtitle">네 가지 질문 워크북</span>
           </h1>
+
+          <!-- 배경음악 재생 컨트롤러 -->
+          <div class="audio-player-bar" id="audioPlayerBar" role="region" aria-label="배경음악 플레이어">
+            <button type="button" class="audio-play-btn" id="audioPlayBtn" onclick="app.toggleAudio()" title="배경음악 재생/일시정지">
+              <span class="audio-pulse-dot"></span>
+              <span id="audioPlayLabel">▶ 배경음악</span>
+            </button>
+
+            <div class="audio-progress-wrap">
+              <input type="range"
+                id="audioSeekSlider"
+                class="audio-seek"
+                min="0"
+                max="100"
+                step="0.5"
+                value="0"
+                aria-label="재생 위치 조절"
+                oninput="app.seekAudio(this.value)" />
+              <span class="audio-time" id="audioTimeLabel">00:00</span>
+            </div>
+
+            <button type="button"
+              class="audio-icon-btn active"
+              id="audioLoopBtn"
+              onclick="app.toggleLoop()"
+              title="반복 재생 켜기/끄기"
+              aria-label="반복 재생">
+              🔁
+            </button>
+
+            <div class="audio-volume-wrap">
+              <button type="button"
+                class="audio-icon-btn"
+                id="audioMuteBtn"
+                onclick="app.toggleMute()"
+                title="음소거 켜기/끄기"
+                aria-label="음소거">
+                🔊
+              </button>
+              <input type="range"
+                id="audioVolumeSlider"
+                class="audio-volume"
+                min="0"
+                max="1"
+                step="0.05"
+                value="0.7"
+                aria-label="음량 조절"
+                oninput="app.setVolume(this.value)" />
+            </div>
+          </div>
         </div>
+
         <div class="header-actions">
           <button type="button" class="btn btn-manual" onclick="app.openManualModal()">
             <span class="desktop-label">📖 매뉴얼</span>
@@ -1639,6 +1860,7 @@
       constructor() {
         this.storageKey = 'the_work_tablet_workbook_v2';
         this.archiveStorageKey = 'the_work_saved_archives_v1';
+        this.audioPrefKey = 'the_work_audio_pref_v1';
         this.currentStep = 1;
         this.manualStep = 1;
         this.activeInquiryIndex = 1;
@@ -1655,10 +1877,163 @@
           setTimeout(() => this.autoResizeAll(), 120);
         });
 
+        this.initAudio();
         this.renderSidebarReference();
         this.render();
       }
 
+      /* =========================================
+         배경음악 오디오 컨트롤러 (/audio/music.mp3)
+         ========================================= */
+      initAudio() {
+        this.audioEl = document.getElementById('bgAudio');
+        if (!this.audioEl) return;
+
+        // 저장된 음량/반복 설정 복원
+        let savedVol = 0.7;
+        let savedLoop = true;
+        try {
+          const pref = JSON.parse(localStorage.getItem(this.audioPrefKey) || '{}');
+          if (typeof pref.volume === 'number') savedVol = Math.min(1, Math.max(0, pref.volume));
+          if (typeof pref.loop === 'boolean') savedLoop = pref.loop;
+        } catch (e) {}
+
+        this.audioEl.volume = savedVol;
+        this.audioEl.loop = savedLoop;
+
+        const volSlider = document.getElementById('audioVolumeSlider');
+        const loopBtn = document.getElementById('audioLoopBtn');
+        if (volSlider) volSlider.value = savedVol;
+        if (loopBtn) loopBtn.classList.toggle('active', savedLoop);
+
+        this.audioEl.addEventListener('play', () => this.updateAudioUI());
+        this.audioEl.addEventListener('pause', () => this.updateAudioUI());
+        this.audioEl.addEventListener('ended', () => this.updateAudioUI());
+
+        this.audioEl.addEventListener('loadedmetadata', () => {
+          this.updateAudioTimeDisplay();
+        });
+
+        this.audioEl.addEventListener('timeupdate', () => {
+          this.updateAudioTimeDisplay();
+        });
+
+        this.audioEl.addEventListener('error', () => {
+          this.updateAudioUI();
+        });
+      }
+
+      saveAudioPref() {
+        if (!this.audioEl) return;
+        try {
+          localStorage.setItem(this.audioPrefKey, JSON.stringify({
+            volume: this.audioEl.volume,
+            loop: this.audioEl.loop
+          }));
+        } catch (e) {}
+      }
+
+      formatAudioTime(seconds) {
+        if (!Number.isFinite(seconds) || seconds < 0) return '00:00';
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      }
+
+      updateAudioTimeDisplay() {
+        if (!this.audioEl) return;
+        const seekSlider = document.getElementById('audioSeekSlider');
+        const timeLabel = document.getElementById('audioTimeLabel');
+        const cur = this.audioEl.currentTime || 0;
+        const dur = this.audioEl.duration;
+
+        if (seekSlider && Number.isFinite(dur) && dur > 0) {
+          seekSlider.value = (cur / dur) * 100;
+        }
+        if (timeLabel) {
+          if (Number.isFinite(dur) && dur > 0) {
+            timeLabel.textContent = `${this.formatAudioTime(cur)} / ${this.formatAudioTime(dur)}`;
+          } else {
+            timeLabel.textContent = this.formatAudioTime(cur);
+          }
+        }
+      }
+
+      updateAudioUI() {
+        if (!this.audioEl) return;
+        const bar = document.getElementById('audioPlayerBar');
+        const playLabel = document.getElementById('audioPlayLabel');
+        const isPlaying = !this.audioEl.paused && !this.audioEl.ended;
+
+        if (bar) bar.classList.toggle('is-playing', isPlaying);
+        if (playLabel) {
+          playLabel.textContent = isPlaying ? '⏸ 일시정지' : '▶ 배경음악';
+        }
+      }
+
+      async toggleAudio() {
+        if (!this.audioEl) return;
+        if (this.audioEl.paused || this.audioEl.ended) {
+          try {
+            await this.audioEl.play();
+            this.updateAudioUI();
+          } catch (err) {
+            console.error('Audio playback failed:', err);
+            this.showToast('audio/music.mp3 파일을 불러올 수 없습니다. 폴더와 파일명을 확인해 주세요.');
+          }
+        } else {
+          this.audioEl.pause();
+          this.updateAudioUI();
+        }
+      }
+
+      seekAudio(percent) {
+        if (!this.audioEl || !Number.isFinite(this.audioEl.duration) || this.audioEl.duration <= 0) return;
+        this.audioEl.currentTime = (Number(percent) / 100) * this.audioEl.duration;
+        this.updateAudioTimeDisplay();
+      }
+
+      toggleLoop() {
+        if (!this.audioEl) return;
+        this.audioEl.loop = !this.audioEl.loop;
+        const loopBtn = document.getElementById('audioLoopBtn');
+        if (loopBtn) loopBtn.classList.toggle('active', this.audioEl.loop);
+        this.saveAudioPref();
+        this.showToast(this.audioEl.loop ? '배경음악 반복 재생이 켜졌습니다.' : '배경음악 반복 재생이 꺼졌습니다.');
+      }
+
+      toggleMute() {
+        if (!this.audioEl) return;
+        this.audioEl.muted = !this.audioEl.muted;
+        this.updateMuteIcon();
+      }
+
+      setVolume(val) {
+        if (!this.audioEl) return;
+        const num = Number(val);
+        this.audioEl.volume = num;
+        if (num > 0 && this.audioEl.muted) {
+          this.audioEl.muted = false;
+        }
+        this.updateMuteIcon();
+        this.saveAudioPref();
+      }
+
+      updateMuteIcon() {
+        const muteBtn = document.getElementById('audioMuteBtn');
+        if (!muteBtn || !this.audioEl) return;
+        if (this.audioEl.muted || this.audioEl.volume === 0) {
+          muteBtn.textContent = '🔇';
+        } else if (this.audioEl.volume < 0.45) {
+          muteBtn.textContent = '🔉';
+        } else {
+          muteBtn.textContent = '🔊';
+        }
+      }
+
+      /* =========================================
+         워크북 상태 및 데이터 관리
+         ========================================= */
       getDefaultState() {
         return {
           targetName: '',
@@ -2506,7 +2881,7 @@
             <div class="manual-subcard">
               <h4>화면 버튼 안내</h4>
               <ul class="manual-list">
-                <li><strong>상단 도구 모음:</strong> 작성 내용은 브라우저에 자동 저장되며, <strong>저장 / 불러오기</strong>로 기록을 관리하거나 <strong>초기화</strong>로 새 종이를 꺼낼 수 있습니다. 모든 단계를 마친 뒤에는 <strong>요약 및 내보내기</strong>를 눌러 전체 탐구 결과를 한눈에 정리하고 이미지로 공유할 수 있습니다.</li>
+                <li><strong>상단 도구 모음:</strong> 상단 <strong>▶ 배경음악</strong> 버튼으로 명상 음악을 틀어두고 탐구할 수 있으며, 작성 내용은 자동 저장됩니다. <strong>저장 / 불러오기</strong>로 기록을 관리하고 <strong>초기화</strong>로 새 종이를 꺼낼 수 있습니다.</li>
                 <li><strong>3단계 진행 탭:</strong> 이 워크북은 <strong>1. 스스로에게 질문하기(판단 적기) → 2. 스스로 하기: 탐구(4가지 질문) → 3. 뒤바꿔보세요(관점 전환)</strong> 순서로 진행됩니다.</li>
               </ul>
             </div>
@@ -2600,7 +2975,7 @@
                 당신은 그 사람에게 무엇인가를 필요로 하나요? 그 사람이 당신에게 어떻게 해주면, 당신은 행복해질까요?
               </div>
               <ul class="manual-list">
-                <li><strong>문항 설명:</strong> 내 마음의 평화와 행복을 위해 상대방이 나에게 해줘야만 한다고 믿는 조건을 적는 문항입니다. 질문 2와 비슷해 보이지만, ‘내가 행복해지려면’이라는 전제가 붙어 내가 상대에게 얼마나 내 기분을 맡기고 있는지 보여줍니다.</li>
+                <li><strong>문항 설명:</strong> 내 마음의 평화와 행복을 위해 상대방이 나에게 해줘야만 한다고 믿는 조건을 적는 문항입니다.</li>
                 <li><strong>작성 팁:</strong> “내가 행복해지려면 김대리가 나에게 ~해 주어야 한다 / 나는 김대리가 ~하기를 필요로 한다”라는 문장을 완성해 보세요.</li>
               </ul>
               <div class="manual-example-box">
@@ -2653,19 +3028,6 @@
               </div>
             </div>
           </section>
-
-          <section class="manual-section">
-            <h4 class="manual-section-title">3. 작성을 마친 뒤 활용법</h4>
-            <div class="manual-subcard" style="margin-bottom: 0;">
-              <p style="margin: 0 0 10px; font-size: 0.95rem;">
-                6번 문항까지 솔직하게 다 적으셨다면 다음 단계인 <strong>‘2. 스스로 하기: 탐구’</strong>로 넘어가세요.
-              </p>
-              <ul class="manual-list">
-                <li><strong>2단계 (네 가지 질문 탐구):</strong> 방금 적은 문장 하나하나를 두고 스스로에게 네 가지 질문을 던지게 됩니다.</li>
-                <li><strong>3단계 (뒤바꿔보세요):</strong> 판단하기 질문지를 솔직하고 적나라하게 적었을수록, 2단계의 질문과 3단계의 ‘뒤바꾸기’를 거칠 때 마음이 가벼워지는 해방감을 훨씬 선명하게 경험하실 수 있습니다.</li>
-              </ul>
-            </div>
-          </section>
         `;
       }
 
@@ -2692,10 +3054,9 @@
             <h4 class="manual-section-title">2. 네 가지 탐구 질문 상세 가이드 및 예시</h4>
             <div class="manual-scenario-note">
               💡 <strong>공통 탐구 대상 문장 (1단계 3번 진술 예시):</strong><br />
-              <em>“김대리는 남의 아이디어를 훔치지 말아야 한다.”</em> (상황: 회의 시간에 김대리가 내 아이디어를 자기 생각처럼 발표한 장면)
+              <em>“김대리는 남의 아이디어를 훔치지 말아야 한다.”</em>
             </div>
 
-            <!-- 탐구 1 -->
             <div class="manual-q-card">
               <div class="manual-q-header">
                 <span class="manual-q-badge">탐구 1</span>
@@ -2705,19 +3066,16 @@
                 서두르지 마세요. 그저 마음을 열고 진실과 함께 앉아 내면의 대답에 귀 기울여 보세요.
               </div>
               <ul class="manual-list">
-                <li><strong>질문의 의도:</strong> 내가 철석같이 믿고 있는 이 문장이 정말 사실인지 묻습니다. ‘당연히 아니오라고 답해야지’라고 계산하지 말고, 그 순간 마음속에 <strong>‘예’</strong>라는 대답이 올라온다면 솔직하게 <strong>‘예’</strong>를 선택하세요.</li>
-                <li><strong>작성 팁:</strong> ‘예’ 또는 ‘아니오’를 선택한 뒤, 왜 그렇게 느껴지는지 떠오르는 짧은 생각을 그대로 적습니다.</li>
+                <li><strong>질문의 의도:</strong> 내가 철석같이 믿고 있는 이 문장이 정말 사실인지 묻습니다. 그 순간 마음속에 <strong>‘예’</strong>라는 대답이 올라온다면 솔직하게 <strong>‘예’</strong>를 선택하세요.</li>
               </ul>
               <div class="manual-example-box">
                 <div class="manual-example-label">작성 예시</div>
                 <ul>
-                  <li><strong>선택:</strong> [예]</li>
-                  <li><strong>메모:</strong> 직장 동료라면 최소한의 상도덕을 지켜야 하고, 남의 아이디어를 가로채지 말아야 하는 건 당연한 사실처럼 느껴진다.</li>
+                  <li><strong>선택:</strong> [예] — 직장 동료라면 최소한의 상도덕을 지켜야 하고, 남의 아이디어를 가로채지 말아야 하는 건 당연한 사실처럼 느껴진다.</li>
                 </ul>
               </div>
             </div>
 
-            <!-- 탐구 2 -->
             <div class="manual-q-card">
               <div class="manual-q-header">
                 <span class="manual-q-badge">탐구 2</span>
@@ -2727,19 +3085,16 @@
                 이미 안다고 생각하는 것 밑에 있는 대답을 발견해 보세요. 고통을 일으키는 것은 자신의 해석인 경우가 많습니다.
               </div>
               <ul class="manual-list">
-                <li><strong>탐구 1과의 핵심 차이:</strong> 1번에서 ‘예’라고 답했다면, 2번은 한 걸음 더 깊이 들어가 <strong>“당신이 그 사람의 내면 사정과 우주의 모든 인과까지 다 알아서, 현실에서 그 일이 절대 일어나면 안 되었다고 100% 확신할 수 있는가?”</strong>를 묻습니다.</li>
-                <li><strong>작성 팁:</strong> 현실에서는 이미 김대리가 그렇게 행동했습니다. ‘~하지 말아야 한다’는 믿음이 객관적 사실인지, 아니면 ‘내 기준에 맞지 않아 괴롭다’는 나의 해석인지 들여다보세요.</li>
+                <li><strong>탐구 1과의 핵심 차이:</strong> 현실에서 그 일이 일어나지 말아야 했다고 100% 확신할 수 있는지 묻습니다. 현실에서는 이미 그 일이 일어났습니다.</li>
               </ul>
               <div class="manual-example-box">
                 <div class="manual-example-label">작성 예시</div>
                 <ul>
-                  <li><strong>선택:</strong> [아니오]</li>
-                  <li><strong>메모:</strong> 현실에서 이미 김대리는 그 말을 해버렸다. 내가 100% 확실히 알 수 있는 건 ‘김대리가 그렇게 말해서 내가 지금 화가 났다’는 것뿐이다. 그가 왜 그런 선택을 했는지, 그 일이 내 커리어에 궁극적으로 어떤 결과를 가져올지는 내가 다 알 수 없다.</li>
+                  <li><strong>선택:</strong> [아니오] — 현실에서 이미 김대리는 그 말을 해버렸다. 내가 100% 확실히 알 수 있는 건 ‘김대리가 그렇게 말해서 내가 지금 화가 났다’는 것뿐이다.</li>
                 </ul>
               </div>
             </div>
 
-            <!-- 탐구 3 -->
             <div class="manual-q-card">
               <div class="manual-q-header">
                 <span class="manual-q-badge">탐구 3</span>
@@ -2749,20 +3104,18 @@
                 자기를 어떻게 대하며 상대방을 어떻게 대하나요? 몸의 어느 부위에서 어떤 감각을 느끼며, 머릿속에서는 어떤 말들이 오가나요?
               </div>
               <ul class="manual-list">
-                <li><strong>질문의 의도 (원인과 결과 확인):</strong> “김대리는 남의 아이디어를 훔치지 말아야 한다”라는 생각을 사실로 믿고 붙잡을 때, <strong>내 몸과 마음과 행동에 어떤 고통과 반응이 일어나는지</strong> 생생하게 관찰하는 단계입니다.</li>
-                <li><strong>작성 팁:</strong> ① 행동과 말투(상대에게 보이는 태도), ② 신체 감각(가슴 조임, 열감, 어깨 경직 등), ③ 머릿속 자기 대화(보복 상상, 억울함 되새김)의 3가지로 나누어 적어보세요.</li>
+                <li><strong>질문의 의도:</strong> 그 생각을 사실로 믿고 붙잡을 때 내 몸과 마음과 행동에 어떤 고통과 반응이 일어나는지 생생하게 관찰합니다.</li>
               </ul>
               <div class="manual-example-box">
                 <div class="manual-example-label">작성 예시</div>
                 <ul>
-                  <li><strong>행동과 말투:</strong> 김대리 얼굴도 쳐다보기 싫어지고 말투가 차갑고 날카로워진다. 다른 동료들에게 은근히 김대리 험담을 하며 내 편을 만들려 한다.</li>
-                  <li><strong>신체 감각:</strong> 명치 끝이 꽉 막힌 듯 답답하고 얼굴에 열이 오르며, 퇴근 후에도 심장이 두근거려 잠을 설친다.</li>
-                  <li><strong>머릿속 생각들:</strong> “저런 얌체 같은 인간은 꼭 망신당해야 해”, “다음 회의 때 어떻게든 망신을 줄까?” 같은 공격적인 생각이 머릿속을 떠나지 않는다.</li>
+                  <li><strong>행동과 말투:</strong> 김대리 얼굴도 쳐다보기 싫어지고 말투가 차갑고 날카로워진다.</li>
+                  <li><strong>신체 감각:</strong> 명치 끝이 꽉 막힌 듯 답답하고 얼굴에 열이 오른다.</li>
+                  <li><strong>머릿속 생각들:</strong> “저런 얌체 같은 인간은 꼭 망신당해야 해” 같은 공격적인 생각이 떠나지 않는다.</li>
                 </ul>
               </div>
             </div>
 
-            <!-- 탐구 4 -->
             <div class="manual-q-card" style="margin-bottom: 0;">
               <div class="manual-q-header">
                 <span class="manual-q-badge">탐구 4</span>
@@ -2772,26 +3125,14 @@
                 눈을 감고 기다리세요. 같은 상황에서 그 생각을 할 능력이 없었다고 상상해 보세요. 무엇이 보이나요? 어떻게 느껴지나요?
               </div>
               <ul class="manual-list">
-                <li><strong>탐구 3과의 핵심 대비:</strong> 사건 자체를 없던 일로 지우거나 상대를 억지로 용서하라는 뜻이 아닙니다. 회의실 상황은 똑같지만, 내 머릿속에 <strong>‘김대리는 ~하지 말아야 한다’는 생각 자체가 애초에 떠오르지 않는 상태</strong>라면 내가 어떤 모습일지 상상해 보는 질문입니다.</li>
-                <li><strong>작성 팁:</strong> 그 생각이 사라졌을 때 내 몸의 감각이 어떻게 변하는지, 그리고 그 상황에서 훨씬 담담하고 지혜롭게 할 수 있는 행동이 무엇인지 적어보세요.</li>
+                <li><strong>탐구 3과의 핵심 대비:</strong> 같은 회의실 상황에서 내 머릿속에 그 판단 생각 자체가 떠오르지 않는다면 내가 어떤 모습일지 상상해 보는 질문입니다.</li>
               </ul>
               <div class="manual-example-box">
                 <div class="manual-example-label">작성 예시</div>
                 <ul>
-                  <li><strong>느낌과 신체 변화:</strong> 명치를 누르던 답답함과 분노의 열기가 사라지고 호흡이 깊고 편안해진다.</li>
-                  <li><strong>상대를 대하는 태도:</strong> 김대리를 미워하느라 에너지를 쏟는 대신, 회의 자리에서 차분하고 당당하게 “김대리님이 제 기획안의 핵심을 잘 짚어주셨네요. 제가 준비한 세부 실행안도 이어서 공유하겠습니다”라고 내 역할을 자연스럽게 챙길 수 있을 것이다.</li>
+                  <li><strong>느낌과 태도:</strong> 명치를 누르던 분노의 열기가 사라지고 호흡이 편안해진다. 회의 자리에서 당당하고 차분하게 내 세부 실행안을 이어서 공유할 수 있을 것이다.</li>
                 </ul>
               </div>
-            </div>
-          </section>
-
-          <section class="manual-section">
-            <h4 class="manual-section-title">3. 탐구를 마친 뒤 활용법</h4>
-            <div class="manual-subcard" style="margin-bottom: 0;">
-              <ul class="manual-list">
-                <li><strong>여러 문장 탐구하기:</strong> 1번부터 5번 진술 중 마음이 가장 무겁게 걸리는 문장 1~2개를 먼저 깊이 탐구한 뒤, 여유가 되면 나머지 문장도 차례로 탐구해 보세요.</li>
-                <li><strong>3단계로 이동:</strong> 네 가지 질문을 통해 생각의 힘이 느슨해졌다면, 이제 <strong>‘3. 뒤바꿔보세요’</strong>로 넘어가 원래 진술을 새로운 각도로 비춰 봅니다.</li>
-              </ul>
             </div>
           </section>
         `;
@@ -2800,18 +3141,15 @@
       getStep3ManualHtml() {
         return `
           <div class="manual-intro">
-            <strong>3단계 ‘뒤바꿔보세요(Turnarounds)’</strong>는 1단계에서 상대방을 향해 썼던 진술의 주어와 방향을 바꾸어, <strong>내가 놓치고 있던 또 다른 진실을 발견하는 단계</strong>입니다.<br />
-            뒤바꾸기를 통해 우리는 상대를 바꾸려 애쓰던 무기력함에서 벗어나, <strong>내가 스스로 선택하고 변화시킬 수 있는 삶의 주도권</strong>을 되찾게 됩니다.
+            <strong>3단계 ‘뒤바꿔보세요(Turnarounds)’</strong>는 1단계에서 상대방을 향해 썼던 진술의 주어와 방향을 바꾸어, <strong>내가 놓치고 있던 또 다른 진실을 발견하는 단계</strong>입니다.
           </div>
 
           <section class="manual-section">
             <h4 class="manual-section-title">1. 뒤바꾸기 작성의 3가지 황금률</h4>
             <div class="manual-subcard" style="margin-bottom: 0;">
-              <h4>올바르게 관점을 전환하는 법</h4>
               <ul class="manual-list">
-                <li><strong>자책이나 죄책감이 아닙니다:</strong> 뒤바꾸기는 “결국 다 내 잘못이구나”라며 스스로를 비난하는 과정이 아닙니다. 호기심을 가지고 <em>“이 문장을 이렇게 뒤집어 보면, 내 삶에서 실제로 참인 부분이 있을까?”</em>를 탐험하는 과정입니다.</li>
-                <li><strong>반드시 구체적인 사례를 찾으세요:</strong> 문장만 기계적으로 바꾸면 머리로만 이해하고 끝납니다. 뒤바꾼 문장이 진실인 <strong>구체적인 기억이나 행동 사례를 최소 1~3가지씩</strong> 찾아 적을 때 진짜 통찰이 일어납니다.</li>
-                <li><strong>자연스러운 문장으로 다듬으세요:</strong> 조사(은/는, 이/가)를 자연스럽게 고쳐서 읽었을 때 내 마음에 가장 묵직하게 와닿는 문장으로 적으세요.</li>
+                <li><strong>자책이나 죄책감이 아닙니다:</strong> 스스로를 비난하는 것이 아니라, <em>“이 문장을 이렇게 뒤집어 보면 내 삶에서 실제로 참인 부분이 있을까?”</em>를 호기심으로 탐험하는 과정입니다.</li>
+                <li><strong>반드시 구체적인 사례를 찾으세요:</strong> 뒤바꾼 문장이 진실인 구체적인 기억이나 행동 사례를 최소 1~3가지씩 찾아 적을 때 진짜 통찰이 일어납니다.</li>
               </ul>
             </div>
           </section>
@@ -2819,124 +3157,63 @@
           <section class="manual-section">
             <h4 class="manual-section-title">2. 뒤바꾸기 유형별 상세 가이드 및 예시</h4>
             <div class="manual-scenario-note">
-              💡 <strong>공통 원문 진술 예시:</strong><br />
-              • 3번 진술: <em>“김대리는 동료의 노력을 존중해야 한다.”</em> / • 5번 진술: <em>“김대리는 이기적이다.”</em>
+              💡 <strong>공통 원문 진술 예시:</strong> <em>“김대리는 동료의 노력을 존중해야 한다.”</em> / <em>“김대리는 이기적이다.”</em>
             </div>
 
-            <!-- 뒤바꾸기 1 -->
             <div class="manual-q-card">
               <div class="manual-q-header">
                 <span class="manual-q-badge">뒤바꾸기 1</span>
                 <h5 class="manual-q-title">나 자신에게로 (To the Self)</h5>
               </div>
-              <div class="manual-q-quote">
-                상대방 이름 대신 ‘나’를 집어넣어, 내가 나 자신에게 어떻게 하고 있는지 살펴봅니다.
-              </div>
-              <ul class="manual-list">
-                <li><strong>작성 방법:</strong> 원문의 ‘김대리’ 자리에 ‘나’를 넣고, 목적어 자리도 ‘나(내 노력)’로 바꿉니다.</li>
-                <li><strong>핵심 질문:</strong> 나는 내 노력을 스스로 존중하고 있는가? 혹은 내가 나 자신에게 이기적으로 굴고 있는 부분은 없는가?</li>
-              </ul>
               <div class="manual-example-box">
                 <div class="manual-example-label">작성 예시</div>
                 <ul>
                   <li><strong>뒤바꾼 진술:</strong> 나는 내 노력을 존중해야 한다. (또는: 나는 이기적이다.)</li>
-                  <li><strong>구체적 사례:</strong> ① 나는 밤새워 아이디어를 준비해 놓고도 내 몸과 수면을 돌보지 않고 스스로를 몰아붙였다. ② 회의 때 내 의견임을 당당히 밝히지 못하고 속으로만 끙끙 앓으며 내 노력을 스스로 보호하지 않았다. ③ 김대리에게 화를 내느라 내 소중한 주말 시간과 평온함을 갉아먹는 이기적인 선택을 하고 있다.</li>
+                  <li><strong>구체적 사례:</strong> ① 밤새워 아이디어를 준비하며 내 수면과 몸을 돌보지 않았다. ② 회의 때 내 의견임을 당당히 밝히지 못해 내 노력을 스스로 보호하지 않았다.</li>
                 </ul>
               </div>
             </div>
 
-            <!-- 뒤바꾸기 2 -->
             <div class="manual-q-card">
               <div class="manual-q-header">
                 <span class="manual-q-badge">뒤바꾸기 2</span>
                 <h5 class="manual-q-title">상대방에게 내가 (To the Other)</h5>
               </div>
-              <div class="manual-q-quote">
-                주어와 목적어를 맞바꾸어, 내가 상대방에게 똑같이 행동하고 있는 지점을 찾습니다.
-              </div>
-              <ul class="manual-list">
-                <li><strong>작성 방법:</strong> ‘김대리가 나에게 ~해야 한다’를 <strong>‘내가 김대리에게 ~해야 한다’</strong>로 바꿉니다.</li>
-                <li><strong>핵심 질문:</strong> 내가 김대리를 판단하고 미워하는 바로 그 순간, 나는 김대리를 한 인간으로 존중하고 있는가?</li>
-              </ul>
               <div class="manual-example-box">
                 <div class="manual-example-label">작성 예시</div>
                 <ul>
                   <li><strong>뒤바꾼 진술:</strong> 나는 김대리의 노력을 존중해야 한다. (또는: 나는 김대리에게 이기적이다.)</li>
-                  <li><strong>구체적 사례:</strong> ① 김대리 역시 팀장님께 인정받고 싶어서 압박감 속에 발표를 준비했을 텐데, 그 사람의 고충은 전혀 헤아리지 않았다. ② 회의 이후 김대리가 내게 말을 걸 때도 무시하고 차갑게 대하며 그의 존재를 존중하지 않았다. ③ 오직 내 공로만 인정받으려 했을 뿐, 팀 전체의 발표가 잘된 점은 보지 못했다.</li>
+                  <li><strong>구체적 사례:</strong> ① 김대리가 팀장님께 인정받고 싶어 느꼈을 압박감은 전혀 헤아리지 않았다. ② 회의 이후 그를 차갑게 무시하며 존중하지 않았다.</li>
                 </ul>
               </div>
             </div>
 
-            <!-- 뒤바꾸기 3 -->
             <div class="manual-q-card">
               <div class="manual-q-header">
                 <span class="manual-q-badge">뒤바꾸기 3</span>
                 <h5 class="manual-q-title">정반대로 뒤바꾸기 (To the Opposite)</h5>
               </div>
-              <div class="manual-q-quote">
-                원래 진술을 정반대(~하면 안 된다, ~하지 않는다)로 바꾸고, 현실에서 왜 그것이 사실인지 숙고합니다.
-              </div>
-              <ul class="manual-list">
-                <li><strong>작성 방법:</strong> ‘~해야 한다’를 ‘~하지 말아야 한다’로, ‘~이다’를 ‘~이 아니다’로 정반대로 뒤집습니다.</li>
-                <li><strong>핵심 질문:</strong> 현실에서 이미 그 일이 일어났다면, 그 일이 일어날 수밖에 없었던 현실적 이유나 긍정적 배움은 무엇인가?</li>
-              </ul>
               <div class="manual-example-box">
                 <div class="manual-example-label">작성 예시</div>
                 <ul>
                   <li><strong>뒤바꾼 진술:</strong> 김대리는 동료의 노력을 존중하지 말아야 한다. (또는: 김대리는 이기적이지 않다.)</li>
-                  <li><strong>구체적 사례:</strong> ① 현실에서 김대리가 그렇게 행동하지 않았기 때문에, 오히려 현실이 진실이다. ② 이번 일 덕분에 나는 앞으로 기획안을 공유할 때 작성자 표기와 사전 보고 절차를 명확히 해야 한다는 중요한 업무 습관을 배웠다. ③ 김대리는 평소에 내가 바쁠 때 자료 정리를 대신 도와준 적도 있으므로 온전히 이기적인 사람만은 아니다.</li>
+                  <li><strong>구체적 사례:</strong> ① 이번 일 덕분에 기획안 공유 시 작성자 표기와 사전 보고 절차를 명확히 하는 중요한 업무 습관을 배웠다. ② 평소 바쁠 때 자료 정리를 도와준 적도 있다.</li>
                 </ul>
               </div>
             </div>
 
-            <!-- 뒤바꾸기 4 -->
-            <div class="manual-q-card">
-              <div class="manual-q-header">
-                <span class="manual-q-badge">뒤바꾸기 4</span>
-                <h5 class="manual-q-title">추가 뒤바꾸기</h5>
-              </div>
-              <ul class="manual-list">
-                <li><strong>활용 방법:</strong> 1단계의 다른 문항(예: 1번 감정 이유, 2번 바라는 변화, 4번 필요로 하는 것)에서 떠오르는 또 다른 핵심 진술을 자유롭게 뒤바꾸어 적는 공간입니다.</li>
-              </ul>
-              <div class="manual-example-box">
-                <div class="manual-example-label">작성 예시</div>
-                <ul>
-                  <li><strong>원문(2번):</strong> 나는 김대리가 진심으로 사과하기를 원한다.</li>
-                  <li><strong>뒤바꾸기:</strong> 나는 내가 나 자신에게 사과하기를 원한다. (내 마음을 돌보지 않고 분노 속에 방치한 것에 대해 스스로 다독여 주기)</li>
-                </ul>
-              </div>
-            </div>
-
-            <!-- 6번 뒤바꾸기 -->
             <div class="manual-q-card" style="margin-bottom: 0;">
               <div class="manual-q-header">
                 <span class="manual-q-badge">6번 뒤바꾸기</span>
                 <h5 class="manual-q-title">회피와 두려움을 수용으로 전환하기</h5>
               </div>
-              <div class="manual-q-quote">
-                1단계 6번의 “나는 앞으로 다시는 ~ 하고 싶지 않다 / 하지 않겠다”를 “나는 기꺼이 ~ 하겠다”와 “나는 ~ 하기를 고대한다”로 바꿉니다.
-              </div>
-              <ul class="manual-list">
-                <li><strong>문항의 깊은 의미:</strong> 특정 상황을 두려워하고 피하려 애쓰는 동안 우리는 늘 긴장 속에 살게 됩니다. 다시 비슷한 상황이 오더라도 <strong>“그 일이 내 내면을 들여다볼 좋은 기회가 될 테니 기꺼이 맞이하겠다”</strong>라고 마음을 열 때 진정한 자유가 찾아옵니다.</li>
-              </ul>
               <div class="manual-example-box">
                 <div class="manual-example-label">작성 예시</div>
                 <ul>
-                  <li><strong>원문(1단계 6번):</strong> 나는 앞으로 다시는 내가 공들인 성과를 다른 사람에게 빼앗기는 경험을 하고 싶지 않다.</li>
                   <li><strong>뒤바꾸기 ①:</strong> 나는 기꺼이 내 아이디어가 다른 사람의 입을 통해 발표되는 상황을 경험하겠다.</li>
-                  <li><strong>뒤바꾸기 ②:</strong> 나는 그런 상황이 다시 온다면, 흔들리지 않고 내 의견을 차분히 보충 설명하며 성장할 기회를 고대한다.</li>
+                  <li><strong>뒤바꾸기 ②:</strong> 나는 그런 상황이 다시 온다면 흔들리지 않고 내 의견을 차분히 보충 설명할 기회를 고대한다.</li>
                 </ul>
               </div>
-            </div>
-          </section>
-
-          <section class="manual-section">
-            <h4 class="manual-section-title">3. 전체 작업을 마친 뒤 마무리 활용법</h4>
-            <div class="manual-subcard" style="margin-bottom: 0;">
-              <ul class="manual-list">
-                <li><strong>요약 및 카카오톡 공유:</strong> 하단의 <strong>‘요약 및 카카오톡 공유’</strong>(또는 상단 <strong>‘요약 및 내보내기’</strong>) 버튼을 누르면 1~3단계 전체 기록이 한 장의 깔끔한 리포트로 정리됩니다. 이미지로 저장하거나 카카오톡으로 바로 전송해 보관하세요.</li>
-                <li><strong>기록 보관함 저장:</strong> 상단 <strong>‘저장 / 불러오기’</strong>에서 제목을 붙여 저장해 두면, 며칠 뒤 마음이 흔들릴 때 다시 꺼내 읽어보며 평온을 되찾을 수 있습니다.</li>
-              </ul>
             </div>
           </section>
         `;
