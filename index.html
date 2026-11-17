@@ -252,11 +252,9 @@
       top: 88px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      min-height: calc(100vh - 118px);
+      gap: 16px;
       max-height: calc(100vh - 104px);
       overflow-y: auto;
-      gap: 20px;
       padding-right: 2px;
     }
 
@@ -345,9 +343,8 @@
       color: rgba(255, 255, 255, 0.84);
     }
 
-    /* 좌측 하단 단계별 참조 문구 카드 */
+    /* 3번 뒤바꿔보세요 버튼 바로 아래 단계별 설명(참조) 카드 */
     .sidebar-ref-card {
-      margin-top: auto;
       background: #FFFDF8;
       border: 1.5px solid #DFD5C3;
       border-top: 4px solid var(--secondary);
@@ -1554,7 +1551,7 @@
         </button>
       </div>
 
-      <!-- 좌측 가장 아래 단계별 참조 문구 영역 -->
+      <!-- 3번 뒤바꿔보세요 버튼 바로 아래 단계별 참조 문구 영역 -->
       <div class="sidebar-ref-card" id="sidebarReferenceBox"></div>
     </aside>
 
@@ -1777,7 +1774,7 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
-      /* 좌측 사이드바 하단 단계별 참조 문구 렌더링 */
+      /* 3번 뒤바꿔보세요 버튼 바로 아래 단계별 참조 문구 렌더링 */
       renderSidebarReference() {
         const refBox = document.getElementById('sidebarReferenceBox');
         if (!refBox) return;
