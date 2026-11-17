@@ -42,7 +42,7 @@
       overflow-wrap: break-word;
     }
 
-    /* 상단 고정 헤더 (태블릿 최적화) */
+    /* 상단 고정 헤더 (태블릿 기본) */
     .app-header {
       position: sticky;
       top: 0;
@@ -215,6 +215,7 @@
       border-radius: 50%;
       font-size: 0.85rem;
       background: rgba(0, 0, 0, 0.08);
+      flex-shrink: 0;
     }
 
     .step-tab.active .step-num {
@@ -234,6 +235,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
+      flex-wrap: wrap;
       background: #FFFDF8;
       border: 1px solid #E3D9C6;
       border-radius: var(--radius-md);
@@ -313,7 +315,7 @@
       min-height: 54px;
       padding: 12px 15px;
       font-family: inherit;
-      font-size: 16px;
+      font-size: 1rem;
       line-height: 1.65;
       color: var(--text-main);
       background-color: #FCFBF8;
@@ -381,7 +383,7 @@
       min-height: 40px;
       padding: 6px 12px;
       font-family: inherit;
-      font-size: 16px;
+      font-size: 1rem;
       line-height: 1.55;
       color: var(--text-main);
       background-color: #FFFFFF;
@@ -512,12 +514,18 @@
       overflow-wrap: break-word;
     }
 
+    .ref-summary-box {
+      font-size: 0.94rem;
+      line-height: 1.75;
+      color: var(--text-main);
+    }
+
     /* 하단 단계 이동 바 */
     .step-footer-nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       margin-top: 28px;
     }
 
@@ -620,9 +628,9 @@
 
     .archive-title-input {
       flex: 1;
-      min-width: 240px;
+      min-width: 200px;
       padding: 10px 14px;
-      font-size: 16px;
+      font-size: 1rem;
       font-family: inherit;
       border: 1.5px solid #B6C7BD;
       border-radius: var(--radius-sm);
@@ -670,7 +678,7 @@
 
     .archive-info {
       flex: 1;
-      min-width: 240px;
+      min-width: 220px;
     }
 
     .archive-card-title {
@@ -681,7 +689,7 @@
     }
 
     .archive-card-meta {
-      font-size: 0.84rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
       margin-bottom: 6px;
     }
@@ -807,6 +815,8 @@
       pointer-events: none;
       transition: all 0.25s ease;
       z-index: 300;
+      max-width: 90vw;
+      text-align: center;
     }
 
     .toast.show {
@@ -821,24 +831,257 @@
       height: auto;
       width: auto;
       white-space: pre;
-      font-size: 16px;
+      font-size: 1rem;
       font-family: inherit;
       padding: 0 12px;
     }
 
-    @media (max-width: 680px) {
+    /* =========================================================
+       모바일 버전 (가로 767px 이하)
+       - 전체 글씨 크기를 한 단계(16px -> 14px 기준) 낮춤
+       - 모바일 화면 비율에 맞춘 여백 및 버튼 배치 최적화
+       ========================================================= */
+    @media (max-width: 767px) {
+      html, body {
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
       .app-header {
-        padding: 12px 16px;
+        padding: 10px 14px 10px;
       }
-      .main-container {
-        padding: 0 16px;
+
+      .header-top {
+        gap: 8px;
+        margin-bottom: 10px;
       }
-      .q-card {
-        padding: 18px 16px;
+
+      .brand-title {
+        font-size: 1.28rem;
       }
+
+      .brand-subtitle {
+        font-size: 0.85rem;
+        margin-left: 6px;
+      }
+
+      .header-actions {
+        width: 100%;
+        justify-content: space-between;
+        gap: 6px;
+      }
+
+      .save-badge {
+        font-size: 0.8rem;
+        padding: 4px 8px;
+      }
+
+      .btn {
+        min-height: 36px;
+        padding: 7px 11px;
+        font-size: 0.9rem;
+        gap: 4px;
+      }
+
+      .btn-sm {
+        min-height: 32px;
+        padding: 5px 10px;
+        font-size: 0.84rem;
+      }
+
+      .step-tabs {
+        gap: 6px;
+      }
+
       .step-tab {
+        flex-direction: column;
+        gap: 3px;
+        padding: 8px 6px;
+        font-size: 0.9rem;
+        line-height: 1.25;
+        text-align: center;
+        border-radius: 10px;
+      }
+
+      .step-num {
+        width: 20px;
+        height: 20px;
+        font-size: 0.8rem;
+      }
+
+      .main-container {
+        margin: 14px auto 44px;
+        padding: 0 12px;
+      }
+
+      .active-record-banner {
+        padding: 9px 12px;
+        margin-bottom: 12px;
         font-size: 0.88rem;
-        padding: 10px 8px;
+      }
+
+      .guide-banner {
+        padding: 14px 15px;
+        margin-bottom: 14px;
+        border-radius: 10px;
+      }
+
+      .guide-banner h2 {
+        font-size: 1.12rem;
+        margin-bottom: 4px;
+      }
+
+      .guide-banner p {
+        font-size: 0.94rem;
+      }
+
+      .q-card {
+        padding: 16px 15px;
+        margin-bottom: 14px;
+        border-radius: 14px;
+      }
+
+      .q-header {
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .q-badge {
+        font-size: 0.85rem;
+        padding: 3px 9px;
+      }
+
+      .q-title {
+        font-size: 1.05rem;
+      }
+
+      .q-hint {
+        font-size: 0.88rem;
+      }
+
+      textarea.auto-field {
+        min-height: 46px;
+        padding: 10px 12px;
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+
+      .sentence-flow {
+        padding: 12px 13px;
+        gap: 6px 8px;
+        font-size: 1rem;
+        line-height: 1.7;
+        border-radius: 10px;
+      }
+
+      .target-pill {
+        padding: 2px 9px;
+      }
+
+      textarea.inline-auto-field {
+        min-width: 110px;
+        min-height: 36px;
+        padding: 5px 10px;
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+
+      .emotion-chips {
+        gap: 6px;
+      }
+
+      .chip-btn {
+        padding: 5px 11px;
+        font-size: 0.88rem;
+      }
+
+      .yn-btn {
+        padding: 8px 12px;
+        font-size: 0.95rem;
+      }
+
+      .stmt-tab {
+        padding: 6px 10px;
+        font-size: 0.88rem;
+      }
+
+      .active-statement-box {
+        padding: 12px 14px;
+        margin-bottom: 16px;
+      }
+
+      .active-statement-text {
+        font-size: 1.04rem;
+      }
+
+      .step-footer-nav {
+        margin-top: 20px;
+        gap: 8px;
+      }
+
+      .step-footer-nav .btn {
+        flex: 1;
+      }
+
+      .modal-backdrop {
+        padding: 10px;
+      }
+
+      .modal-box {
+        border-radius: 14px;
+        max-height: 92vh;
+      }
+
+      .modal-header {
+        padding: 13px 16px;
+      }
+
+      .modal-header h3 {
+        font-size: 1.1rem;
+      }
+
+      .modal-body {
+        padding: 16px;
+      }
+
+      .modal-footer {
+        padding: 12px 16px;
+        gap: 8px;
+      }
+
+      .modal-footer .btn {
+        flex: 1 1 auto;
+      }
+
+      .save-box {
+        padding: 14px;
+        margin-bottom: 18px;
+      }
+
+      .archive-card {
+        padding: 13px 14px;
+      }
+
+      #captureSummaryArea {
+        padding: 18px 15px;
+      }
+
+      .report-title {
+        font-size: 1.25rem;
+      }
+
+      .report-section {
+        padding: 14px;
+        margin-bottom: 12px;
+      }
+
+      .report-section-title {
+        font-size: 1.05rem;
+      }
+
+      .report-a {
+        font-size: 0.96rem;
+        padding: 7px 10px;
       }
     }
   </style>
@@ -1138,8 +1381,10 @@
 
         if (el.classList.contains('inline-auto-field') && mirror) {
           const container = el.parentElement;
-          const maxWidth = container ? Math.max(200, container.clientWidth - 36) : 600;
-          const minWidth = Number(el.dataset.minWidth || 150);
+          const isMobile = window.innerWidth <= 767;
+          const maxWidth = container ? Math.max(140, container.clientWidth - (isMobile ? 26 : 36)) : 600;
+          const rawMinWidth = Number(el.dataset.minWidth || (isMobile ? 110 : 150));
+          const minWidth = Math.min(isMobile ? Math.round(rawMinWidth * 0.78) : rawMinWidth, maxWidth);
           const sampleText = el.value || el.placeholder || '';
           const firstLine = sampleText.split('\n')[0];
 
@@ -1147,7 +1392,7 @@
           mirror.style.fontWeight = window.getComputedStyle(el).fontWeight;
           mirror.textContent = firstLine;
 
-          const measuredWidth = mirror.offsetWidth + 24;
+          const measuredWidth = mirror.offsetWidth + 22;
           if (sampleText.includes('\n') || measuredWidth >= maxWidth) {
             el.style.width = '100%';
           } else {
@@ -1451,8 +1696,7 @@
           </section>
 
           <div class="step-footer-nav">
-            <span></span>
-            <button type="button" class="btn btn-primary" onclick="app.setStep(2)">
+            <button type="button" class="btn btn-primary" style="margin-left:auto;" onclick="app.setStep(2)">
               다음 단계: 스스로 하기 (탐구) →
             </button>
           </div>
@@ -1502,7 +1746,7 @@
             </div>
 
             <!-- 탐구 1 -->
-            <div style="margin-bottom: 26px;">
+            <div style="margin-bottom: 24px;">
               <div class="q-header">
                 <span class="q-badge">탐구 1</span>
                 <div>
@@ -1523,7 +1767,7 @@
             </div>
 
             <!-- 탐구 2 -->
-            <div style="margin-bottom: 26px;">
+            <div style="margin-bottom: 24px;">
               <div class="q-header">
                 <span class="q-badge">탐구 2</span>
                 <div>
@@ -1544,7 +1788,7 @@
             </div>
 
             <!-- 탐구 3 -->
-            <div style="margin-bottom: 26px;">
+            <div style="margin-bottom: 24px;">
               <div class="q-header">
                 <span class="q-badge">탐구 3</span>
                 <div>
@@ -1580,10 +1824,10 @@
 
           <div class="step-footer-nav">
             <button type="button" class="btn btn-outline" onclick="app.setStep(1)">
-              ← 1단계: 스스로에게 질문하기
+              ← 1단계: 질문하기
             </button>
             <button type="button" class="btn btn-primary" onclick="app.setStep(3)">
-              다음 단계: 뒤바꿔보세요 →
+              3단계: 뒤바꾸기 →
             </button>
           </div>
         `;
@@ -1604,7 +1848,7 @@
             <div style="font-size: 0.95rem; font-weight: 700; color: var(--secondary); margin-bottom: 10px;">
               📌 내가 작성한 1단계 진술 참조 (${this.escapeHtml(name)})
             </div>
-            <div style="font-size: 0.94rem; line-height: 1.75; color: var(--text-main);">
+            <div class="ref-summary-box">
               <div><strong>1.</strong> ${this.escapeHtml(this.getStatementSummary(1))}</div>
               <div><strong>2.</strong> ${this.escapeHtml(this.getStatementSummary(2))}</div>
               <div><strong>3.</strong> ${this.escapeHtml(this.getStatementSummary(3).replace(/\n/g, ' / '))}</div>
@@ -1676,10 +1920,10 @@
 
           <div class="step-footer-nav">
             <button type="button" class="btn btn-outline" onclick="app.setStep(2)">
-              ← 2단계: 스스로 하기 (탐구)
+              ← 2단계: 탐구
             </button>
             <button type="button" class="btn btn-primary" onclick="app.openExportModal()">
-              ✨ 전체 요약 및 카카오톡 공유
+              ✨ 요약 및 카카오톡 공유
             </button>
           </div>
         `;
@@ -1729,7 +1973,7 @@
         const defaultTitle = loadedItem ? loadedItem.title : this.getDefaultArchiveTitle();
 
         const listHtml = this.archives.length === 0
-          ? `<div style="text-align:center; padding: 28px 16px; color: var(--text-muted); background: #FCFBF8; border-radius: 12px; border: 1px dashed var(--border);">
+          ? `<div style="text-align:center; padding: 24px 14px; color: var(--text-muted); background: #FCFBF8; border-radius: 12px; border: 1px dashed var(--border);">
                아직 저장된 기록이 없습니다.<br />위 입력창에서 현재 작성한 내용을 저장해 보세요.
              </div>`
           : this.archives.map(item => {
