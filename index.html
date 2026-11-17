@@ -1,1000 +1,1671 @@
 <!DOCTYPE html>
-<html lang="ko" class="h-full">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>바이런 케이티의 작업 (The Work)</title>
-    <!-- Tailwind CSS 로드 -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        sand: {
-                            50: '#fcfbfa',
-                            100: '#f5f2ee',
-                            200: '#e8e2d8',
-                            300: '#d7ccbc',
-                            800: '#5c5244',
-                            900: '#3d362c'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- Google Inter 폰트 및 Pretendard 적용 -->
-    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- 화면 이미지 캡처를 위한 html2canvas 로드 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <style>
-        body {
-            font-family: 'Pretendard', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-        /* 부드러운 전환 효과 */
-        .fade-in {
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>내면의 작업 (The Work) - 네 가지 질문 워크북</title>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <style>
+    :root {
+      --bg-main: #F7F5F0;
+      --bg-card: #FFFFFF;
+      --bg-subtle: #F0ECE3;
+      --bg-accent-soft: #E8EFEA;
+      --primary: #3B594A;
+      --primary-hover: #2D463A;
+      --secondary: #8C6D53;
+      --text-main: #262522;
+      --text-muted: #66625A;
+      --border: #DDD7CC;
+      --border-focus: #3B594A;
+      --shadow-sm: 0 2px 8px rgba(38, 37, 34, 0.05);
+      --shadow-md: 0 8px 24px rgba(38, 37, 34, 0.08);
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+
+    /* 상단 고정 헤더 (태블릿 최적화) */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(247, 245, 240, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px 12px;
+    }
+
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand-title {
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.02em;
+    }
+
+    .brand-subtitle {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-left: 8px;
+      font-weight: 400;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .save-badge {
+      font-size: 0.82rem;
+      color: var(--primary);
+      background: var(--bg-accent-soft);
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    /* 버튼 스타일 */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.18s ease;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #FFFFFF;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-outline {
+      background: #FFFFFF;
+      color: var(--text-main);
+      border-color: var(--border);
+    }
+
+    .btn-outline:hover {
+      background: var(--bg-subtle);
+    }
+
+    .btn-danger-outline {
+      background: #FFFFFF;
+      color: #A63A3A;
+      border-color: #E2C6C6;
+    }
+
+    .btn-danger-outline:hover {
+      background: #FDF3F3;
+    }
+
+    .btn-kakao {
+      background: #FEE500;
+      color: #191919;
+      font-weight: 700;
+    }
+
+    .btn-kakao:hover {
+      background: #F4DC00;
+    }
+
+    /* 3단계 네비게이션 탭 */
+    .step-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .step-tab {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      background: #FFFFFF;
+      border: 1.5px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      font-family: inherit;
+    }
+
+    .step-tab.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #FFFFFF;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      font-size: 0.85rem;
+      background: rgba(0, 0, 0, 0.08);
+    }
+
+    .step-tab.active .step-num {
+      background: rgba(255, 255, 255, 0.22);
+      color: #FFFFFF;
+    }
+
+    /* 메인 컨테이너 */
+    .main-container {
+      max-width: 960px;
+      margin: 24px auto 60px;
+      padding: 0 24px;
+    }
+
+    .guide-banner {
+      background: var(--bg-accent-soft);
+      border-left: 4px solid var(--primary);
+      border-radius: var(--radius-md);
+      padding: 18px 22px;
+      margin-bottom: 22px;
+      color: var(--text-main);
+    }
+
+    .guide-banner h2 {
+      margin: 0 0 6px;
+      font-size: 1.15rem;
+      color: var(--primary);
+    }
+
+    .guide-banner p {
+      margin: 0;
+      font-size: 0.96rem;
+      color: #3A3D3B;
+    }
+
+    /* 질문 카드 */
+    .q-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px 26px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .q-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .q-badge {
+      flex-shrink: 0;
+      background: var(--primary);
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 4px 11px;
+      border-radius: 20px;
+      margin-top: 2px;
+    }
+
+    .q-title {
+      margin: 0;
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.5;
+    }
+
+    .q-hint {
+      margin: 4px 0 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* 스크롤 없는 자동 줄바꿈 & 자동 크기 확장 입력창 (핵심) */
+    textarea.auto-field {
+      display: block;
+      width: 100%;
+      min-height: 54px;
+      padding: 12px 15px;
+      font-family: inherit;
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--text-main);
+      background-color: #FCFBF8;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      resize: none !important;
+      overflow: hidden !important;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: keep-all;
+      transition: border-color 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    textarea.auto-field:focus {
+      outline: none;
+      border-color: var(--border-focus);
+      background-color: #FFFFFF;
+      box-shadow: 0 0 0 3px rgba(59, 89, 74, 0.12);
+    }
+
+    textarea.auto-field::placeholder {
+      color: #A49E93;
+    }
+
+    /* 문장 내 인라인 자동 확장 입력창 */
+    .sentence-flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 10px;
+      background: #FAF8F4;
+      border: 1px solid #EAE4D9;
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      margin-top: 10px;
+      font-size: 1.02rem;
+      line-height: 1.8;
+    }
+
+    .sentence-text {
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .target-pill {
+      display: inline-block;
+      background: var(--bg-accent-soft);
+      color: var(--primary);
+      font-weight: 700;
+      padding: 2px 12px;
+      border-radius: 6px;
+      border-bottom: 2px solid var(--primary);
+      max-width: 100%;
+      white-space: pre-wrap;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+
+    textarea.inline-auto-field {
+      display: inline-block;
+      vertical-align: middle;
+      min-width: 150px;
+      max-width: 100%;
+      min-height: 40px;
+      padding: 6px 12px;
+      font-family: inherit;
+      font-size: 16px;
+      line-height: 1.55;
+      color: var(--text-main);
+      background-color: #FFFFFF;
+      border: 1.5px solid #C8C0B2;
+      border-radius: var(--radius-sm);
+      resize: none !important;
+      overflow: hidden !important;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: keep-all;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    textarea.inline-auto-field:focus {
+      outline: none;
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(59, 89, 74, 0.12);
+    }
+
+    textarea.inline-auto-field::placeholder {
+      color: #A49E93;
+    }
+
+    /* 감정 선택 칩 */
+    .emotion-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0 6px;
+    }
+
+    .chip-btn {
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: #FFFFFF;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+
+    .chip-btn.selected {
+      background: var(--secondary);
+      border-color: var(--secondary);
+      color: #FFFFFF;
+      font-weight: 600;
+    }
+
+    /* Yes / No 토글 버튼 (2단계 탐구) */
+    .yn-group {
+      display: flex;
+      gap: 10px;
+      margin: 12px 0;
+    }
+
+    .yn-btn {
+      flex: 1;
+      max-width: 140px;
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border);
+      background: #FFFFFF;
+      color: var(--text-main);
+      font-size: 0.98rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+
+    .yn-btn.selected {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #FFFFFF;
+    }
+
+    /* 2단계 진술 선택 바 */
+    .statement-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .stmt-tab {
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border);
+      background: #FFFFFF;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .stmt-tab.active {
+      background: var(--secondary);
+      border-color: var(--secondary);
+      color: #FFFFFF;
+    }
+
+    .active-statement-box {
+      background: #FFFDF8;
+      border: 1.5px dashed var(--secondary);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      margin-bottom: 20px;
+    }
+
+    .active-statement-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: 6px;
+    }
+
+    .active-statement-text {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--text-main);
+      white-space: pre-wrap;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+
+    /* 하단 단계 이동 바 */
+    .step-footer-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    /* 모달 스타일 */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(25, 24, 22, 0.55);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 820px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+
+    .modal-box.small {
+      max-width: 420px;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-main);
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      font-size: 1.15rem;
+      color: var(--primary);
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      line-height: 1;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px 8px;
+    }
+
+    .modal-body {
+      padding: 24px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      background: var(--bg-main);
+    }
+
+    /* 캡처 전용 요약 리포트 스타일 */
+    #captureSummaryArea {
+      background: #FAF8F4;
+      border: 1px solid #DDD7CC;
+      border-radius: 14px;
+      padding: 28px;
+      color: #262522;
+    }
+
+    .report-header {
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 14px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .report-title {
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .report-meta {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .report-section {
+      background: #FFFFFF;
+      border: 1px solid #E5DFD3;
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+    }
+
+    .report-section-title {
+      margin: 0 0 12px;
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--primary);
+      border-bottom: 1px solid #EFECE6;
+      padding-bottom: 8px;
+    }
+
+    .report-item {
+      margin-bottom: 12px;
+    }
+
+    .report-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .report-q {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: 3px;
+    }
+
+    .report-a {
+      font-size: 0.98rem;
+      color: var(--text-main);
+      white-space: pre-wrap;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      background: #FCFBF8;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border-left: 3px solid #D5CEC0;
+    }
+
+    /* 토스트 알림 */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(38, 37, 34, 0.92);
+      color: #FFFFFF;
+      padding: 12px 22px;
+      border-radius: 30px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s ease;
+      z-index: 300;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* 숨겨진 텍스트 너비 측정용 요소 */
+    #textMeasureMirror {
+      position: absolute;
+      visibility: hidden;
+      height: auto;
+      width: auto;
+      white-space: pre;
+      font-size: 16px;
+      font-family: inherit;
+      padding: 0 12px;
+    }
+
+    @media (max-width: 680px) {
+      .app-header {
+        padding: 12px 16px;
+      }
+      .main-container {
+        padding: 0 16px;
+      }
+      .q-card {
+        padding: 18px 16px;
+      }
+      .step-tab {
+        font-size: 0.88rem;
+        padding: 10px 8px;
+      }
+    }
+  </style>
 </head>
-<body class="h-full bg-sand-50 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-100 transition-colors duration-300 flex flex-col overflow-hidden">
+<body>
 
-    <!-- 상단 네비게이션 및 헤더 바 -->
-    <header class="flex-shrink-0 bg-white/80 dark:bg-zinc-800/80 backdrop-blur-md border-b border-sand-200 dark:border-zinc-700 px-6 py-4 flex items-center justify-between z-10">
-        <div class="flex items-center space-x-3">
-            <div class="w-9 h-9 rounded-full bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center text-amber-700 dark:text-amber-400 font-semibold text-lg shadow-inner">
-                W
-            </div>
-            <div>
-                <h1 class="text-lg font-bold tracking-tight">바이런 케이티의 작업</h1>
-                <p class="text-xs text-zinc-500 dark:text-zinc-400">마음을 자유롭게 하는 4가지 질문과 탐구</p>
-            </div>
+  <!-- 상단 고정 헤더 -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="header-top">
+        <div>
+          <h1 class="brand-title">
+            내면의 작업 (The Work)
+            <span class="brand-subtitle">네 가지 질문 워크북</span>
+          </h1>
         </div>
-
-        <!-- 우측 액션 버튼 그룹 (태블릿 맞춤 넉넉한 터치 타겟) -->
-        <div class="flex items-center space-x-3">
-            <button onclick="app.toggleTheme()" class="p-2.5 rounded-xl bg-sand-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 hover:bg-sand-200 dark:hover:bg-zinc-600 transition flex items-center justify-center text-sm" aria-label="테마 전환">
-                <span id="themeIcon">🌙</span>
-            </button>
-            <button onclick="app.resetData()" class="px-4 py-2 rounded-xl bg-sand-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/30 dark:hover:text-red-400 transition text-sm font-medium">
-                새로 작성
-            </button>
-            <button onclick="app.exportModal()" class="px-4 py-2 rounded-xl bg-amber-700 hover:bg-amber-800 text-white shadow-sm transition text-sm font-medium flex items-center space-x-1.5">
-                <span>요약 및 내보내기</span>
-            </button>
+        <div class="header-actions">
+          <span class="save-badge" id="saveStatus">자동 저장됨</span>
+          <button type="button" class="btn btn-danger-outline" onclick="app.openResetModal()">초기화</button>
+          <button type="button" class="btn btn-primary" onclick="app.openExportModal()">요약 및 내보내기</button>
         </div>
-    </header>
+      </div>
 
-    <!-- 메인 컨테이너 (태블릿 가로/세로 최적화 레이아웃) -->
-    <main class="flex-1 flex overflow-hidden">
-        
-        <!-- 좌측 스텝퍼 네비게이션 (사이드바) -->
-        <nav class="w-72 flex-shrink-0 bg-sand-100/60 dark:bg-zinc-800/50 border-r border-sand-200 dark:border-zinc-700 p-6 flex flex-col justify-between overflow-y-auto">
-            <div class="space-y-3">
-                <div class="text-xs font-bold tracking-wider text-zinc-400 dark:text-zinc-500 uppercase px-2 mb-2">진행 단계</div>
-                
-                <button onclick="app.setStep(1)" id="nav-step-1" class="w-full text-left p-3.5 rounded-xl transition flex items-start space-x-3 group">
-                    <span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold bg-sand-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 group-hover:bg-amber-700 group-hover:text-white transition" id="nav-badge-1">1</span>
-                    <div>
-                        <div class="text-sm font-semibold text-zinc-800 dark:text-zinc-200">스스로에게 질문하기</div>
-                        <div class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">판단과 감정의 서술</div>
-                    </div>
-                </button>
-
-                <button onclick="app.setStep(2)" id="nav-step-2" class="w-full text-left p-3.5 rounded-xl transition flex items-start space-x-3 group">
-                    <span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold bg-sand-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 group-hover:bg-amber-700 group-hover:text-white transition" id="nav-badge-2">2</span>
-                    <div>
-                        <div class="text-sm font-semibold text-zinc-800 dark:text-zinc-200">스스로 하기: 탐구</div>
-                        <div class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">4가지 핵심 질문 탐색</div>
-                    </div>
-                </button>
-
-                <button onclick="app.setStep(3)" id="nav-step-3" class="w-full text-left p-3.5 rounded-xl transition flex items-start space-x-3 group">
-                    <span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold bg-sand-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 group-hover:bg-amber-700 group-hover:text-white transition" id="nav-badge-3">3</span>
-                    <div>
-                        <div class="text-sm font-semibold text-zinc-800 dark:text-zinc-200">뒤바꿔보세요</div>
-                        <div class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">관점의 전환과 반전</div>
-                    </div>
-                </button>
-            </div>
-
-            <!-- 하단 명상적 문구 -->
-            <div class="p-4 rounded-xl bg-amber-50/60 dark:bg-amber-900/10 border border-amber-200/40 dark:border-amber-800/20 text-xs text-amber-800 dark:text-amber-300/80 leading-relaxed">
-                "진실이 아닌 생각을 믿을 때 고통이 일어납니다. 질문을 던질 때, 우리는 고통 너머를 보게 됩니다."
-            </div>
-        </nav>
-
-        <!-- 우측 컨텐츠 입력 폼 영역 -->
-        <section class="flex-1 bg-white dark:bg-zinc-900 p-8 overflow-y-auto flex flex-col justify-between">
-            <div class="max-w-3xl mx-auto w-full pb-12">
-                <!-- 단계별 렌더링 영역 -->
-                <div id="stepContainer" class="fade-in">
-                    <!-- JavaScript에 의해 동적 렌더링됨 -->
-                </div>
-            </div>
-
-            <!-- 하단 이전/다음 네비게이션 바 -->
-            <div class="max-w-3xl mx-auto w-full pt-4 border-t border-sand-200 dark:border-zinc-800 flex justify-between items-center">
-                <button id="prevBtn" onclick="app.prevStep()" class="px-6 py-3 rounded-xl border border-sand-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-sand-100 dark:hover:bg-zinc-800 transition font-medium text-sm flex items-center space-x-2">
-                    <span>← 이전 단계</span>
-                </button>
-                <div class="text-xs text-zinc-400 dark:text-zinc-500 font-medium" id="stepIndicatorText">단계 1 / 3</div>
-                <button id="nextBtn" onclick="app.nextStep()" class="px-6 py-3 rounded-xl bg-amber-700 hover:bg-amber-800 text-white shadow-sm transition font-medium text-sm flex items-center space-x-2">
-                    <span>다음 단계 →</span>
-                </button>
-            </div>
-        </section>
-    </main>
-
-    <!-- 요약 및 내보내기 모달 -->
-    <div id="exportModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-white dark:bg-zinc-800 w-full max-w-3xl rounded-2xl shadow-2xl border border-sand-200 dark:border-zinc-700 flex flex-col max-h-[90vh] overflow-hidden fade-in">
-            <div class="p-5 sm:p-6 border-b border-sand-200 dark:border-zinc-700 flex items-center justify-between">
-                <div>
-                    <h3 class="text-lg font-bold">작업(The Work) 결과 요약</h3>
-                    <p class="text-xs text-zinc-500 dark:text-zinc-400">1~3단계의 모든 내용이 한 장의 이미지로 정리되었습니다. 카카오톡으로 바로 공유할 수 있습니다.</p>
-                </div>
-                <button onclick="app.closeModal()" class="w-9 h-9 rounded-full bg-sand-100 dark:bg-zinc-700 flex items-center justify-center text-zinc-500 hover:bg-sand-200 transition">✕</button>
-            </div>
-            <div class="p-4 sm:p-6 overflow-y-auto flex-1 bg-sand-100/70 dark:bg-zinc-900/70">
-                <!-- 이미지 캡처 대상 영역 (항상 선명하고 읽기 편한 밝은 종이 톤 유지) -->
-                <div id="captureSummaryArea" class="bg-[#fcfbfa] text-zinc-800 p-6 sm:p-8 rounded-2xl border border-sand-300 shadow-sm space-y-6">
-                    <!-- JavaScript에 의해 1~3단계 요약 카드가 동적 렌더링됨 -->
-                </div>
-            </div>
-            <div class="p-4 sm:p-5 border-t border-sand-200 dark:border-zinc-700 flex flex-wrap items-center justify-end gap-2.5 bg-white dark:bg-zinc-800">
-                <button onclick="app.copyToClipboard()" class="px-4 py-3 rounded-xl bg-sand-100 dark:bg-zinc-700 hover:bg-sand-200 dark:hover:bg-zinc-600 text-zinc-700 dark:text-zinc-200 transition text-sm font-medium flex items-center space-x-1.5">
-                    <span>📋 텍스트 복사</span>
-                </button>
-                <button id="saveImgBtn" onclick="app.downloadSummaryImage()" class="px-4 py-3 rounded-xl bg-amber-700 hover:bg-amber-800 text-white shadow-sm transition text-sm font-medium flex items-center space-x-1.5">
-                    <span>🖼️ 이미지 저장</span>
-                </button>
-                <button id="kakaoShareBtn" onclick="app.shareSummaryImage()" class="px-5 py-3 rounded-xl bg-[#FEE500] hover:bg-[#f5dc00] text-[#191919] shadow-sm transition text-sm font-bold flex items-center space-x-2">
-                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M12 3C6.48 3 2 6.48 2 10.76c0 2.77 1.84 5.2 4.62 6.57-.2.75-.74 2.72-.85 3.14-.13.52.19.51.4.37.17-.11 2.66-1.81 3.74-2.54.68.1 1.38.15 2.09.15 5.52 0 10-3.48 10-7.69S17.52 3 12 3z"/>
-                    </svg>
-                    <span>카카오톡 이미지 공유</span>
-                </button>
-            </div>
-        </div>
+      <nav class="step-tabs" aria-label="작업 단계 선택">
+        <button type="button" class="step-tab active" data-step="1" onclick="app.setStep(1)">
+          <span class="step-num">1</span> 스스로에게 질문하기
+        </button>
+        <button type="button" class="step-tab" data-step="2" onclick="app.setStep(2)">
+          <span class="step-num">2</span> 스스로 하기: 탐구
+        </button>
+        <button type="button" class="step-tab" data-step="3" onclick="app.setStep(3)">
+          <span class="step-num">3</span> 뒤바꿔보세요
+        </button>
+      </nav>
     </div>
+  </header>
 
-    <!-- 커스텀 알림 모달 (alert 대체) -->
-    <div id="alertModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-white dark:bg-zinc-800 w-full max-w-sm rounded-2xl shadow-xl border border-sand-200 dark:border-zinc-700 p-6 text-center fade-in">
-            <div id="alertMessage" class="text-sm font-medium text-zinc-800 dark:text-zinc-200 mb-6">메시지 내용</div>
-            <button onclick="window.app.closeAlert()" class="w-full py-2.5 bg-amber-700 hover:bg-amber-800 text-white rounded-xl text-sm font-medium transition">확인</button>
-        </div>
+  <!-- 메인 작업 공간 -->
+  <main class="main-container" id="appContent"></main>
+
+  <!-- 요약 및 내보내기 모달 -->
+  <div class="modal-backdrop" id="exportModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>전체 작업 요약 및 이미지 공유</h3>
+        <button type="button" class="modal-close" onclick="app.closeExportModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="captureSummaryArea"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="app.closeExportModal()">닫기</button>
+        <button type="button" class="btn btn-outline" onclick="app.downloadSummaryImage()">🖼️ 이미지로 저장</button>
+        <button type="button" class="btn btn-kakao" onclick="app.shareSummaryToKakao()">💬 카카오톡으로 이미지 공유</button>
+      </div>
     </div>
+  </div>
 
-    <!-- 커스텀 초기화 확인 모달 (confirm 대체) -->
-    <div id="confirmModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-white dark:bg-zinc-800 w-full max-w-sm rounded-2xl shadow-xl border border-sand-200 dark:border-zinc-700 p-6 text-center fade-in">
-            <h4 class="text-base font-bold text-zinc-800 dark:text-zinc-100 mb-2">새로 작성하시겠습니까?</h4>
-            <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-6">작성 중인 모든 내용이 초기화되며 복구할 수 없습니다.</p>
-            <div class="flex space-x-3">
-                <button onclick="window.app.closeConfirm()" class="flex-1 py-2.5 rounded-xl bg-sand-100 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-sand-200 dark:hover:bg-zinc-600 text-sm font-medium transition">취소</button>
-                <button onclick="window.app.confirmReset()" class="flex-1 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-sm font-medium transition">초기화</button>
-            </div>
-        </div>
+  <!-- 초기화 확인 모달 -->
+  <div class="modal-backdrop" id="confirmModal">
+    <div class="modal-box small">
+      <div class="modal-header">
+        <h3>작성 내용 초기화</h3>
+        <button type="button" class="modal-close" onclick="app.closeResetModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="margin: 0; font-size: 1rem;">
+          현재까지 작성한 1단계~3단계의 모든 내용이 삭제됩니다.<br />
+          새롭게 시작하시겠습니까?
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="app.closeResetModal()">취소</button>
+        <button type="button" class="btn btn-danger-outline" onclick="app.confirmReset()">전체 초기화</button>
+      </div>
     </div>
-
-    <!-- 핵심 로직 구현 스크립트 -->
-    <script>
-        class TheWorkApp {
-            constructor() {
-                this.currentStep = 1;
-                this.data = this.loadData();
-                this.initTheme();
-                this.render();
-            }
-
-            // HTML 특수문자 이스케이프 처리 (입력값 렌더링 오류 방지)
-            escapeHtml(str) {
-                if (str === null || str === undefined) return '';
-                return String(str)
-                    .replace(/&/g, '&amp;')
-                    .replace(/"/g, '&quot;')
-                    .replace(/'/g, '&#39;')
-                    .replace(/</g, '&lt;')
-                    .replace(/>/g, '&gt;');
-            }
-
-            // 로컬 스토리지 데이터 로드 및 기본 필드 초기화
-            loadData() {
-                const defaultData = {
-                    // 단계 1: 스스로에게 질문하기
-                    step1_target: '',
-                    step1_emotion: '화가 난다',
-                    step1_reason: '',
-                    step2_wantPerson: '',
-                    step2_wantAction: '',
-                    step3_subject: '',
-                    step3_should: '',
-                    step3_subjectNot: '',
-                    step3_shouldNot: '',
-                    step4_subject: '',
-                    step4_needAction: '',
-                    step4_needTarget: '',
-                    step4_happiness: '',
-                    step5_subject: '',
-                    step5_thoughts: '',
-                    step6_neverAgain: '',
-                    step6_needAgain: '',
-
-                    // 단계 2: 스스로 하기: 탐구
-                    inquiry_statement: '',
-                    q1_choice: '',
-                    q1_isTrue: '',
-                    q2_choice: '',
-                    q2_absoluteTrue: '',
-                    q3_reaction: '',
-                    q4_whoWithoutThought: '',
-
-                    // 단계 3: 뒤바꿔보세요
-                    turnaround_1: '',
-                    turnaround_1_reasons: '',
-                    turnaround_2: '',
-                    turnaround_2_reasons: '',
-                    turnaround_3: '',
-                    turnaround_3_reasons: '',
-                    willingTo: '',
-                    lookForwardTo: ''
-                };
-
-                const saved = localStorage.getItem('the_work_tablet_data');
-                if (saved) {
-                    try {
-                        return { ...defaultData, ...JSON.parse(saved) };
-                    } catch (e) {
-                        console.error('데이터 로드 오류:', e);
-                    }
-                }
-                return defaultData;
-            }
-
-            // 데이터 자동 저장
-            saveData() {
-                try {
-                    localStorage.setItem('the_work_tablet_data', JSON.stringify(this.data));
-                } catch (e) {
-                    console.error('데이터 저장 오류:', e);
-                }
-            }
-
-            // 입력값 변경 반영
-            updateField(field, value) {
-                this.data[field] = value;
-                this.saveData();
-            }
-
-            // 선택형 버튼 상태 업데이트 후 화면 갱신
-            selectOption(field, value) {
-                this.data[field] = value;
-                this.saveData();
-                this.render();
-            }
-
-            // 테마 초기화 및 토글
-            initTheme() {
-                const isDark = localStorage.getItem('the_work_theme') === 'dark' || 
-                    (!localStorage.getItem('the_work_theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
-                const themeIcon = document.getElementById('themeIcon');
-                if (isDark) {
-                    document.documentElement.classList.add('dark');
-                    if (themeIcon) themeIcon.innerText = '☀️';
-                } else {
-                    document.documentElement.classList.remove('dark');
-                    if (themeIcon) themeIcon.innerText = '🌙';
-                }
-            }
-
-            toggleTheme() {
-                const isDark = document.documentElement.classList.toggle('dark');
-                localStorage.setItem('the_work_theme', isDark ? 'dark' : 'light');
-                const themeIcon = document.getElementById('themeIcon');
-                if (themeIcon) themeIcon.innerText = isDark ? '☀️' : '🌙';
-            }
-
-            // 단계 이동 제어
-            setStep(step) {
-                this.currentStep = step;
-                this.render();
-                const section = document.querySelector('section');
-                if (section) section.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-
-            nextStep() {
-                if (this.currentStep < 3) {
-                    this.currentStep++;
-                    this.render();
-                    const section = document.querySelector('section');
-                    if (section) section.scrollTo({ top: 0, behavior: 'smooth' });
-                } else {
-                    this.exportModal();
-                }
-            }
-
-            prevStep() {
-                if (this.currentStep > 1) {
-                    this.currentStep--;
-                    this.render();
-                    const section = document.querySelector('section');
-                    if (section) section.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-            }
-
-            // 화면 렌더링 메인 함수
-            render() {
-                for (let i = 1; i <= 3; i++) {
-                    const btn = document.getElementById(`nav-step-${i}`);
-                    const badge = document.getElementById(`nav-badge-${i}`);
-                    if (!btn || !badge) continue;
-                    if (i === this.currentStep) {
-                        btn.className = "w-full text-left p-3.5 rounded-xl transition flex items-start space-x-3 bg-amber-700/10 dark:bg-amber-900/30 border border-amber-700/20";
-                        badge.className = "flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold bg-amber-700 text-white shadow-sm";
-                    } else {
-                        btn.className = "w-full text-left p-3.5 rounded-xl transition flex items-start space-x-3 hover:bg-sand-200/60 dark:hover:bg-zinc-700/50";
-                        badge.className = "flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold bg-sand-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300";
-                    }
-                }
-
-                const stepIndicator = document.getElementById('stepIndicatorText');
-                if (stepIndicator) stepIndicator.innerText = `단계 ${this.currentStep} / 3`;
-
-                const nextBtn = document.getElementById('nextBtn');
-                if (nextBtn) {
-                    nextBtn.innerHTML = this.currentStep === 3
-                        ? `<span>요약 및 완료 ✨</span>`
-                        : `<span>다음 단계 →</span>`;
-                }
-
-                const prevBtn = document.getElementById('prevBtn');
-                if (prevBtn) {
-                    prevBtn.style.visibility = this.currentStep === 1 ? 'hidden' : 'visible';
-                }
-
-                const container = document.getElementById('stepContainer');
-                if (!container) return;
-
-                if (this.currentStep === 1) {
-                    container.innerHTML = this.renderStep1();
-                } else if (this.currentStep === 2) {
-                    container.innerHTML = this.renderStep2();
-                } else if (this.currentStep === 3) {
-                    container.innerHTML = this.renderStep3();
-                }
-            }
-
-            // 1단계 템플릿 (스스로에게 질문하기 1~6번)
-            renderStep1() {
-                const targetHint = this.escapeHtml(this.data.step1_target || '대상 이름');
-                return `
-                    <div class="space-y-6 fade-in">
-                        <div>
-                            <span class="inline-block px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 text-xs font-semibold mb-2">STEP 01</span>
-                            <h2 class="text-2xl font-bold tracking-tight">스스로에게 질문하기</h2>
-                            <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-1">1번부터 6번까지의 문항을 가혹하고 유치하며 편협하게, 판단하고 있는 그대로 솔직하게 적어보세요.</p>
-                        </div>
-
-                        <!-- 질문 1 -->
-                        <div class="p-6 rounded-2xl bg-sand-50 dark:bg-zinc-800/50 border border-sand-200 dark:border-zinc-700 space-y-3">
-                            <label class="block text-sm font-semibold text-zinc-700 dark:text-zinc-300">
-                                1. 당신을 화나게 하거나 슬프게 하거나 실망시키는 사람은 누구인가요? 당신은 그 사람의 어떤 점이 맘에 들지 않았나요? (가혹하고 유치하며 편협하게 쓰세요.)
-                            </label>
-                            <div class="flex flex-wrap items-center gap-2 text-sm">
-                                <span>나는</span>
-                                <input type="text" value="${this.escapeHtml(this.data.step1_target)}" oninput="app.updateField('step1_target', this.value)" placeholder="이름" class="px-3 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700 w-40">
-                                <span>때문에</span>
-                                <select onchange="app.updateField('step1_emotion', this.value)" class="px-3 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700">
-                                    <option value="화가 난다" ${this.data.step1_emotion === '화가 난다' ? 'selected' : ''}>화가 난다</option>
-                                    <option value="슬프다" ${this.data.step1_emotion === '슬프다' ? 'selected' : ''}>슬프다</option>
-                                    <option value="실망스럽다" ${this.data.step1_emotion === '실망스럽다' ? 'selected' : ''}>실망스럽다</option>
-                                    <option value="혼란스럽다" ${this.data.step1_emotion === '혼란스럽다' ? 'selected' : ''}>혼란스럽다</option>
-                                    <option value="두렵다" ${this.data.step1_emotion === '두렵다' ? 'selected' : ''}>두렵다</option>
-                                </select>. 왜냐하면
-                            </div>
-                            <textarea oninput="app.updateField('step1_reason', this.value)" rows="3" placeholder="그 사람 때문에 화가 나거나 슬픈 이유를 구체적이고 가식 없이 적어보세요..." class="w-full p-3.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700 text-sm leading-relaxed">${this.escapeHtml(this.data.step1_reason)}</textarea>
-                        </div>
-
-                        <!-- 질문 2 -->
-                        <div class="p-6 rounded-2xl bg-sand-50 dark:bg-zinc-800/50 border border-sand-200 dark:border-zinc-700 space-y-3">
-                            <label class="block text-sm font-semibold text-zinc-700 dark:text-zinc-300">
-                                2. 당신은 그 사람이 어떻게 바뀌기를 원하나요? 당신은 그 사람이 어떻게 하기를 원하나요?
-                            </label>
-                            <div class="flex flex-wrap items-center gap-2 text-sm">
-                                <span>나는</span>
-                                <input type="text" value="${this.escapeHtml(this.data.step2_wantPerson)}" oninput="app.updateField('step2_wantPerson', this.value)" placeholder="${targetHint}" class="px-3 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700 w-36">
-                                <span>이(가)</span>
-                                <input type="text" value="${this.escapeHtml(this.data.step2_wantAction)}" oninput="app.updateField('step2_wantAction', this.value)" placeholder="원하는 행동 및 변화 내용" class="flex-1 min-w-[200px] px-3 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700">
-                                <span>하기를 원한다.</span>
-                            </div>
-                        </div>
-
-                        <!-- 질문 3 -->
-                        <div class="p-6 rounded-2xl bg-sand-50 dark:bg-zinc-800/50 border border-sand-200 dark:border-zinc-700 space-y-3">
-                            <label class="block text-sm font-semibold text-zinc-700 dark:text-zinc-300">
-                                3. 그 사람이 해야 하거나 하지 말아야 할 것들(행위, 태도, 생각, 느낌 등)은 무엇인가요?
-                            </label>
-                            <div class="space-y-3 text-sm">
-                                <div class="flex flex-wrap items-center gap-2">
-                                    <input type="text" value="${this.escapeHtml(this.data.step3_subject)}" oninput="app.updateField('step3_subject', this.value)" placeholder="${targetHint}" class="w-32 px-3 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700">
-                                    <span>는(은)</span>
-                                    <input type="text" value="${this.escapeHtml(this.data.step3_should)}" oninput="app.updateField('step3_should', this.value)" placeholder="해야 하는 것" class="flex-1 min-w-[180px] px-3 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700">
-                                    <span>해야 한다.</span>
-                                </div>
-                                <div class="flex flex-wrap items-center gap-2">
-                                    <input type="text" value="${this.escapeHtml(this.data.step3_subjectNot)}" oninput="app.updateField('step3_subjectNot', this.value)" placeholder="${targetHint}" class="w-32 px-3 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700">
-                                    <span>는(은)</span>
-                                    <input type="text" value="${this.escapeHtml(this.data.step3_shouldNot)}" oninput="app.updateField('step3_shouldNot', this.value)" placeholder="하지 말아야 할 것" class="flex-1 min-w-[180px] px-3 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700">
-                                    <span>하지 말아야 한다.</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 질문 4 -->
-                        <div class="p-6 rounded-2xl bg-sand-50 dark:bg-zinc-800/50 border border-sand-200 dark:border-zinc-700 space-y-3">
-                            <label class="block text-sm font-semibold text-zinc-700 dark:text-zinc-300">
-                                4. 당신은 그 사람에게 무엇인가를 필요로 하나요? 그 사람이 당신에게 어떻게 해주면, 당신은 행복해질까요? (오늘은 당신의 생일이라서 원하는 것은 뭐든지 가질 수 있다고 상상하세요.)
-                            </label>
-                            <div class="space-y-3 text-sm">
-                                <div class="flex flex-wrap items-center gap-2">
-                                    <input type="text" value="${this.escapeHtml(this.data.step4_subject)}" oninput="app.updateField('step4_subject', this.value)" placeholder="${targetHint}" class="w-32 px-3 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700">
-                                    <span>는(은)</span>
-                                    <input type="text" value="${this.escapeHtml(this.data.step4_needAction)}" oninput="app.updateField('step4_needAction', this.value)" placeholder="해주어야 하는 것" class="flex-1 min-w-[180px] px-3 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700">
-                                    <span>해야 한다.</span>
-                                </div>
-                                <div class="flex flex-wrap items-center gap-2">
-                                    <span>나는</span>
-                                    <input type="text" value="${this.escapeHtml(this.data.step4_needTarget)}" oninput="app.updateField('step4_needTarget', this.value)" placeholder="${targetHint}" class="w-32 px-3 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700">
-                                    <span>이(가)</span>
-                                    <input type="text" value="${this.escapeHtml(this.data.step4_happiness)}" oninput="app.updateField('step4_happiness', this.value)" placeholder="행복해지기 위해 필요로 하는 것" class="flex-1 min-w-[180px] px-3 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700">
-                                    <span>기를 필요로 한다.</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 질문 5 -->
-                        <div class="p-6 rounded-2xl bg-sand-50 dark:bg-zinc-800/50 border border-sand-200 dark:border-zinc-700 space-y-3">
-                            <label class="block text-sm font-semibold text-zinc-700 dark:text-zinc-300">
-                                5. 당신은 그 사람을 어떻게 생각하나요? 목록을 만들어 보세요. (관대하지 마세요.)
-                            </label>
-                            <div class="flex items-center space-x-2 text-sm mb-2">
-                                <input type="text" value="${this.escapeHtml(this.data.step5_subject)}" oninput="app.updateField('step5_subject', this.value)" placeholder="${targetHint}" class="w-36 px-3 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700">
-                                <span>는(은)</span>
-                            </div>
-                            <textarea oninput="app.updateField('step5_thoughts', this.value)" rows="3" placeholder="이기적이고, 무례하며, 나를 존중하지 않는다..." class="w-full p-3.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700 text-sm leading-relaxed">${this.escapeHtml(this.data.step5_thoughts)}</textarea>
-                        </div>
-
-                        <!-- 질문 6 -->
-                        <div class="p-6 rounded-2xl bg-sand-50 dark:bg-zinc-800/50 border border-sand-200 dark:border-zinc-700 space-y-3">
-                            <label class="block text-sm font-semibold text-zinc-700 dark:text-zinc-300">
-                                6. 당신이 그 사람이나 그것, 그 상황과 다시는 경험하고 싶지 않은 점은 무엇인가요?
-                            </label>
-                            <div class="space-y-3 text-sm">
-                                <div class="flex flex-wrap items-center gap-2">
-                                    <span>나는 앞으로 다시는</span>
-                                    <input type="text" value="${this.escapeHtml(this.data.step6_neverAgain)}" oninput="app.updateField('step6_neverAgain', this.value)" placeholder="다시는 경험하고 싶지 않은 것" class="flex-1 min-w-[200px] px-3 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700">
-                                    <span>하고 싶지 않다.</span>
-                                </div>
-                                <div class="flex flex-wrap items-center gap-2">
-                                    <span>나는 앞으로 다시는</span>
-                                    <input type="text" value="${this.escapeHtml(this.data.step6_needAgain)}" oninput="app.updateField('step6_needAgain', this.value)" placeholder="다시는 겪거나 하지 않겠다고 다짐하는 것" class="flex-1 min-w-[200px] px-3 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700">
-                                    <span>하지 않겠다.</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
-
-            // 2단계 템플릿 (스스로 하기: 탐구)
-            renderStep2() {
-                const defaultQuote = this.data.step1_reason
-                    ? `${this.data.step1_target || '그 사람'}: ${this.data.step1_reason}`
-                    : '';
-                return `
-                    <div class="space-y-6 fade-in">
-                        <div>
-                            <span class="inline-block px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 text-xs font-semibold mb-2">STEP 02</span>
-                            <h2 class="text-2xl font-bold tracking-tight">스스로 하기: 탐구</h2>
-                            <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-1">1단계에서 작성한 판단 문장 하나를 선택하여 아래 4가지 질문을 깊이 있게 탐구해보세요.</p>
-                        </div>
-
-                        <!-- 탐구할 문장 입력 -->
-                        <div class="p-5 rounded-2xl bg-amber-50/70 dark:bg-amber-900/20 border border-amber-200/70 dark:border-amber-800/40 space-y-2">
-                            <label class="block text-xs font-bold uppercase tracking-wider text-amber-800 dark:text-amber-300">탐구할 생각 (판단 문장)</label>
-                            <input type="text" value="${this.escapeHtml(this.data.inquiry_statement || defaultQuote)}" oninput="app.updateField('inquiry_statement', this.value)" placeholder="예: 철수는 내게 친절해야 한다." class="w-full px-4 py-3 rounded-xl bg-white dark:bg-zinc-900 border border-amber-300/70 dark:border-amber-700/50 focus:outline-none focus:ring-2 focus:ring-amber-700 text-sm font-medium">
-                        </div>
-
-                        <!-- 탐구 질문 1 -->
-                        <div class="p-6 rounded-2xl bg-sand-50 dark:bg-zinc-800/50 border border-sand-200 dark:border-zinc-700 space-y-3">
-                            <div class="flex flex-wrap items-center justify-between gap-2">
-                                <label class="text-base font-bold text-zinc-800 dark:text-zinc-100">1. 그게 진실인가요?</label>
-                                <div class="flex space-x-2">
-                                    <button type="button" onclick="app.selectOption('q1_choice', '예')" class="px-4 py-2 rounded-xl text-sm font-medium transition ${this.data.q1_choice === '예' ? 'bg-amber-700 text-white shadow-sm' : 'bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 text-zinc-600 dark:text-zinc-300'}">예</button>
-                                    <button type="button" onclick="app.selectOption('q1_choice', '아니오')" class="px-4 py-2 rounded-xl text-sm font-medium transition ${this.data.q1_choice === '아니오' ? 'bg-amber-700 text-white shadow-sm' : 'bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 text-zinc-600 dark:text-zinc-300'}">아니오</button>
-                                </div>
-                            </div>
-                            <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                                서두르지 마세요. '작업'은 가장 깊은 내면에서 무엇이 진실인지 발견하려는 것입니다. 마음을 열고, 내면의 진실이 떠올라 질문과 만나게 하세요.
-                            </p>
-                            <textarea oninput="app.updateField('q1_isTrue', this.value)" rows="2" placeholder="내면에서 떠오르는 대답과 느낌을 자유롭게 적어보세요..." class="w-full p-3.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700 text-sm leading-relaxed">${this.escapeHtml(this.data.q1_isTrue)}</textarea>
-                        </div>
-
-                        <!-- 탐구 질문 2 -->
-                        <div class="p-6 rounded-2xl bg-sand-50 dark:bg-zinc-800/50 border border-sand-200 dark:border-zinc-700 space-y-3">
-                            <div class="flex flex-wrap items-center justify-between gap-2">
-                                <label class="text-base font-bold text-zinc-800 dark:text-zinc-100">2. 당신은 그게 진실인지 확실히 알 수 있나요?</label>
-                                <div class="flex space-x-2">
-                                    <button type="button" onclick="app.selectOption('q2_choice', '예')" class="px-4 py-2 rounded-xl text-sm font-medium transition ${this.data.q2_choice === '예' ? 'bg-amber-700 text-white shadow-sm' : 'bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 text-zinc-600 dark:text-zinc-300'}">예</button>
-                                    <button type="button" onclick="app.selectOption('q2_choice', '아니오')" class="px-4 py-2 rounded-xl text-sm font-medium transition ${this.data.q2_choice === '아니오' ? 'bg-amber-700 text-white shadow-sm' : 'bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 text-zinc-600 dark:text-zinc-300'}">아니오</button>
-                                </div>
-                            </div>
-                            <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                                이미 안다고 생각하는 것 밑에 있는 대답을 발견해보세요. 당신에게 고통을 일으키는 것은 실제로는 겉으로 드러나지 않은 자신의 해석인 경우가 많습니다.
-                            </p>
-                            <textarea oninput="app.updateField('q2_absoluteTrue', this.value)" rows="2" placeholder="당신의 해석을 드러내고 진실을 숙고해 적어보세요..." class="w-full p-3.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700 text-sm leading-relaxed">${this.escapeHtml(this.data.q2_absoluteTrue)}</textarea>
-                        </div>
-
-                        <!-- 탐구 질문 3 -->
-                        <div class="p-6 rounded-2xl bg-sand-50 dark:bg-zinc-800/50 border border-sand-200 dark:border-zinc-700 space-y-3">
-                            <label class="block text-base font-bold text-zinc-800 dark:text-zinc-100">3. 그 생각을 할 때 당신은 어떻게 반응하나요?</label>
-                            <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                                목록을 만드세요. 자기를 어떻게 대하며, 상대방을 어떻게 대하나요? 그 사람에게 뭐라고 말하나요? 몸의 어느 부위에서 어떤 느낌(따끔따끔한, 화끈 달아오르는 등)이 드나요? 머릿속에서는 어떤 말들이 오가나요?
-                            </p>
-                            <textarea oninput="app.updateField('q3_reaction', this.value)" rows="4" placeholder="행동, 말, 신체 감각, 머릿속의 생각들을 구체적으로 적어보세요..." class="w-full p-3.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700 text-sm leading-relaxed">${this.escapeHtml(this.data.q3_reaction)}</textarea>
-                        </div>
-
-                        <!-- 탐구 질문 4 -->
-                        <div class="p-6 rounded-2xl bg-sand-50 dark:bg-zinc-800/50 border border-sand-200 dark:border-zinc-700 space-y-3">
-                            <label class="block text-base font-bold text-zinc-800 dark:text-zinc-100">4. 그 생각이 없다면, 당신은 누구일까요?</label>
-                            <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                                눈을 감고 기다리세요. 한 순간이라도 그 사람 앞에 있을 때 그 생각을 생각할 능력이 없었다고 상상해보세요. 무엇이 보이나요? 어떻게 느껴지나요? 같은 상황에서 그 사람을 어떻게 대할까요?
-                            </p>
-                            <textarea oninput="app.updateField('q4_whoWithoutThought', this.value)" rows="4" placeholder="그 관념이 없는 당신의 모습과 내면의 변화를 적어보세요..." class="w-full p-3.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700 text-sm leading-relaxed">${this.escapeHtml(this.data.q4_whoWithoutThought)}</textarea>
-                        </div>
-                    </div>
-                `;
-            }
-
-            // 3단계 템플릿 (뒤바꿔보세요)
-            renderStep3() {
-                const targetStatement = this.data.inquiry_statement || this.data.step1_reason || '(1단계에서 작성한 문장)';
-                return `
-                    <div class="space-y-6 fade-in">
-                        <div>
-                            <span class="inline-block px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 text-xs font-semibold mb-2">STEP 03</span>
-                            <h2 class="text-2xl font-bold tracking-tight">뒤바꿔보세요</h2>
-                            <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-1">처음 진술을 나 자신에게로, 상대방에게로, 그리고 정반대로 바꾸어 쓰며 무엇이 실제로 진실인지 숙고해보세요.</p>
-                        </div>
-
-                        <!-- 기준 문장 표시 -->
-                        <div class="p-4 rounded-2xl bg-amber-50/70 dark:bg-amber-900/20 border border-amber-200/70 dark:border-amber-800/40">
-                            <div class="text-xs font-bold text-amber-800 dark:text-amber-300 mb-1">원래 진술</div>
-                            <div class="text-sm font-medium text-zinc-800 dark:text-zinc-100">${this.escapeHtml(targetStatement)}</div>
-                        </div>
-
-                        <!-- 뒤바꾸기 1: 나 자신에게로 -->
-                        <div class="p-6 rounded-2xl bg-sand-50 dark:bg-zinc-800/50 border border-sand-200 dark:border-zinc-700 space-y-3">
-                            <label class="block text-sm font-bold text-zinc-800 dark:text-zinc-100">
-                                1. 나 자신에게로 뒤바꾸기 (예: "나는 내게 친절해야 한다")
-                            </label>
-                            <input type="text" value="${this.escapeHtml(this.data.turnaround_1)}" oninput="app.updateField('turnaround_1', this.value)" placeholder="나 자신에게 적용해 뒤바꾼 문장을 입력하세요..." class="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700 text-sm">
-                            <textarea oninput="app.updateField('turnaround_1_reasons', this.value)" rows="2" placeholder="이 뒤바꾸기가 처음 진술만큼 혹은 더 진실한 구체적인 이유를 적어보세요..." class="w-full p-3.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700 text-sm leading-relaxed">${this.escapeHtml(this.data.turnaround_1_reasons)}</textarea>
-                        </div>
-
-                        <!-- 뒤바꾸기 2: 상대방에게로 -->
-                        <div class="p-6 rounded-2xl bg-sand-50 dark:bg-zinc-800/50 border border-sand-200 dark:border-zinc-700 space-y-3">
-                            <label class="block text-sm font-bold text-zinc-800 dark:text-zinc-100">
-                                2. 상대방에게로 뒤바꾸기 (예: "나는 철수에게 친절해야 한다")
-                            </label>
-                            <input type="text" value="${this.escapeHtml(this.data.turnaround_2)}" oninput="app.updateField('turnaround_2', this.value)" placeholder="상대방에게 적용해 뒤바꾼 문장을 입력하세요..." class="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700 text-sm">
-                            <textarea oninput="app.updateField('turnaround_2_reasons', this.value)" rows="2" placeholder="이 뒤바꾸기가 진실하거나 더 진실한 구체적인 이유를 적어보세요..." class="w-full p-3.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700 text-sm leading-relaxed">${this.escapeHtml(this.data.turnaround_2_reasons)}</textarea>
-                        </div>
-
-                        <!-- 뒤바꾸기 3: 정반대로 -->
-                        <div class="p-6 rounded-2xl bg-sand-50 dark:bg-zinc-800/50 border border-sand-200 dark:border-zinc-700 space-y-3">
-                            <label class="block text-sm font-bold text-zinc-800 dark:text-zinc-100">
-                                3. 정반대로 뒤바꾸기 (예: "철수는 내게 친절하면 안 된다")
-                            </label>
-                            <input type="text" value="${this.escapeHtml(this.data.turnaround_3)}" oninput="app.updateField('turnaround_3', this.value)" placeholder="정반대로 뒤바꾼 문장을 입력하세요..." class="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700 text-sm">
-                            <textarea oninput="app.updateField('turnaround_3_reasons', this.value)" rows="2" placeholder="현실에 비추어 볼 때 이 뒤바꾸기가 진실한 이유를 적어보세요..." class="w-full p-3.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700 text-sm leading-relaxed">${this.escapeHtml(this.data.turnaround_3_reasons)}</textarea>
-                        </div>
-
-                        <!-- 6번 문항에 대한 뒤바꾸기 -->
-                        <div class="p-6 rounded-2xl bg-sand-50 dark:bg-zinc-800/50 border border-sand-200 dark:border-zinc-700 space-y-3">
-                            <label class="block text-sm font-bold text-zinc-800 dark:text-zinc-100">
-                                4. 6번 문항("다시는 ~하고 싶지 않다")에 대한 뒤바꾸기
-                            </label>
-                            <p class="text-xs text-zinc-500 dark:text-zinc-400">
-                                두려움이나 저항 대신 열린 마음으로 받아들이는 문장으로 바꾸어 보세요.
-                            </p>
-                            <div class="space-y-3 text-sm">
-                                <div class="flex flex-wrap items-center gap-2">
-                                    <span>나는 기꺼이</span>
-                                    <input type="text" value="${this.escapeHtml(this.data.willingTo)}" oninput="app.updateField('willingTo', this.value)" placeholder="기꺼이 경험하거나 받아들일 것" class="flex-1 min-w-[200px] px-3.5 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700">
-                                    <span>하겠다.</span>
-                                </div>
-                                <div class="flex flex-wrap items-center gap-2">
-                                    <span>나는</span>
-                                    <input type="text" value="${this.escapeHtml(this.data.lookForwardTo)}" oninput="app.updateField('lookForwardTo', this.value)" placeholder="고대하는 경험" class="flex-1 min-w-[200px] px-3.5 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-sand-300 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-amber-700">
-                                    <span>하기를 고대한다.</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
-
-            // 요약 텍스트 생성
-            generateSummaryText() {
-                return `[ 바이런 케이티의 작업 (The Work) 요약 기록 ]\n
---- [ STEP 1: 스스로에게 질문하기 ] ---
-1. 대상 및 감정: 나는 ${this.data.step1_target || '(미입력)'} 때문에 ${this.data.step1_emotion}.
-- 이유: ${this.data.step1_reason || '(미입력)'}
-
-2. 원하는 변화: 나는 ${this.data.step2_wantPerson || '(미입력)'}이(가) ${this.data.step2_wantAction || '(미입력)'}하기를 원한다.
-
-3. 해야 할 것 / 하지 말아야 할 것:
-- ${this.data.step3_subject || '(대상)'}는(은) ${this.data.step3_should || '(미입력)'} 해야 한다.
-- ${this.data.step3_subjectNot || '(대상)'}는(은) ${this.data.step3_shouldNot || '(미입력)'} 하지 말아야 한다.
-
-4. 필요로 하는 것:
-- ${this.data.step4_subject || '(대상)'}는(은) ${this.data.step4_needAction || '(미입력)'} 해야 한다.
-- 나는 ${this.data.step4_needTarget || '(대상)'}이(가) ${this.data.step4_happiness || '(미입력)'}기를 필요로 한다.
-
-5. 상대에 대한 생각: ${this.data.step5_subject || '(대상)'}는(은) ${this.data.step5_thoughts || '(미입력)'}
-
-6. 다시 경험하고 싶지 않은 것:
-- 나는 앞으로 다시는 ${this.data.step6_neverAgain || '(미입력)'} 하고 싶지 않다.
-- 나는 앞으로 다시는 ${this.data.step6_needAgain || '(미입력)'} 하지 않겠다.
-
---- [ STEP 2: 스스로 하기 (탐구) ] ---
-* 탐구 문장: ${this.data.inquiry_statement || '(미입력)'}
-1. 그게 진실인가요? [${this.data.q1_choice || '미선택'}]: ${this.data.q1_isTrue || '(미입력)'}
-2. 확실히 알 수 있나요? [${this.data.q2_choice || '미선택'}]: ${this.data.q2_absoluteTrue || '(미입력)'}
-3. 그 생각을 할 때의 반응: ${this.data.q3_reaction || '(미입력)'}
-4. 그 생각이 없다면 누구일까요?: ${this.data.q4_whoWithoutThought || '(미입력)'}
-
---- [ STEP 3: 뒤바꿔보세요 ] ---
-1. 나 자신에게로 뒤바꾸기: ${this.data.turnaround_1 || '(미입력)'}
-- 이유/예시: ${this.data.turnaround_1_reasons || '(미입력)'}
-2. 상대방에게로 뒤바꾸기: ${this.data.turnaround_2 || '(미입력)'}
-- 이유/예시: ${this.data.turnaround_2_reasons || '(미입력)'}
-3. 정반대로 뒤바꾸기: ${this.data.turnaround_3 || '(미입력)'}
-- 이유/예시: ${this.data.turnaround_3_reasons || '(미입력)'}
-4. 6번 문항 뒤바꾸기:
-- 나는 기꺼이 ${this.data.willingTo || '(미입력)'} 하겠다.
-- 나는 ${this.data.lookForwardTo || '(미입력)'} 하기를 고대한다.`;
-            }
-
-            // 캡처용 시각적 요약 리포트 HTML 생성 (1~3단계 전체 포함)
-            generateSummaryHtml() {
-                const esc = (val, fallback = '미입력') => {
-                    const trimmed = (val || '').trim();
-                    return trimmed
-                        ? `<span class="text-zinc-900 font-medium">${this.escapeHtml(trimmed)}</span>`
-                        : `<span class="text-zinc-400 italic">(${fallback})</span>`;
-                };
-                const blockText = (val, fallback = '작성된 내용이 없습니다.') => {
-                    const trimmed = (val || '').trim();
-                    return trimmed
-                        ? `<div class="mt-1.5 p-3 rounded-xl bg-white border border-sand-200 text-zinc-800 whitespace-pre-wrap leading-relaxed">${this.escapeHtml(trimmed)}</div>`
-                        : `<div class="mt-1.5 p-3 rounded-xl bg-white/60 border border-dashed border-sand-300 text-zinc-400 italic text-xs">(${fallback})</div>`;
-                };
-
-                const today = new Date();
-                const dateStr = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
-                const targetName = this.escapeHtml((this.data.step1_target || '').trim() || '대상');
-
-                return `
-                    <!-- 리포트 상단 헤더 -->
-                    <div class="border-b-2 border-amber-700/30 pb-4 flex items-center justify-between">
-                        <div>
-                            <div class="text-xs font-bold tracking-wider text-amber-800 uppercase">THE WORK OF BYRON KATIE</div>
-                            <h2 class="text-xl font-bold text-zinc-900 mt-0.5">바이런 케이티의 작업 요약</h2>
-                        </div>
-                        <div class="text-right text-xs text-zinc-500">
-                            <div>작성일: ${dateStr}</div>
-                            <div class="mt-0.5 font-medium text-amber-800">대상: ${targetName}</div>
-                        </div>
-                    </div>
-
-                    <!-- 1. 스스로에게 질문하기 -->
-                    <div class="space-y-3">
-                        <div class="flex items-center space-x-2">
-                            <span class="px-2.5 py-0.5 rounded-full bg-amber-700 text-white text-xs font-bold">1</span>
-                            <h3 class="text-base font-bold text-zinc-900">스스로에게 질문하기</h3>
-                        </div>
-                        <div class="p-4 rounded-2xl bg-sand-100/80 border border-sand-200 space-y-3 text-sm">
-                            <div>
-                                <div class="text-xs font-bold text-amber-900 mb-1">1) 대상과 감정 및 이유</div>
-                                <div>나는 ${esc(this.data.step1_target, '이름')} 때문에 <span class="font-semibold text-amber-800">${this.escapeHtml(this.data.step1_emotion)}</span>. 왜냐하면:</div>
-                                ${blockText(this.data.step1_reason)}
-                            </div>
-                            <div class="pt-2 border-t border-sand-200/80">
-                                <div class="text-xs font-bold text-amber-900 mb-1">2) 원하는 변화</div>
-                                <div>나는 ${esc(this.data.step2_wantPerson, targetName)}이(가) ${esc(this.data.step2_wantAction)} 하기를 원한다.</div>
-                            </div>
-                            <div class="pt-2 border-t border-sand-200/80 space-y-1">
-                                <div class="text-xs font-bold text-amber-900 mb-1">3) 해야 할 것 / 하지 말아야 할 것</div>
-                                <div>• ${esc(this.data.step3_subject, targetName)}는(은) ${esc(this.data.step3_should)} 해야 한다.</div>
-                                <div>• ${esc(this.data.step3_subjectNot, targetName)}는(은) ${esc(this.data.step3_shouldNot)} 하지 말아야 한다.</div>
-                            </div>
-                            <div class="pt-2 border-t border-sand-200/80 space-y-1">
-                                <div class="text-xs font-bold text-amber-900 mb-1">4) 필요로 하는 것</div>
-                                <div>• ${esc(this.data.step4_subject, targetName)}는(은) ${esc(this.data.step4_needAction)} 해야 한다.</div>
-                                <div>• 나는 ${esc(this.data.step4_needTarget, targetName)}이(가) ${esc(this.data.step4_happiness)}기를 필요로 한다.</div>
-                            </div>
-                            <div class="pt-2 border-t border-sand-200/80">
-                                <div class="text-xs font-bold text-amber-900 mb-1">5) 그 사람에 대한 생각 목록</div>
-                                <div>${esc(this.data.step5_subject, targetName)}는(은):</div>
-                                ${blockText(this.data.step5_thoughts)}
-                            </div>
-                            <div class="pt-2 border-t border-sand-200/80 space-y-1">
-                                <div class="text-xs font-bold text-amber-900 mb-1">6) 다시는 경험하고 싶지 않은 점</div>
-                                <div>• 나는 앞으로 다시는 ${esc(this.data.step6_neverAgain)} 하고 싶지 않다.</div>
-                                <div>• 나는 앞으로 다시는 ${esc(this.data.step6_needAgain)} 하지 않겠다.</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 2. 스스로 하기: 탐구 -->
-                    <div class="space-y-3">
-                        <div class="flex items-center space-x-2">
-                            <span class="px-2.5 py-0.5 rounded-full bg-amber-700 text-white text-xs font-bold">2</span>
-                            <h3 class="text-base font-bold text-zinc-900">스스로 하기: 탐구</h3>
-                        </div>
-                        <div class="p-4 rounded-2xl bg-sand-100/80 border border-sand-200 space-y-3 text-sm">
-                            <div class="p-3 rounded-xl bg-amber-50 border border-amber-200">
-                                <span class="text-xs font-bold text-amber-800 block mb-0.5">탐구한 판단 문장</span>
-                                <div>${esc(this.data.inquiry_statement || this.data.step1_reason)}</div>
-                            </div>
-                            <div>
-                                <div class="flex items-center justify-between">
-                                    <span class="text-xs font-bold text-amber-900">1) 그게 진실인가요?</span>
-                                    <span class="px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 text-xs font-bold">${this.escapeHtml(this.data.q1_choice || '미선택')}</span>
-                                </div>
-                                ${blockText(this.data.q1_isTrue)}
-                            </div>
-                            <div class="pt-2 border-t border-sand-200/80">
-                                <div class="flex items-center justify-between">
-                                    <span class="text-xs font-bold text-amber-900">2) 그게 진실인지 확실히 알 수 있나요?</span>
-                                    <span class="px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 text-xs font-bold">${this.escapeHtml(this.data.q2_choice || '미선택')}</span>
-                                </div>
-                                ${blockText(this.data.q2_absoluteTrue)}
-                            </div>
-                            <div class="pt-2 border-t border-sand-200/80">
-                                <div class="text-xs font-bold text-amber-900">3) 그 생각을 할 때 당신은 어떻게 반응하나요?</div>
-                                ${blockText(this.data.q3_reaction)}
-                            </div>
-                            <div class="pt-2 border-t border-sand-200/80">
-                                <div class="text-xs font-bold text-amber-900">4) 그 생각이 없다면, 당신은 누구일까요?</div>
-                                ${blockText(this.data.q4_whoWithoutThought)}
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 3. 뒤바꿔보세요 -->
-                    <div class="space-y-3">
-                        <div class="flex items-center space-x-2">
-                            <span class="px-2.5 py-0.5 rounded-full bg-amber-700 text-white text-xs font-bold">3</span>
-                            <h3 class="text-base font-bold text-zinc-900">뒤바꿔보세요</h3>
-                        </div>
-                        <div class="p-4 rounded-2xl bg-sand-100/80 border border-sand-200 space-y-3 text-sm">
-                            <div>
-                                <div class="text-xs font-bold text-amber-900 mb-1">1) 나 자신에게로 뒤바꾸기</div>
-                                <div class="font-semibold text-zinc-900">→ ${esc(this.data.turnaround_1)}</div>
-                                ${blockText(this.data.turnaround_1_reasons, '이유 및 예시 미입력')}
-                            </div>
-                            <div class="pt-2 border-t border-sand-200/80">
-                                <div class="text-xs font-bold text-amber-900 mb-1">2) 상대방에게로 뒤바꾸기</div>
-                                <div class="font-semibold text-zinc-900">→ ${esc(this.data.turnaround_2)}</div>
-                                ${blockText(this.data.turnaround_2_reasons, '이유 및 예시 미입력')}
-                            </div>
-                            <div class="pt-2 border-t border-sand-200/80">
-                                <div class="text-xs font-bold text-amber-900 mb-1">3) 정반대로 뒤바꾸기</div>
-                                <div class="font-semibold text-zinc-900">→ ${esc(this.data.turnaround_3)}</div>
-                                ${blockText(this.data.turnaround_3_reasons, '이유 및 예시 미입력')}
-                            </div>
-                            <div class="pt-2 border-t border-sand-200/80 space-y-1">
-                                <div class="text-xs font-bold text-amber-900 mb-1">4) 6번 문항에 대한 뒤바꾸기</div>
-                                <div>• 나는 기꺼이 ${esc(this.data.willingTo)} 하겠다.</div>
-                                <div>• 나는 ${esc(this.data.lookForwardTo)} 하기를 고대한다.</div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
-
-            // 모달 오픈 및 시각적 요약 리포트 렌더링
-            exportModal() {
-                const captureArea = document.getElementById('captureSummaryArea');
-                if (captureArea) {
-                    captureArea.innerHTML = this.generateSummaryHtml();
-                }
-                document.getElementById('exportModal').classList.remove('hidden');
-                document.getElementById('exportModal').classList.add('flex');
-            }
-
-            closeModal() {
-                document.getElementById('exportModal').classList.remove('flex');
-                document.getElementById('exportModal').classList.add('hidden');
-            }
-
-            // 요약 영역을 고해상도 PNG Blob으로 캡처
-            async captureSummaryBlob() {
-                const element = document.getElementById('captureSummaryArea');
-                if (!element || typeof html2canvas === 'undefined') {
-                    throw new Error('이미지 캡처 도구를 불러올 수 없습니다.');
-                }
-                const canvas = await html2canvas(element, {
-                    scale: 2,
-                    backgroundColor: '#fcfbfa',
-                    useCORS: true,
-                    logging: false
-                });
-                return new Promise((resolve, reject) => {
-                    canvas.toBlob((blob) => {
-                        if (blob) resolve(blob);
-                        else reject(new Error('이미지 변환에 실패했습니다.'));
-                    }, 'image/png');
-                });
-            }
-
-            // Blob 파일 다운로드 헬퍼
-            triggerBlobDownload(blob, filename) {
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = filename;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                setTimeout(() => URL.revokeObjectURL(url), 1000);
-            }
-
-            // 이미지 파일로 즉시 저장
-            async downloadSummaryImage() {
-                const btn = document.getElementById('saveImgBtn');
-                const originalHtml = btn ? btn.innerHTML : '';
-                try {
-                    if (btn) {
-                        btn.disabled = true;
-                        btn.innerHTML = '<span>⏳ 이미지 생성 중...</span>';
-                    }
-                    const blob = await this.captureSummaryBlob();
-                    const dateTag = new Date().toISOString().slice(0, 10);
-                    this.triggerBlobDownload(blob, `바이런케이티_작업_요약_${dateTag}.png`);
-                    this.showAlert('1~3단계 요약 이미지가 저장되었습니다.');
-                } catch (err) {
-                    console.error(err);
-                    this.showAlert('이미지 저장 중 오류가 발생했습니다.');
-                } finally {
-                    if (btn) {
-                        btn.disabled = false;
-                        btn.innerHTML = originalHtml;
-                    }
-                }
-            }
-
-            // 카카오톡 이미지 공유 (태블릿 Web Share API 활용 + 미지원 환경 자동 저장 폴백)
-            async shareSummaryImage() {
-                const btn = document.getElementById('kakaoShareBtn');
-                const originalHtml = btn ? btn.innerHTML : '';
-                try {
-                    if (btn) {
-                        btn.disabled = true;
-                        btn.innerHTML = '<span>⏳ 이미지 준비 중...</span>';
-                    }
-                    const blob = await this.captureSummaryBlob();
-                    const dateTag = new Date().toISOString().slice(0, 10);
-                    const fileName = `바이런케이티_작업_요약_${dateTag}.png`;
-                    const imageFile = new File([blob], fileName, { type: 'image/png' });
-
-                    // 태블릿/모바일 브라우저의 파일 공유 시트 호출 (카카오톡 직접 선택 가능)
-                    if (navigator.share && navigator.canShare && navigator.canShare({ files: [imageFile] })) {
-                        await navigator.share({
-                            files: [imageFile],
-                            title: '바이런 케이티의 작업 (The Work)',
-                            text: '1. 스스로에게 질문하기 · 2. 탐구 · 3. 뒤바꿔보세요 요약 이미지'
-                        });
-                    } else {
-                        // 공유 시트를 지원하지 않거나 제한된 환경일 경우 이미지 자동 저장 후 안내
-                        this.triggerBlobDownload(blob, fileName);
-                        this.showAlert('요약 이미지가 기기에 저장되었습니다. 카카오톡을 열어 저장된 이미지를 선택해 바로 공유하실 수 있습니다.');
-                    }
-                } catch (err) {
-                    // 사용자가 공유 창을 직접 닫은 경우(AbortError)는 무시
-                    if (err && err.name !== 'AbortError') {
-                        console.error('공유 오류:', err);
-                        try {
-                            const blob = await this.captureSummaryBlob();
-                            const dateTag = new Date().toISOString().slice(0, 10);
-                            this.triggerBlobDownload(blob, `바이런케이티_작업_요약_${dateTag}.png`);
-                            this.showAlert('공유 창을 열 수 없어 요약 이미지를 기기에 저장했습니다. 카카오톡에서 저장된 이미지를 첨부해 공유해주세요.');
-                        } catch (fallbackErr) {
-                            this.showAlert('이미지 생성 중 오류가 발생했습니다.');
-                        }
-                    }
-                } finally {
-                    if (btn) {
-                        btn.disabled = false;
-                        btn.innerHTML = originalHtml;
-                    }
-                }
-            }
-
-            copyToClipboard() {
-                const text = this.generateSummaryText();
-                const textArea = document.createElement("textarea");
-                textArea.value = text;
-                document.body.appendChild(textArea);
-                textArea.select();
-                try {
-                    document.execCommand('copy');
-                    this.showAlert("요약 내용이 클립보드에 복사되었습니다.");
-                } catch (err) {
-                    this.showAlert("복사에 실패했습니다.");
-                }
-                document.body.removeChild(textArea);
-            }
-
-            downloadTxt() {
-                const text = this.generateSummaryText();
-                const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = '바이런케이티_작업_기록.txt';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            }
-
-            // 초기화 확인 모달 열기 (confirm 대체)
-            resetData() {
-                document.getElementById('confirmModal').classList.remove('hidden');
-                document.getElementById('confirmModal').classList.add('flex');
-            }
-
-            closeConfirm() {
-                document.getElementById('confirmModal').classList.remove('flex');
-                document.getElementById('confirmModal').classList.add('hidden');
-            }
-
-            confirmReset() {
-                localStorage.removeItem('the_work_tablet_data');
-                this.data = this.loadData();
-                this.currentStep = 1;
-                this.render();
-                this.closeConfirm();
-                this.showAlert("모든 내용이 초기화되었습니다.");
-            }
-
-            showAlert(msg) {
-                document.getElementById('alertMessage').innerText = msg;
-                document.getElementById('alertModal').classList.remove('hidden');
-                document.getElementById('alertModal').classList.add('flex');
-            }
-
-            closeAlert() {
-                document.getElementById('alertModal').classList.remove('flex');
-                document.getElementById('alertModal').classList.add('hidden');
-            }
+  </div>
+
+  <!-- 토스트 메시지 -->
+  <div class="toast" id="toastMsg"></div>
+
+  <!-- 인라인 입력창 너비 계산용 미러 -->
+  <span id="textMeasureMirror"></span>
+
+  <script>
+    class TheWorkApp {
+      constructor() {
+        this.storageKey = 'the_work_tablet_workbook_v2';
+        this.currentStep = 1;
+        this.activeInquiryIndex = 1; // 1~5번 진술 중 현재 탐구 중인 번호
+        this.state = this.loadState();
+
+        window.addEventListener('resize', () => {
+          this.autoResizeAll();
+        });
+        window.addEventListener('orientationchange', () => {
+          setTimeout(() => this.autoResizeAll(), 120);
+        });
+
+        this.render();
+      }
+
+      getDefaultState() {
+        return {
+          targetName: '',
+          q1Emotion: '화가 난다',
+          q1Reason: '',
+          q2Want: '',
+          q3Should: '',
+          q3ShouldNot: '',
+          q4Should: '',
+          q4Need: '',
+          q5Thoughts: '',
+          q6NoMoreWant: '',
+          q6NoMoreDo: '',
+          // 1~5번 진술별 2단계 탐구 데이터
+          inquiries: {
+            1: { q1Yn: '', q1Text: '', q2Yn: '', q2Text: '', q3Text: '', q4Text: '' },
+            2: { q1Yn: '', q1Text: '', q2Yn: '', q2Text: '', q3Text: '', q4Text: '' },
+            3: { q1Yn: '', q1Text: '', q2Yn: '', q2Text: '', q3Text: '', q4Text: '' },
+            4: { q1Yn: '', q1Text: '', q2Yn: '', q2Text: '', q3Text: '', q4Text: '' },
+            5: { q1Yn: '', q1Text: '', q2Yn: '', q2Text: '', q3Text: '', q4Text: '' }
+          },
+          // 3단계 뒤바꾸기 데이터
+          turnarounds: [
+            { statement: '', reason: '' },
+            { statement: '', reason: '' },
+            { statement: '', reason: '' },
+            { statement: '', reason: '' }
+          ],
+          q6TurnaroundWilling: '',
+          q6TurnaroundLookForward: ''
+        };
+      }
+
+      loadState() {
+        try {
+          const saved = localStorage.getItem(this.storageKey);
+          if (!saved) return this.getDefaultState();
+          const parsed = JSON.parse(saved);
+          const def = this.getDefaultState();
+          return {
+            ...def,
+            ...parsed,
+            inquiries: { ...def.inquiries, ...(parsed.inquiries || {}) },
+            turnarounds: parsed.turnarounds && parsed.turnarounds.length === 4 ? parsed.turnarounds : def.turnarounds
+          };
+        } catch (e) {
+          return this.getDefaultState();
+        }
+      }
+
+      saveState() {
+        try {
+          localStorage.setItem(this.storageKey, JSON.stringify(this.state));
+          const badge = document.getElementById('saveStatus');
+          if (badge) {
+            badge.textContent = '저장 완료';
+            clearTimeout(this.saveTimer);
+            this.saveTimer = setTimeout(() => {
+              badge.textContent = '자동 저장됨';
+            }, 1200);
+          }
+        } catch (e) {
+          console.error('Save failed', e);
+        }
+      }
+
+      escapeHtml(str) {
+        if (str === null || str === undefined) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      getDisplayName() {
+        const name = (this.state.targetName || '').trim();
+        return name || '그 사람';
+      }
+
+      setStep(step) {
+        this.currentStep = step;
+        document.querySelectorAll('.step-tab').forEach(tab => {
+          tab.classList.toggle('active', Number(tab.dataset.step) === step);
+        });
+        this.render();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      updateField(key, value) {
+        this.state[key] = value;
+        this.saveState();
+        if (key === 'targetName') {
+          const display = this.getDisplayName();
+          document.querySelectorAll('.js-target-display').forEach(el => {
+            el.textContent = display;
+          });
+        }
+      }
+
+      selectEmotion(emotion) {
+        this.state.q1Emotion = emotion;
+        this.saveState();
+        const emotionInput = document.getElementById('q1EmotionInput');
+        if (emotionInput) {
+          emotionInput.value = emotion;
+          this.autoResizeElement(emotionInput);
+        }
+        document.querySelectorAll('.js-emotion-chip').forEach(btn => {
+          btn.classList.toggle('selected', btn.dataset.emotion === emotion);
+        });
+      }
+
+      setInquiryIndex(idx) {
+        this.activeInquiryIndex = idx;
+        this.render();
+      }
+
+      updateInquiryField(field, value) {
+        const idx = this.activeInquiryIndex;
+        if (!this.state.inquiries[idx]) {
+          this.state.inquiries[idx] = { q1Yn: '', q1Text: '', q2Yn: '', q2Text: '', q3Text: '', q4Text: '' };
+        }
+        this.state.inquiries[idx][field] = value;
+        this.saveState();
+      }
+
+      selectInquiryYn(field, val) {
+        this.updateInquiryField(field, val);
+        this.render();
+      }
+
+      updateTurnaround(index, field, value) {
+        this.state.turnarounds[index][field] = value;
+        this.saveState();
+      }
+
+      /* 모든 입력창의 스크롤 제거 + 글자 양에 따른 자동 너비/높이 확장 */
+      autoResizeElement(el) {
+        if (!el) return;
+        const mirror = document.getElementById('textMeasureMirror');
+
+        // 문장 속 인라인 입력창인 경우: 텍스트 길이에 따라 가로 확장 후, 컨테이너 폭 초과 시 자동 줄바꿈 + 세로 확장
+        if (el.classList.contains('inline-auto-field') && mirror) {
+          const container = el.parentElement;
+          const maxWidth = container ? Math.max(200, container.clientWidth - 36) : 600;
+          const minWidth = Number(el.dataset.minWidth || 150);
+          const sampleText = el.value || el.placeholder || '';
+          const firstLine = sampleText.split('\n')[0];
+
+          mirror.style.fontSize = window.getComputedStyle(el).fontSize;
+          mirror.style.fontWeight = window.getComputedStyle(el).fontWeight;
+          mirror.textContent = firstLine;
+
+          const measuredWidth = mirror.offsetWidth + 24;
+          if (sampleText.includes('\n') || measuredWidth >= maxWidth) {
+            el.style.width = '100%';
+          } else {
+            el.style.width = Math.min(Math.max(minWidth, measuredWidth), maxWidth) + 'px';
+          }
         }
 
-        // 전역 window 객체에 즉시 앱 인스턴스를 생성·할당하여 버튼 클릭 시 ReferenceError 방지
-        window.app = new TheWorkApp();
-    </script>
+        // 세로 높이를 내용에 맞게 즉시 재조정 (스크롤바 제거)
+        el.style.height = 'auto';
+        el.style.height = el.scrollHeight + 'px';
+      }
+
+      autoResizeAll() {
+        document.querySelectorAll('textarea.auto-field, textarea.inline-auto-field').forEach(el => {
+          this.autoResizeElement(el);
+        });
+      }
+
+      attachAutoResizeEvents() {
+        const fields = document.querySelectorAll('textarea.auto-field, textarea.inline-auto-field');
+        fields.forEach(el => {
+          this.autoResizeElement(el);
+          el.addEventListener('input', () => this.autoResizeElement(el));
+        });
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(() => {
+            document.querySelectorAll('textarea.auto-field, textarea.inline-auto-field').forEach(el => {
+              this.autoResizeElement(el);
+            });
+          });
+        }
+      }
+
+      getStatementSummary(num) {
+        const name = this.getDisplayName();
+        switch (num) {
+          case 1: {
+            const emo = (this.state.q1Emotion || '').trim() || '화가 난다';
+            const reason = (this.state.q1Reason || '').trim();
+            return reason
+              ? `나는 ${name} 때문에 ${emo}. 왜냐하면 ${reason} 때문이다.`
+              : `나는 ${name} 때문에 ${emo}. (1번 이유 미작성)`;
+          }
+          case 2: {
+            const want = (this.state.q2Want || '').trim();
+            return want
+              ? `나는 ${name} 이(가) ${want} 하기를 원한다.`
+              : `나는 ${name} 이(가) [원하는 변화] 하기를 원한다. (2번 미작성)`;
+          }
+          case 3: {
+            const s1 = (this.state.q3Should || '').trim();
+            const s2 = (this.state.q3ShouldNot || '').trim();
+            const parts = [];
+            if (s1) parts.push(`${name} 는(은) ${s1} 해야 한다.`);
+            if (s2) parts.push(`${name} 는(은) ${s2} 하지 말아야 한다.`);
+            return parts.length ? parts.join('\n') : `${name} 는(은) ~ 해야 한다 / 하지 말아야 한다. (3번 미작성)`;
+          }
+          case 4: {
+            const n1 = (this.state.q4Should || '').trim();
+            const n2 = (this.state.q4Need || '').trim();
+            const parts = [];
+            if (n1) parts.push(`${name} 는(은) ${n1} 해야 한다.`);
+            if (n2) parts.push(`나는 ${name} 이(가) ${n2} 기를 필요로 한다.`);
+            return parts.length ? parts.join('\n') : `나는 ${name} 이(가) ~ 기를 필요로 한다. (4번 미작성)`;
+          }
+          case 5: {
+            const t = (this.state.q5Thoughts || '').trim();
+            return t
+              ? `${name} 는(은) ${t}`
+              : `${name} 는(은) [생각 목록] (5번 미작성)`;
+          }
+          default:
+            return '';
+        }
+      }
+
+      render() {
+        const container = document.getElementById('appContent');
+        if (!container) return;
+
+        if (this.currentStep === 1) {
+          container.innerHTML = this.renderStep1();
+        } else if (this.currentStep === 2) {
+          container.innerHTML = this.renderStep2();
+        } else {
+          container.innerHTML = this.renderStep3();
+        }
+
+        requestAnimationFrame(() => {
+          this.attachAutoResizeEvents();
+        });
+      }
+
+      renderStep1() {
+        const nameDisplay = this.escapeHtml(this.getDisplayName());
+        const emotions = ['화가 난다', '슬프다', '혼란스럽다', '두렵다', '실망스럽다'];
+
+        return `
+          <div class="guide-banner">
+            <h2>1단계. 스스로에게 질문하기</h2>
+            <p>
+              당신을 화나게 하거나 슬프게 하거나 실망시키는 사람은 누구인가요? 당신은 그 사람의 어떤 점이 맘에 들지 않았나요?<br />
+              <strong>(가혹하고 유치하며 편협하게 쓰세요. 검열하지 말고 떠오르는 그대로 적어보세요.)</strong>
+            </p>
+          </div>
+
+          <!-- 1번 문항 -->
+          <section class="q-card">
+            <div class="q-header">
+              <span class="q-badge">질문 1</span>
+              <div>
+                <h3 class="q-title">당신을 화나게 하거나 슬프게 하거나 실망시키는 사람은 누구이며, 그 이유는 무엇인가요?</h3>
+                <p class="q-hint">감정을 선택하거나 직접 수정하고, 이유를 자유롭게 적어주세요.</p>
+              </div>
+            </div>
+
+            <div class="emotion-chips">
+              ${emotions.map(emo => `
+                <button type="button"
+                  class="chip-btn js-emotion-chip ${this.state.q1Emotion === emo ? 'selected' : ''}"
+                  data-emotion="${emo}"
+                  onclick="app.selectEmotion('${emo}')">${emo}</button>
+              `).join('')}
+            </div>
+
+            <div class="sentence-flow">
+              <span class="sentence-text">나는 (이름:</span>
+              <textarea rows="1"
+                class="inline-auto-field"
+                data-min-width="140"
+                placeholder="상대방 이름"
+                oninput="app.updateField('targetName', this.value)">${this.escapeHtml(this.state.targetName)}</textarea>
+              <span class="sentence-text">) 때문에</span>
+              <textarea rows="1"
+                id="q1EmotionInput"
+                class="inline-auto-field"
+                data-min-width="140"
+                placeholder="감정 (예: 화가 난다)"
+                oninput="app.updateField('q1Emotion', this.value)">${this.escapeHtml(this.state.q1Emotion)}</textarea>
+              <span class="sentence-text">. 왜냐하면</span>
+              <textarea rows="1"
+                class="inline-auto-field"
+                data-min-width="260"
+                placeholder="그 사람 때문에 힘든 구체적인 이유를 적어주세요"
+                oninput="app.updateField('q1Reason', this.value)">${this.escapeHtml(this.state.q1Reason)}</textarea>
+              <span class="sentence-text">때문이다.</span>
+            </div>
+          </section>
+
+          <!-- 2번 문항 -->
+          <section class="q-card">
+            <div class="q-header">
+              <span class="q-badge">질문 2</span>
+              <div>
+                <h3 class="q-title">당신은 그 사람이 어떻게 바뀌기를 원하나요? 당신은 그 사람이 어떻게 하기를 원하나요?</h3>
+              </div>
+            </div>
+
+            <div class="sentence-flow">
+              <span class="sentence-text">나는</span>
+              <span class="target-pill js-target-display">${nameDisplay}</span>
+              <span class="sentence-text">이(가)</span>
+              <textarea rows="1"
+                class="inline-auto-field"
+                data-min-width="260"
+                placeholder="어떻게 바뀌고 행동하기를 원하는지 적어주세요"
+                oninput="app.updateField('q2Want', this.value)">${this.escapeHtml(this.state.q2Want)}</textarea>
+              <span class="sentence-text">하기를 원한다.</span>
+            </div>
+          </section>
+
+          <!-- 3번 문항 -->
+          <section class="q-card">
+            <div class="q-header">
+              <span class="q-badge">질문 3</span>
+              <div>
+                <h3 class="q-title">그 사람이 해야 하거나 하지 말아야 할 것들(행위, 태도, 생각, 느낌 등)은 무엇인가요?</h3>
+              </div>
+            </div>
+
+            <div class="sentence-flow">
+              <span class="target-pill js-target-display">${nameDisplay}</span>
+              <span class="sentence-text">는(은)</span>
+              <textarea rows="1"
+                class="inline-auto-field"
+                data-min-width="260"
+                placeholder="해야 할 행위, 태도, 생각, 느낌"
+                oninput="app.updateField('q3Should', this.value)">${this.escapeHtml(this.state.q3Should)}</textarea>
+              <span class="sentence-text">해야 한다.</span>
+            </div>
+
+            <div class="sentence-flow">
+              <span class="target-pill js-target-display">${nameDisplay}</span>
+              <span class="sentence-text">는(은)</span>
+              <textarea rows="1"
+                class="inline-auto-field"
+                data-min-width="260"
+                placeholder="하지 말아야 할 행위, 태도, 생각, 느낌"
+                oninput="app.updateField('q3ShouldNot', this.value)">${this.escapeHtml(this.state.q3ShouldNot)}</textarea>
+              <span class="sentence-text">하지 말아야 한다.</span>
+            </div>
+          </section>
+
+          <!-- 4번 문항 -->
+          <section class="q-card">
+            <div class="q-header">
+              <span class="q-badge">질문 4</span>
+              <div>
+                <h3 class="q-title">당신은 그 사람에게 무엇인가를 필요로 하나요? 그 사람이 당신에게 어떻게 해주면, 당신은 행복해질까요?</h3>
+                <p class="q-hint">(오늘은 당신의 생일이라서 원하는 것은 뭐든지 가질 수 있다고 상상하세요.)</p>
+              </div>
+            </div>
+
+            <div class="sentence-flow">
+              <span class="target-pill js-target-display">${nameDisplay}</span>
+              <span class="sentence-text">는(은)</span>
+              <textarea rows="1"
+                class="inline-auto-field"
+                data-min-width="260"
+                placeholder="나를 행복하게 해주기 위해 해야 할 것"
+                oninput="app.updateField('q4Should', this.value)">${this.escapeHtml(this.state.q4Should)}</textarea>
+              <span class="sentence-text">해야 한다.</span>
+            </div>
+
+            <div class="sentence-flow">
+              <span class="sentence-text">나는</span>
+              <span class="target-pill js-target-display">${nameDisplay}</span>
+              <span class="sentence-text">이(가)</span>
+              <textarea rows="1"
+                class="inline-auto-field"
+                data-min-width="260"
+                placeholder="필요로 하는 말, 행동, 태도"
+                oninput="app.updateField('q4Need', this.value)">${this.escapeHtml(this.state.q4Need)}</textarea>
+              <span class="sentence-text">기를 필요로 한다.</span>
+            </div>
+          </section>
+
+          <!-- 5번 문항 -->
+          <section class="q-card">
+            <div class="q-header">
+              <span class="q-badge">질문 5</span>
+              <div>
+                <h3 class="q-title">당신은 그 사람을 어떻게 생각하나요? 목록을 만들어 보세요.</h3>
+                <p class="q-hint">(관대하지 마세요. 판단하는 단어와 문장을 모두 적어보세요.)</p>
+              </div>
+            </div>
+
+            <div class="sentence-flow">
+              <span class="target-pill js-target-display">${nameDisplay}</span>
+              <span class="sentence-text">는(은)</span>
+              <textarea rows="1"
+                class="inline-auto-field"
+                data-min-width="280"
+                placeholder="이기적이다, 무책임하다, 내 마음을 몰라준다 등 생각나는 대로 나열해보세요"
+                oninput="app.updateField('q5Thoughts', this.value)">${this.escapeHtml(this.state.q5Thoughts)}</textarea>
+            </div>
+          </section>
+
+          <!-- 6번 문항 -->
+          <section class="q-card">
+            <div class="q-header">
+              <span class="q-badge">질문 6</span>
+              <div>
+                <h3 class="q-title">당신이 그 사람이나 그것, 그 상황과 다시는 경험하고 싶지 않은 점은 무엇인가요?</h3>
+              </div>
+            </div>
+
+            <div class="sentence-flow">
+              <span class="sentence-text">나는 앞으로 다시는</span>
+              <textarea rows="1"
+                class="inline-auto-field"
+                data-min-width="260"
+                placeholder="다시는 경험하고 싶지 않은 일이나 상황"
+                oninput="app.updateField('q6NoMoreWant', this.value)">${this.escapeHtml(this.state.q6NoMoreWant)}</textarea>
+              <span class="sentence-text">하고 싶지 않다.</span>
+            </div>
+
+            <div class="sentence-flow">
+              <span class="sentence-text">나는 앞으로 다시는</span>
+              <textarea rows="1"
+                class="inline-auto-field"
+                data-min-width="260"
+                placeholder="다시는 하지 않겠다고 다짐하는 행동"
+                oninput="app.updateField('q6NoMoreDo', this.value)">${this.escapeHtml(this.state.q6NoMoreDo)}</textarea>
+              <span class="sentence-text">하지 않겠다.</span>
+            </div>
+          </section>
+
+          <div class="step-footer-nav">
+            <span></span>
+            <button type="button" class="btn btn-primary" onclick="app.setStep(2)">
+              다음 단계: 스스로 하기 (탐구) →
+            </button>
+          </div>
+        `;
+      }
+
+      renderStep2() {
+        const idx = this.activeInquiryIndex;
+        const currentInquiry = this.state.inquiries[idx] || { q1Yn: '', q1Text: '', q2Yn: '', q2Text: '', q3Text: '', q4Text: '' };
+
+        return `
+          <div class="guide-banner">
+            <h2>2단계. 스스로 하기: 탐구</h2>
+            <p>
+              1단계에서 작성한 각 문장을 하나씩 선택하여 아래 네 가지 질문을 깊이 적용해 보세요.<br />
+              이 질문들에 대해 옳거나 그른 대답은 없습니다. 내면의 진실이 떠오르도록 여유를 갖고 머물러 보세요.
+            </p>
+          </div>
+
+          <section class="q-card">
+            <div style="font-size: 0.9rem; font-weight: 700; color: var(--text-muted); margin-bottom: 10px;">
+              탐구할 1단계 진술 선택 (문항별로 각각 저장됩니다)
+            </div>
+            <div class="statement-selector">
+              ${[1, 2, 3, 4, 5].map(num => {
+                const hasData = this.state.inquiries[num] && (
+                  this.state.inquiries[num].q1Yn ||
+                  this.state.inquiries[num].q1Text ||
+                  this.state.inquiries[num].q2Yn ||
+                  this.state.inquiries[num].q2Text ||
+                  this.state.inquiries[num].q3Text ||
+                  this.state.inquiries[num].q4Text
+                );
+                return `
+                  <button type="button"
+                    class="stmt-tab ${idx === num ? 'active' : ''}"
+                    onclick="app.setInquiryIndex(${num})">
+                    ${num}번 진술 ${hasData ? '✓' : ''}
+                  </button>
+                `;
+              }).join('')}
+            </div>
+
+            <div class="active-statement-box">
+              <div class="active-statement-label">현재 탐구 중인 진술 (${idx}번 문항)</div>
+              <div class="active-statement-text">${this.escapeHtml(this.getStatementSummary(idx))}</div>
+            </div>
+
+            <!-- 탐구 1 -->
+            <div style="margin-bottom: 26px;">
+              <div class="q-header">
+                <span class="q-badge">탐구 1</span>
+                <div>
+                  <h3 class="q-title">그게 진실인가요?</h3>
+                  <p class="q-hint">
+                    서두르지 마세요. '작업'은 가장 깊은 내면에서 무엇이 진실인지 발견하려는 것입니다. 그저 마음을 열고 진실과 함께 앉아 내면의 대답에 귀 기울여 보세요.
+                  </p>
+                </div>
+              </div>
+              <div class="yn-group">
+                <button type="button" class="yn-btn ${currentInquiry.q1Yn === '예' ? 'selected' : ''}" onclick="app.selectInquiryYn('q1Yn', '예')">예</button>
+                <button type="button" class="yn-btn ${currentInquiry.q1Yn === '아니오' ? 'selected' : ''}" onclick="app.selectInquiryYn('q1Yn', '아니오')">아니오</button>
+              </div>
+              <textarea rows="2"
+                class="auto-field"
+                placeholder="내면에서 떠오르는 대답이나 느낌을 자유롭게 적어보세요..."
+                oninput="app.updateInquiryField('q1Text', this.value)">${this.escapeHtml(currentInquiry.q1Text)}</textarea>
+            </div>
+
+            <!-- 탐구 2 -->
+            <div style="margin-bottom: 26px;">
+              <div class="q-header">
+                <span class="q-badge">탐구 2</span>
+                <div>
+                  <h3 class="q-title">당신은 그게 진실인지 확실히 알 수 있나요?</h3>
+                  <p class="q-hint">
+                    이미 안다고 생각하는 것 밑에 있는 대답을 발견해 보세요. 당신에게 고통을 일으키는 것은 겉으로는 드러나지 않은 자신의 해석인 경우가 많습니다.
+                  </p>
+                </div>
+              </div>
+              <div class="yn-group">
+                <button type="button" class="yn-btn ${currentInquiry.q2Yn === '예' ? 'selected' : ''}" onclick="app.selectInquiryYn('q2Yn', '예')">예</button>
+                <button type="button" class="yn-btn ${currentInquiry.q2Yn === '아니오' ? 'selected' : ''}" onclick="app.selectInquiryYn('q2Yn', '아니오')">아니오</button>
+              </div>
+              <textarea rows="2"
+                class="auto-field"
+                placeholder="확실히 알 수 있는지, 혹은 나의 해석이 더해졌는지 깊이 들여다본 내용을 적어보세요..."
+                oninput="app.updateInquiryField('q2Text', this.value)">${this.escapeHtml(currentInquiry.q2Text)}</textarea>
+            </div>
+
+            <!-- 탐구 3 -->
+            <div style="margin-bottom: 26px;">
+              <div class="q-header">
+                <span class="q-badge">탐구 3</span>
+                <div>
+                  <h3 class="q-title">그 생각을 할 때 당신은 어떻게 반응하나요?</h3>
+                  <p class="q-hint">
+                    목록을 만드세요. 자기를 어떻게 대하며 상대방을 어떻게 대하나요? 그 사람에게 뭐라고 말하나요? 몸의 어느 부위에서 어떤 감각(따끔따끔한, 화끈 달아오르는 등)을 느끼며, 머릿속에서는 어떤 말들이 오가나요?
+                  </p>
+                </div>
+              </div>
+              <textarea rows="3"
+                class="auto-field"
+                placeholder="• 행동과 말투: &#10;• 신체 감각: &#10;• 머릿속 생각들: "
+                oninput="app.updateInquiryField('q3Text', this.value)">${this.escapeHtml(currentInquiry.q3Text)}</textarea>
+            </div>
+
+            <!-- 탐구 4 -->
+            <div>
+              <div class="q-header">
+                <span class="q-badge">탐구 4</span>
+                <div>
+                  <h3 class="q-title">그 생각이 없다면, 당신은 누구일까요?</h3>
+                  <p class="q-hint">
+                    눈을 감고 기다리세요. 그 사람 앞에 있을 때 그 생각을 할 능력이 없었다고 상상해보세요. 무엇이 보이나요? 어떻게 느껴지나요? 같은 상황에서 그 사람을 어떻게 대할까요?
+                  </p>
+                </div>
+              </div>
+              <textarea rows="3"
+                class="auto-field"
+                placeholder="그 생각이 전혀 없는 상태에서의 내 모습, 느낌, 상대를 대하는 태도를 적어보세요..."
+                oninput="app.updateInquiryField('q4Text', this.value)">${this.escapeHtml(currentInquiry.q4Text)}</textarea>
+            </div>
+          </section>
+
+          <div class="step-footer-nav">
+            <button type="button" class="btn btn-outline" onclick="app.setStep(1)">
+              ← 1단계: 스스로에게 질문하기
+            </button>
+            <button type="button" class="btn btn-primary" onclick="app.setStep(3)">
+              다음 단계: 뒤바꿔보세요 →
+            </button>
+          </div>
+        `;
+      }
+
+      renderStep3() {
+        const name = this.getDisplayName();
+        return `
+          <div class="guide-banner">
+            <h2>3단계. 뒤바꿔보세요 (Turnarounds)</h2>
+            <p>
+              처음 진술을 바꾸어 쓰는 것입니다. 다른 사람 이름 대신 자기 이름('나')을 집어넣거나 정반대로 뒤바꾸어 보세요.<br />
+              예) "철수는 내게 친절해야 한다" → ① "나는 내게 친절해야 한다" / ② "나는 철수에게 친절해야 한다" / ③ "철수는 내게 친절하면 안 된다"
+            </p>
+          </div>
+
+          <!-- 1단계 작성 진술 요약 참조 카드 -->
+          <section class="q-card" style="background: #FCFBF8;">
+            <div style="font-size: 0.95rem; font-weight: 700; color: var(--secondary); margin-bottom: 10px;">
+              📌 내가 작성한 1단계 진술 참조 (${this.escapeHtml(name)})
+            </div>
+            <div style="font-size: 0.94rem; line-height: 1.75; color: var(--text-main);">
+              <div><strong>1.</strong> ${this.escapeHtml(this.getStatementSummary(1))}</div>
+              <div><strong>2.</strong> ${this.escapeHtml(this.getStatementSummary(2))}</div>
+              <div><strong>3.</strong> ${this.escapeHtml(this.getStatementSummary(3).replace(/\n/g, ' / '))}</div>
+              <div><strong>4.</strong> ${this.escapeHtml(this.getStatementSummary(4).replace(/\n/g, ' / '))}</div>
+              <div><strong>5.</strong> ${this.escapeHtml(this.getStatementSummary(5))}</div>
+            </div>
+          </section>
+
+          ${[
+            { idx: 0, label: '뒤바꾸기 1 (나 자신에게로)', hint: `상대방(${name}) 대신 '나'를 넣어 진술을 바꾸고, 왜 진실한지 구체적인 예를 찾아보세요.` },
+            { idx: 1, label: '뒤바꾸기 2 (상대방에게 내가)', hint: `내가 상대방(${name})에게 그렇게 해야 하거나 하고 있다는 관점으로 바꾸고, 구체적인 예를 적어보세요.` },
+            { idx: 2, label: '뒤바꾸기 3 (정반대로 뒤바꾸기)', hint: `원래 진술을 정반대(~하면 안 된다, ~하지 않는다)로 바꾸고, 현실에서 왜 그것이 사실인지 숙고해보세요.` },
+            { idx: 3, label: '뒤바꾸기 4 (추가 뒤바꾸기)', hint: `또 다른 진술이나 추가적인 뒤바꾸기가 떠오른다면 자유롭게 적어보세요.` }
+          ].map(item => `
+            <section class="q-card">
+              <div class="q-header">
+                <span class="q-badge">${item.label}</span>
+                <div>
+                  <p class="q-hint" style="margin-top: 0;">${item.hint}</p>
+                </div>
+              </div>
+              <div style="margin-bottom: 10px;">
+                <textarea rows="1"
+                  class="auto-field"
+                  style="font-weight: 600;"
+                  placeholder="뒤바꾼 진술 문장을 입력하세요..."
+                  oninput="app.updateTurnaround(${item.idx}, 'statement', this.value)">${this.escapeHtml(this.state.turnarounds[item.idx].statement)}</textarea>
+              </div>
+              <div>
+                <textarea rows="2"
+                  class="auto-field"
+                  placeholder="이 뒤바꾸기가 처음 진술만큼 진실하거나 더 진실한 구체적인 이유와 사례를 적어보세요..."
+                  oninput="app.updateTurnaround(${item.idx}, 'reason', this.value)">${this.escapeHtml(this.state.turnarounds[item.idx].reason)}</textarea>
+              </div>
+            </section>
+          `).join('')}
+
+          <!-- 6번 문항에 대한 특별한 뒤바꾸기 -->
+          <section class="q-card">
+            <div class="q-header">
+              <span class="q-badge">6번 뒤바꾸기</span>
+              <div>
+                <h3 class="q-title">6번 문항에 대한 특별한 뒤바꾸기</h3>
+                <p class="q-hint">
+                  1단계 6번에서 작성한 "나는 앞으로 다시는 ~ 하고 싶지 않다 / 하지 않겠다"를 아래 문장으로 뒤바꾸어 보세요.
+                </p>
+              </div>
+            </div>
+
+            <div class="sentence-flow">
+              <span class="sentence-text">나는 기꺼이</span>
+              <textarea rows="1"
+                class="inline-auto-field"
+                data-min-width="260"
+                placeholder="기꺼이 경험하거나 받아들일 내용"
+                oninput="app.updateField('q6TurnaroundWilling', this.value)">${this.escapeHtml(this.state.q6TurnaroundWilling)}</textarea>
+              <span class="sentence-text">하겠다.</span>
+            </div>
+
+            <div class="sentence-flow">
+              <span class="sentence-text">나는</span>
+              <textarea rows="1"
+                class="inline-auto-field"
+                data-min-width="260"
+                placeholder="마음을 열고 고대하는 경험"
+                oninput="app.updateField('q6TurnaroundLookForward', this.value)">${this.escapeHtml(this.state.q6TurnaroundLookForward)}</textarea>
+              <span class="sentence-text">하기를 고대한다.</span>
+            </div>
+          </section>
+
+          <div class="step-footer-nav">
+            <button type="button" class="btn btn-outline" onclick="app.setStep(2)">
+              ← 2단계: 스스로 하기 (탐구)
+            </button>
+            <button type="button" class="btn btn-primary" onclick="app.openExportModal()">
+              ✨ 전체 요약 및 카카오톡 공유
+            </button>
+          </div>
+        `;
+      }
+
+      /* 요약 및 내보내기 모달 */
+      openExportModal() {
+        const summaryEl = document.getElementById('captureSummaryArea');
+        if (!summaryEl) return;
+
+        const today = new Date().toLocaleDateString('ko-KR', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+
+        const name = this.getDisplayName();
+
+        // 2단계 탐구 작성 항목 정리
+        const inquiryBlocks = [1, 2, 3, 4, 5].map(num => {
+          const inq = this.state.inquiries[num];
+          if (!inq) return '';
+          const hasAny = inq.q1Yn || inq.q1Text || inq.q2Yn || inq.q2Text || inq.q3Text || inq.q4Text;
+          if (!hasAny) return '';
+          return `
+            <div class="report-item" style="border-top: 1px dashed #E5DFD3; padding-top: 12px; margin-top: 12px;">
+              <div class="report-q">[${num}번 진술 탐구] ${this.escapeHtml(this.getStatementSummary(num))}</div>
+              <div class="report-a">
+                ${(inq.q1Yn || inq.q1Text) ? `<div><strong>1. 그게 진실인가요?</strong> ${inq.q1Yn ? `[${this.escapeHtml(inq.q1Yn)}]` : ''} ${this.escapeHtml(inq.q1Text)}</div>` : ''}
+                ${(inq.q2Yn || inq.q2Text) ? `<div style="margin-top:6px;"><strong>2. 확실히 알 수 있나요?</strong> ${inq.q2Yn ? `[${this.escapeHtml(inq.q2Yn)}]` : ''} ${this.escapeHtml(inq.q2Text)}</div>` : ''}
+                ${inq.q3Text ? `<div style="margin-top:6px;"><strong>3. 그 생각을 할 때 반응:</strong>\n${this.escapeHtml(inq.q3Text)}</div>` : ''}
+                ${inq.q4Text ? `<div style="margin-top:6px;"><strong>4. 그 생각이 없다면 나는 누구일까요:</strong>\n${this.escapeHtml(inq.q4Text)}</div>` : ''}
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        // 3단계 뒤바꾸기 작성 항목 정리
+        const turnaroundBlocks = this.state.turnarounds
+          .map((t, i) => {
+            if (!t.statement.trim() && !t.reason.trim()) return '';
+            return `
+              <div class="report-item">
+                <div class="report-q">뒤바꾸기 ${i + 1}</div>
+                <div class="report-a"><strong>${this.escapeHtml(t.statement || '(문장 미입력)')}</strong>${t.reason ? `\n${this.escapeHtml(t.reason)}` : ''}</div>
+              </div>
+            `;
+          })
+          .join('');
+
+        const q6TurnParts = [];
+        if (this.state.q6TurnaroundWilling.trim()) {
+          q6TurnParts.push(`나는 기꺼이 ${this.state.q6TurnaroundWilling.trim()} 하겠다.`);
+        }
+        if (this.state.q6TurnaroundLookForward.trim()) {
+          q6TurnParts.push(`나는 ${this.state.q6TurnaroundLookForward.trim()} 하기를 고대한다.`);
+        }
+
+        summaryEl.innerHTML = `
+          <div class="report-header">
+            <h2 class="report-title">내면의 작업 (The Work) 요약 리포트</h2>
+            <div class="report-meta">대상: <strong>${this.escapeHtml(name)}</strong> · ${today}</div>
+          </div>
+
+          <div class="report-section">
+            <h3 class="report-section-title">1. 스스로에게 질문하기</h3>
+            <div class="report-item">
+              <div class="report-q">1) 감정과 이유</div>
+              <div class="report-a">${this.escapeHtml(this.getStatementSummary(1))}</div>
+            </div>
+            <div class="report-item">
+              <div class="report-q">2) 바라는 변화</div>
+              <div class="report-a">${this.escapeHtml(this.getStatementSummary(2))}</div>
+            </div>
+            <div class="report-item">
+              <div class="report-q">3) 해야 하거나 하지 말아야 할 것</div>
+              <div class="report-a">${this.escapeHtml(this.getStatementSummary(3))}</div>
+            </div>
+            <div class="report-item">
+              <div class="report-q">4) 필요로 하는 것</div>
+              <div class="report-a">${this.escapeHtml(this.getStatementSummary(4))}</div>
+            </div>
+            <div class="report-item">
+              <div class="report-q">5) 그 사람에 대한 생각</div>
+              <div class="report-a">${this.escapeHtml(this.getStatementSummary(5))}</div>
+            </div>
+            <div class="report-item">
+              <div class="report-q">6) 다시는 경험하고 싶지 않은 점</div>
+              <div class="report-a">${
+                (this.state.q6NoMoreWant.trim() || this.state.q6NoMoreDo.trim())
+                  ? `${this.state.q6NoMoreWant.trim() ? `나는 앞으로 다시는 ${this.escapeHtml(this.state.q6NoMoreWant.trim())} 하고 싶지 않다.\n` : ''}${this.state.q6NoMoreDo.trim() ? `나는 앞으로 다시는 ${this.escapeHtml(this.state.q6NoMoreDo.trim())} 하지 않겠다.` : ''}`.trim()
+                  : '(작성된 내용 없음)'
+              }</div>
+            </div>
+          </div>
+
+          <div class="report-section">
+            <h3 class="report-section-title">2. 스스로 하기: 탐구</h3>
+            ${inquiryBlocks || '<div class="report-a">작성된 탐구 내용이 없습니다.</div>'}
+          </div>
+
+          <div class="report-section" style="margin-bottom: 0;">
+            <h3 class="report-section-title">3. 뒤바꿔보세요</h3>
+            ${turnaroundBlocks || '<div class="report-a">작성된 뒤바꾸기 내용이 없습니다.</div>'}
+            ${q6TurnParts.length ? `
+              <div class="report-item" style="margin-top: 12px;">
+                <div class="report-q">6번 문항 뒤바꾸기</div>
+                <div class="report-a">${this.escapeHtml(q6TurnParts.join('\n'))}</div>
+              </div>
+            ` : ''}
+          </div>
+        `;
+
+        document.getElementById('exportModal').classList.add('open');
+      }
+
+      closeExportModal() {
+        document.getElementById('exportModal').classList.remove('open');
+      }
+
+      async generateSummaryCanvas() {
+        const target = document.getElementById('captureSummaryArea');
+        return await html2canvas(target, {
+          scale: 2,
+          backgroundColor: '#FAF8F4',
+          useCORS: true
+        });
+      }
+
+      async downloadSummaryImage() {
+        try {
+          this.showToast('이미지를 생성하고 있습니다...');
+          const canvas = await this.generateSummaryCanvas();
+          const link = document.createElement('a');
+          const dateStr = new Date().toISOString().slice(0, 10);
+          link.download = `내면의작업_요약_${dateStr}.png`;
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+          this.showToast('요약 이미지가 저장되었습니다.');
+        } catch (err) {
+          console.error(err);
+          this.showToast('이미지 저장 중 오류가 발생했습니다.');
+        }
+      }
+
+      async shareSummaryToKakao() {
+        try {
+          this.showToast('공유할 이미지를 준비 중입니다...');
+          const canvas = await this.generateSummaryCanvas();
+          const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+          const dateStr = new Date().toISOString().slice(0, 10);
+          const file = new File([blob], `내면의작업_요약_${dateStr}.png`, { type: 'image/png' });
+
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({
+              files: [file],
+              title: '내면의 작업 (The Work) 요약',
+              text: '네 가지 질문 워크북 요약 이미지입니다.'
+            });
+          } else {
+            // 웹 공유 API 미지원 환경일 경우 자동 이미지 저장 후 안내
+            const link = document.createElement('a');
+            link.download = `내면의작업_요약_${dateStr}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            this.showToast('이미지가 저장되었습니다. 카카오톡에서 저장된 이미지를 선택해 공유해주세요.');
+          }
+        } catch (err) {
+          if (err && err.name !== 'AbortError') {
+            console.error(err);
+            this.showToast('공유 창을 여는 중 문제가 발생했습니다.');
+          }
+        }
+      }
+
+      openResetModal() {
+        document.getElementById('confirmModal').classList.add('open');
+      }
+
+      closeResetModal() {
+        document.getElementById('confirmModal').classList.remove('open');
+      }
+
+      confirmReset() {
+        this.state = this.getDefaultState();
+        this.activeInquiryIndex = 1;
+        this.saveState();
+        this.closeResetModal();
+        this.setStep(1);
+        this.showToast('모든 내용이 초기화되었습니다.');
+      }
+
+      showToast(message) {
+        const toast = document.getElementById('toastMsg');
+        if (!toast) return;
+        toast.textContent = message;
+        toast.classList.add('show');
+        clearTimeout(this.toastTimer);
+        this.toastTimer = setTimeout(() => {
+          toast.classList.remove('show');
+        }, 2600);
+      }
+    }
+
+    window.app = new TheWorkApp();
+  </script>
 </body>
 </html>
