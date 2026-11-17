@@ -86,7 +86,8 @@
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
     .save-badge {
@@ -104,14 +105,21 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      padding: 10px 16px;
+      min-height: 42px;
+      padding: 9px 15px;
       border-radius: var(--radius-sm);
-      font-size: 0.95rem;
+      font-size: 0.94rem;
       font-weight: 600;
       cursor: pointer;
       border: 1px solid transparent;
       transition: all 0.18s ease;
       font-family: inherit;
+    }
+
+    .btn-sm {
+      min-height: 36px;
+      padding: 6px 12px;
+      font-size: 0.86rem;
     }
 
     .btn-primary {
@@ -121,6 +129,15 @@
 
     .btn-primary:hover {
       background: var(--primary-hover);
+    }
+
+    .btn-secondary {
+      background: var(--secondary);
+      color: #FFFFFF;
+    }
+
+    .btn-secondary:hover {
+      background: #765A43;
     }
 
     .btn-outline {
@@ -141,6 +158,11 @@
 
     .btn-danger-outline:hover {
       background: #FDF3F3;
+    }
+
+    .btn-danger-solid {
+      background: #A63A3A;
+      color: #FFFFFF;
     }
 
     .btn-kakao {
@@ -207,6 +229,20 @@
       padding: 0 24px;
     }
 
+    .active-record-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: #FFFDF8;
+      border: 1px solid #E3D9C6;
+      border-radius: var(--radius-md);
+      padding: 10px 16px;
+      margin-bottom: 16px;
+      font-size: 0.9rem;
+      color: var(--secondary);
+    }
+
     .guide-banner {
       background: var(--bg-accent-soft);
       border-left: 4px solid var(--primary);
@@ -270,7 +306,7 @@
       color: var(--text-muted);
     }
 
-    /* 스크롤 없는 자동 줄바꿈 & 자동 크기 확장 입력창 (핵심) */
+    /* 스크롤 없는 자동 줄바꿈 & 자동 크기 확장 입력창 */
     textarea.auto-field {
       display: block;
       width: 100%;
@@ -559,6 +595,126 @@
       background: var(--bg-main);
     }
 
+    /* 기록 보관함 내부 스타일 */
+    .save-box {
+      background: var(--bg-accent-soft);
+      border: 1px solid #C8D8CE;
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      margin-bottom: 24px;
+    }
+
+    .save-box-title {
+      margin: 0 0 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .save-input-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .archive-title-input {
+      flex: 1;
+      min-width: 240px;
+      padding: 10px 14px;
+      font-size: 16px;
+      font-family: inherit;
+      border: 1.5px solid #B6C7BD;
+      border-radius: var(--radius-sm);
+      background: #FFFFFF;
+      color: var(--text-main);
+    }
+
+    .archive-title-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .archive-list-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .archive-list-header h4 {
+      margin: 0;
+      font-size: 1.02rem;
+      color: var(--text-main);
+    }
+
+    .archive-card {
+      background: #FCFBF8;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .archive-card.current-loaded {
+      border-color: var(--primary);
+      background: #F4F8F5;
+    }
+
+    .archive-info {
+      flex: 1;
+      min-width: 240px;
+    }
+
+    .archive-card-title {
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .archive-card-meta {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .archive-card-preview {
+      font-size: 0.9rem;
+      color: #4A4741;
+      background: #FFFFFF;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border-left: 3px solid var(--secondary);
+      white-space: pre-wrap;
+      word-break: keep-all;
+    }
+
+    .archive-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .backup-bar {
+      margin-top: 22px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
     /* 캡처 전용 요약 리포트 스타일 */
     #captureSummaryArea {
       background: #FAF8F4;
@@ -701,6 +857,7 @@
         </div>
         <div class="header-actions">
           <span class="save-badge" id="saveStatus">자동 저장됨</span>
+          <button type="button" class="btn btn-outline" onclick="app.openArchiveModal()">📂 저장 / 불러오기</button>
           <button type="button" class="btn btn-danger-outline" onclick="app.openResetModal()">초기화</button>
           <button type="button" class="btn btn-primary" onclick="app.openExportModal()">요약 및 내보내기</button>
         </div>
@@ -722,6 +879,23 @@
 
   <!-- 메인 작업 공간 -->
   <main class="main-container" id="appContent"></main>
+
+  <!-- 기록 보관함 (저장 및 불러오기) 모달 -->
+  <div class="modal-backdrop" id="archiveModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>📂 기록 보관함 (저장 및 불러오기)</h3>
+        <button type="button" class="modal-close" onclick="app.closeArchiveModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="archiveModalBody"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="app.closeArchiveModal()">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 숨겨진 JSON 불러오기 파일 인풋 -->
+  <input type="file" id="jsonFileInput" accept=".json,application/json" style="display:none;" onchange="app.handleJsonFileImport(event)" />
 
   <!-- 요약 및 내보내기 모달 -->
   <div class="modal-backdrop" id="exportModal">
@@ -745,18 +919,18 @@
   <div class="modal-backdrop" id="confirmModal">
     <div class="modal-box small">
       <div class="modal-header">
-        <h3>작성 내용 초기화</h3>
+        <h3>새 작업 시작 (화면 초기화)</h3>
         <button type="button" class="modal-close" onclick="app.closeResetModal()">&times;</button>
       </div>
       <div class="modal-body">
         <p style="margin: 0; font-size: 1rem;">
-          현재까지 작성한 1단계~3단계의 모든 내용이 삭제됩니다.<br />
-          새롭게 시작하시겠습니까?
+          현재 화면에 입력된 내용을 모두 비우고 새로운 작업을 시작할까요?<br />
+          <span style="font-size: 0.88rem; color: var(--text-muted);">(기록 보관함에 미리 저장해 둔 항목은 삭제되지 않습니다.)</span>
         </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline" onclick="app.closeResetModal()">취소</button>
-        <button type="button" class="btn btn-danger-outline" onclick="app.confirmReset()">전체 초기화</button>
+        <button type="button" class="btn btn-danger-outline" onclick="app.confirmReset()">새로 시작하기</button>
       </div>
     </div>
   </div>
@@ -771,9 +945,14 @@
     class TheWorkApp {
       constructor() {
         this.storageKey = 'the_work_tablet_workbook_v2';
+        this.archiveStorageKey = 'the_work_saved_archives_v1';
         this.currentStep = 1;
-        this.activeInquiryIndex = 1; // 1~5번 진술 중 현재 탐구 중인 번호
+        this.activeInquiryIndex = 1;
+        this.loadedArchiveId = null;
+        this.confirmDeleteId = null;
+
         this.state = this.loadState();
+        this.archives = this.loadArchives();
 
         window.addEventListener('resize', () => {
           this.autoResizeAll();
@@ -798,7 +977,6 @@
           q5Thoughts: '',
           q6NoMoreWant: '',
           q6NoMoreDo: '',
-          // 1~5번 진술별 2단계 탐구 데이터
           inquiries: {
             1: { q1Yn: '', q1Text: '', q2Yn: '', q2Text: '', q3Text: '', q4Text: '' },
             2: { q1Yn: '', q1Text: '', q2Yn: '', q2Text: '', q3Text: '', q4Text: '' },
@@ -806,7 +984,6 @@
             4: { q1Yn: '', q1Text: '', q2Yn: '', q2Text: '', q3Text: '', q4Text: '' },
             5: { q1Yn: '', q1Text: '', q2Yn: '', q2Text: '', q3Text: '', q4Text: '' }
           },
-          // 3단계 뒤바꾸기 데이터
           turnarounds: [
             { statement: '', reason: '' },
             { statement: '', reason: '' },
@@ -818,18 +995,30 @@
         };
       }
 
+      normalizeState(raw) {
+        const def = this.getDefaultState();
+        if (!raw || typeof raw !== 'object') return def;
+        return {
+          ...def,
+          ...raw,
+          inquiries: {
+            1: { ...def.inquiries[1], ...(raw.inquiries && raw.inquiries[1] ? raw.inquiries[1] : {}) },
+            2: { ...def.inquiries[2], ...(raw.inquiries && raw.inquiries[2] ? raw.inquiries[2] : {}) },
+            3: { ...def.inquiries[3], ...(raw.inquiries && raw.inquiries[3] ? raw.inquiries[3] : {}) },
+            4: { ...def.inquiries[4], ...(raw.inquiries && raw.inquiries[4] ? raw.inquiries[4] : {}) },
+            5: { ...def.inquiries[5], ...(raw.inquiries && raw.inquiries[5] ? raw.inquiries[5] : {}) }
+          },
+          turnarounds: Array.isArray(raw.turnarounds) && raw.turnarounds.length === 4
+            ? raw.turnarounds.map(t => ({ statement: t.statement || '', reason: t.reason || '' }))
+            : def.turnarounds
+        };
+      }
+
       loadState() {
         try {
           const saved = localStorage.getItem(this.storageKey);
           if (!saved) return this.getDefaultState();
-          const parsed = JSON.parse(saved);
-          const def = this.getDefaultState();
-          return {
-            ...def,
-            ...parsed,
-            inquiries: { ...def.inquiries, ...(parsed.inquiries || {}) },
-            turnarounds: parsed.turnarounds && parsed.turnarounds.length === 4 ? parsed.turnarounds : def.turnarounds
-          };
+          return this.normalizeState(JSON.parse(saved));
         } catch (e) {
           return this.getDefaultState();
         }
@@ -840,7 +1029,7 @@
           localStorage.setItem(this.storageKey, JSON.stringify(this.state));
           const badge = document.getElementById('saveStatus');
           if (badge) {
-            badge.textContent = '저장 완료';
+            badge.textContent = '임시 저장됨';
             clearTimeout(this.saveTimer);
             this.saveTimer = setTimeout(() => {
               badge.textContent = '자동 저장됨';
@@ -848,6 +1037,25 @@
           }
         } catch (e) {
           console.error('Save failed', e);
+        }
+      }
+
+      loadArchives() {
+        try {
+          const raw = localStorage.getItem(this.archiveStorageKey);
+          if (!raw) return [];
+          const parsed = JSON.parse(raw);
+          return Array.isArray(parsed) ? parsed : [];
+        } catch (e) {
+          return [];
+        }
+      }
+
+      saveArchives() {
+        try {
+          localStorage.setItem(this.archiveStorageKey, JSON.stringify(this.archives));
+        } catch (e) {
+          console.error('Archive save failed', e);
         }
       }
 
@@ -928,7 +1136,6 @@
         if (!el) return;
         const mirror = document.getElementById('textMeasureMirror');
 
-        // 문장 속 인라인 입력창인 경우: 텍스트 길이에 따라 가로 확장 후, 컨테이너 폭 초과 시 자동 줄바꿈 + 세로 확장
         if (el.classList.contains('inline-auto-field') && mirror) {
           const container = el.parentElement;
           const maxWidth = container ? Math.max(200, container.clientWidth - 36) : 600;
@@ -948,9 +1155,8 @@
           }
         }
 
-        // 세로 높이를 내용에 맞게 즉시 재조정 (스크롤바 제거)
         el.style.height = 'auto';
-        el.style.height = el.scrollHeight + 'px';
+        el.style.height = (el.scrollHeight + 2) + 'px';
       }
 
       autoResizeAll() {
@@ -974,40 +1180,40 @@
         }
       }
 
-      getStatementSummary(num) {
-        const name = this.getDisplayName();
+      getStatementSummary(num, targetState = this.state) {
+        const name = (targetState.targetName || '').trim() || '그 사람';
         switch (num) {
           case 1: {
-            const emo = (this.state.q1Emotion || '').trim() || '화가 난다';
-            const reason = (this.state.q1Reason || '').trim();
+            const emo = (targetState.q1Emotion || '').trim() || '화가 난다';
+            const reason = (targetState.q1Reason || '').trim();
             return reason
               ? `나는 ${name} 때문에 ${emo}. 왜냐하면 ${reason} 때문이다.`
               : `나는 ${name} 때문에 ${emo}. (1번 이유 미작성)`;
           }
           case 2: {
-            const want = (this.state.q2Want || '').trim();
+            const want = (targetState.q2Want || '').trim();
             return want
               ? `나는 ${name} 이(가) ${want} 하기를 원한다.`
               : `나는 ${name} 이(가) [원하는 변화] 하기를 원한다. (2번 미작성)`;
           }
           case 3: {
-            const s1 = (this.state.q3Should || '').trim();
-            const s2 = (this.state.q3ShouldNot || '').trim();
+            const s1 = (targetState.q3Should || '').trim();
+            const s2 = (targetState.q3ShouldNot || '').trim();
             const parts = [];
             if (s1) parts.push(`${name} 는(은) ${s1} 해야 한다.`);
             if (s2) parts.push(`${name} 는(은) ${s2} 하지 말아야 한다.`);
             return parts.length ? parts.join('\n') : `${name} 는(은) ~ 해야 한다 / 하지 말아야 한다. (3번 미작성)`;
           }
           case 4: {
-            const n1 = (this.state.q4Should || '').trim();
-            const n2 = (this.state.q4Need || '').trim();
+            const n1 = (targetState.q4Should || '').trim();
+            const n2 = (targetState.q4Need || '').trim();
             const parts = [];
             if (n1) parts.push(`${name} 는(은) ${n1} 해야 한다.`);
             if (n2) parts.push(`나는 ${name} 이(가) ${n2} 기를 필요로 한다.`);
             return parts.length ? parts.join('\n') : `나는 ${name} 이(가) ~ 기를 필요로 한다. (4번 미작성)`;
           }
           case 5: {
-            const t = (this.state.q5Thoughts || '').trim();
+            const t = (targetState.q5Thoughts || '').trim();
             return t
               ? `${name} 는(은) ${t}`
               : `${name} 는(은) [생각 목록] (5번 미작성)`;
@@ -1021,12 +1227,27 @@
         const container = document.getElementById('appContent');
         if (!container) return;
 
+        const loadedItem = this.loadedArchiveId
+          ? this.archives.find(a => a.id === this.loadedArchiveId)
+          : null;
+
+        const activeBanner = loadedItem ? `
+          <div class="active-record-banner">
+            <div>
+              📌 불러온 기록 편집 중: <strong>${this.escapeHtml(loadedItem.title)}</strong>
+            </div>
+            <button type="button" class="btn btn-sm btn-secondary" onclick="app.quickOverwriteCurrentArchive()">
+              현재 기록에 덮어쓰기 저장
+            </button>
+          </div>
+        ` : '';
+
         if (this.currentStep === 1) {
-          container.innerHTML = this.renderStep1();
+          container.innerHTML = activeBanner + this.renderStep1();
         } else if (this.currentStep === 2) {
-          container.innerHTML = this.renderStep2();
+          container.innerHTML = activeBanner + this.renderStep2();
         } else {
-          container.innerHTML = this.renderStep3();
+          container.innerHTML = activeBanner + this.renderStep3();
         }
 
         requestAnimationFrame(() => {
@@ -1379,7 +1600,6 @@
             </p>
           </div>
 
-          <!-- 1단계 작성 진술 요약 참조 카드 -->
           <section class="q-card" style="background: #FCFBF8;">
             <div style="font-size: 0.95rem; font-weight: 700; color: var(--secondary); margin-bottom: 10px;">
               📌 내가 작성한 1단계 진술 참조 (${this.escapeHtml(name)})
@@ -1422,7 +1642,6 @@
             </section>
           `).join('')}
 
-          <!-- 6번 문항에 대한 특별한 뒤바꾸기 -->
           <section class="q-card">
             <div class="q-header">
               <span class="q-badge">6번 뒤바꾸기</span>
@@ -1466,7 +1685,298 @@
         `;
       }
 
-      /* 요약 및 내보내기 모달 */
+      /* =========================================
+         기록 보관함 (저장 및 불러오기) 기능
+         ========================================= */
+      getFormattedNow() {
+        const d = new Date();
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const dd = String(d.getDate()).padStart(2, '0');
+        const hh = String(d.getHours()).padStart(2, '0');
+        const min = String(d.getMinutes()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd} ${hh}:${min}`;
+      }
+
+      getDefaultArchiveTitle() {
+        const d = new Date();
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const dd = String(d.getDate()).padStart(2, '0');
+        const name = (this.state.targetName || '').trim();
+        return name ? `${yyyy}-${mm}-${dd} · ${name}에 대한 작업` : `${yyyy}-${mm}-${dd} · 내면의 작업`;
+      }
+
+      openArchiveModal() {
+        this.confirmDeleteId = null;
+        this.renderArchiveModalBody();
+        document.getElementById('archiveModal').classList.add('open');
+      }
+
+      closeArchiveModal() {
+        this.confirmDeleteId = null;
+        document.getElementById('archiveModal').classList.remove('open');
+      }
+
+      renderArchiveModalBody() {
+        const body = document.getElementById('archiveModalBody');
+        if (!body) return;
+
+        const loadedItem = this.loadedArchiveId
+          ? this.archives.find(a => a.id === this.loadedArchiveId)
+          : null;
+
+        const defaultTitle = loadedItem ? loadedItem.title : this.getDefaultArchiveTitle();
+
+        const listHtml = this.archives.length === 0
+          ? `<div style="text-align:center; padding: 28px 16px; color: var(--text-muted); background: #FCFBF8; border-radius: 12px; border: 1px dashed var(--border);">
+               아직 저장된 기록이 없습니다.<br />위 입력창에서 현재 작성한 내용을 저장해 보세요.
+             </div>`
+          : this.archives.map(item => {
+              const isCurrent = item.id === this.loadedArchiveId;
+              const isConfirmingDel = item.id === this.confirmDeleteId;
+              const previewText = this.getStatementSummary(1, item.data || {});
+              return `
+                <div class="archive-card ${isCurrent ? 'current-loaded' : ''}">
+                  <div class="archive-info">
+                    <div class="archive-card-title">
+                      ${this.escapeHtml(item.title)}
+                      ${isCurrent ? '<span style="font-size:0.78rem; background:var(--primary); color:#fff; padding:2px 8px; border-radius:10px; margin-left:6px;">현재 열림</span>' : ''}
+                    </div>
+                    <div class="archive-card-meta">
+                      대상: <strong>${this.escapeHtml(item.targetName || '미입력')}</strong> · 저장일시: ${this.escapeHtml(item.savedAt)}
+                    </div>
+                    <div class="archive-card-preview">${this.escapeHtml(previewText)}</div>
+                  </div>
+                  <div class="archive-actions">
+                    <button type="button" class="btn btn-sm btn-primary" onclick="app.loadFromArchive('${item.id}')">불러오기</button>
+                    ${isConfirmingDel
+                      ? `<button type="button" class="btn btn-sm btn-danger-solid" onclick="app.deleteArchiveItem('${item.id}')">삭제 확인</button>
+                         <button type="button" class="btn btn-sm btn-outline" onclick="app.cancelDeleteArchive()">취소</button>`
+                      : `<button type="button" class="btn btn-sm btn-danger-outline" onclick="app.askDeleteArchive('${item.id}')">삭제</button>`
+                    }
+                  </div>
+                </div>
+              `;
+            }).join('');
+
+        body.innerHTML = `
+          <div class="save-box">
+            <div class="save-box-title">현재 작성 중인 내용 저장하기</div>
+            <div class="save-input-row">
+              <input type="text"
+                id="archiveTitleInput"
+                class="archive-title-input"
+                value="${this.escapeHtml(defaultTitle)}"
+                placeholder="저장할 기록 제목을 입력하세요" />
+              <button type="button" class="btn btn-primary" onclick="app.saveCurrentToArchive(false)">
+                💾 새 기록으로 저장
+              </button>
+              ${loadedItem ? `
+                <button type="button" class="btn btn-secondary" onclick="app.saveCurrentToArchive(true)">
+                  덮어쓰기
+                </button>
+              ` : ''}
+            </div>
+          </div>
+
+          <div class="archive-list-header">
+            <h4>저장된 기록 목록 (${this.archives.length}건)</h4>
+          </div>
+          <div>${listHtml}</div>
+
+          <div class="backup-bar">
+            <span style="font-size: 0.86rem; color: var(--text-muted);">
+              기기를 변경하거나 안전하게 보관하려면 파일로 백업하세요.
+            </span>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <button type="button" class="btn btn-sm btn-outline" onclick="app.exportArchivesToJson()">📥 파일로 백업 (JSON)</button>
+              <button type="button" class="btn btn-sm btn-outline" onclick="app.triggerJsonImport()">📤 파일에서 불러오기</button>
+            </div>
+          </div>
+        `;
+      }
+
+      saveCurrentToArchive(overwrite = false) {
+        const input = document.getElementById('archiveTitleInput');
+        const title = (input ? input.value : '').trim() || this.getDefaultArchiveTitle();
+        const clonedData = JSON.parse(JSON.stringify(this.state));
+        const nowStr = this.getFormattedNow();
+        const targetName = (this.state.targetName || '').trim() || '그 사람';
+
+        if (overwrite && this.loadedArchiveId) {
+          const idx = this.archives.findIndex(a => a.id === this.loadedArchiveId);
+          if (idx !== -1) {
+            this.archives[idx] = {
+              ...this.archives[idx],
+              title,
+              targetName,
+              savedAt: nowStr,
+              data: clonedData
+            };
+            this.saveArchives();
+            this.renderArchiveModalBody();
+            this.render();
+            this.showToast('기존 기록에 덮어쓰기 저장되었습니다.');
+            return;
+          }
+        }
+
+        const newId = 'work_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+        this.archives.unshift({
+          id: newId,
+          title,
+          targetName,
+          savedAt: nowStr,
+          data: clonedData
+        });
+        this.loadedArchiveId = newId;
+        this.saveArchives();
+        this.renderArchiveModalBody();
+        this.render();
+        this.showToast('기록 보관함에 새로 저장되었습니다.');
+      }
+
+      quickOverwriteCurrentArchive() {
+        if (!this.loadedArchiveId) return;
+        const idx = this.archives.findIndex(a => a.id === this.loadedArchiveId);
+        if (idx === -1) return;
+        this.archives[idx] = {
+          ...this.archives[idx],
+          targetName: (this.state.targetName || '').trim() || '그 사람',
+          savedAt: this.getFormattedNow(),
+          data: JSON.parse(JSON.stringify(this.state))
+        };
+        this.saveArchives();
+        this.showToast('불러온 기록에 변경 내용이 저장되었습니다.');
+      }
+
+      loadFromArchive(id) {
+        const found = this.archives.find(a => a.id === id);
+        if (!found) return;
+        this.state = this.normalizeState(JSON.parse(JSON.stringify(found.data)));
+        this.loadedArchiveId = found.id;
+        this.activeInquiryIndex = 1;
+        this.saveState();
+        this.closeArchiveModal();
+        this.setStep(1);
+        this.showToast(`'${found.title}' 기록을 불러왔습니다.`);
+      }
+
+      askDeleteArchive(id) {
+        this.confirmDeleteId = id;
+        this.renderArchiveModalBody();
+      }
+
+      cancelDeleteArchive() {
+        this.confirmDeleteId = null;
+        this.renderArchiveModalBody();
+      }
+
+      deleteArchiveItem(id) {
+        this.archives = this.archives.filter(a => a.id !== id);
+        if (this.loadedArchiveId === id) {
+          this.loadedArchiveId = null;
+        }
+        this.confirmDeleteId = null;
+        this.saveArchives();
+        this.renderArchiveModalBody();
+        this.render();
+        this.showToast('선택한 기록이 삭제되었습니다.');
+      }
+
+      exportArchivesToJson() {
+        const payload = {
+          app: 'TheWorkWorkbook',
+          exportedAt: this.getFormattedNow(),
+          currentDraft: this.state,
+          archives: this.archives
+        };
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        const dateStr = new Date().toISOString().slice(0, 10);
+        link.href = url;
+        link.download = `내면의작업_백업_${dateStr}.json`;
+        link.click();
+        URL.revokeObjectURL(url);
+        this.showToast('백업 JSON 파일이 저장되었습니다.');
+      }
+
+      triggerJsonImport() {
+        const input = document.getElementById('jsonFileInput');
+        if (input) {
+          input.value = '';
+          input.click();
+        }
+      }
+
+      handleJsonFileImport(event) {
+        const file = event.target.files && event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          try {
+            const parsed = JSON.parse(e.target.result);
+            let importedCount = 0;
+
+            if (parsed && Array.isArray(parsed.archives)) {
+              const existingIds = new Set(this.archives.map(a => a.id));
+              parsed.archives.forEach(item => {
+                if (item && item.data) {
+                  const id = existingIds.has(item.id)
+                    ? 'work_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6)
+                    : (item.id || 'work_' + Date.now());
+                  this.archives.unshift({
+                    id,
+                    title: item.title || '불러온 기록',
+                    targetName: item.targetName || (item.data.targetName || '그 사람'),
+                    savedAt: item.savedAt || this.getFormattedNow(),
+                    data: this.normalizeState(item.data)
+                  });
+                  importedCount++;
+                }
+              });
+
+              if (importedCount === 0 && parsed.currentDraft) {
+                this.state = this.normalizeState(parsed.currentDraft);
+                this.saveState();
+                this.render();
+                this.closeArchiveModal();
+                this.showToast('파일의 작업 내용을 화면에 불러왔습니다.');
+                return;
+              }
+            } else if (parsed && typeof parsed === 'object' && ('targetName' in parsed || 'q1Reason' in parsed)) {
+              const norm = this.normalizeState(parsed);
+              const newId = 'work_' + Date.now();
+              this.archives.unshift({
+                id: newId,
+                title: file.name.replace(/\.json$/i, ''),
+                targetName: norm.targetName || '그 사람',
+                savedAt: this.getFormattedNow(),
+                data: norm
+              });
+              importedCount = 1;
+            } else {
+              this.showToast('올바른 워크북 백업 파일이 아닙니다.');
+              return;
+            }
+
+            this.saveArchives();
+            this.renderArchiveModalBody();
+            this.showToast(`파일에서 ${importedCount}건의 기록을 보관함으로 가져왔습니다.`);
+          } catch (err) {
+            console.error(err);
+            this.showToast('파일을 읽는 중 오류가 발생했습니다.');
+          }
+        };
+        reader.readAsText(file);
+      }
+
+      /* =========================================
+         요약 및 카카오톡 이미지 공유 기능
+         ========================================= */
       openExportModal() {
         const summaryEl = document.getElementById('captureSummaryArea');
         if (!summaryEl) return;
@@ -1479,7 +1989,6 @@
 
         const name = this.getDisplayName();
 
-        // 2단계 탐구 작성 항목 정리
         const inquiryBlocks = [1, 2, 3, 4, 5].map(num => {
           const inq = this.state.inquiries[num];
           if (!inq) return '';
@@ -1498,7 +2007,6 @@
           `;
         }).join('');
 
-        // 3단계 뒤바꾸기 작성 항목 정리
         const turnaroundBlocks = this.state.turnarounds
           .map((t, i) => {
             if (!t.statement.trim() && !t.reason.trim()) return '';
@@ -1621,7 +2129,6 @@
               text: '네 가지 질문 워크북 요약 이미지입니다.'
             });
           } else {
-            // 웹 공유 API 미지원 환경일 경우 자동 이미지 저장 후 안내
             const link = document.createElement('a');
             link.download = `내면의작업_요약_${dateStr}.png`;
             link.href = canvas.toDataURL('image/png');
@@ -1646,11 +2153,12 @@
 
       confirmReset() {
         this.state = this.getDefaultState();
+        this.loadedArchiveId = null;
         this.activeInquiryIndex = 1;
         this.saveState();
         this.closeResetModal();
         this.setStep(1);
-        this.showToast('모든 내용이 초기화되었습니다.');
+        this.showToast('새 작업을 시작할 수 있도록 화면이 초기화되었습니다.');
       }
 
       showToast(message) {
