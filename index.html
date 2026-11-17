@@ -42,7 +42,7 @@
       overflow-wrap: break-word;
     }
 
-    /* 상단 고정 헤더 (태블릿 기본) */
+    /* 상단 고정 헤더 */
     .app-header {
       position: sticky;
       top: 0;
@@ -51,11 +51,11 @@
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-      padding: 14px 24px 12px;
+      padding: 14px 24px;
     }
 
     .header-inner {
-      max-width: 960px;
+      max-width: 1180px;
       margin: 0 auto;
     }
 
@@ -64,7 +64,6 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 12px;
       flex-wrap: wrap;
     }
 
@@ -185,11 +184,12 @@
       background: #F4DC00;
     }
 
-    /* 3단계 네비게이션 탭 */
-    .step-tabs {
-      display: grid;
+    /* 모바일 상단 3단계 탭 (태블릿 이상에서는 숨김) */
+    .mobile-step-tabs {
+      display: none;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
+      margin-top: 12px;
     }
 
     .step-tab {
@@ -233,11 +233,180 @@
       color: #FFFFFF;
     }
 
-    /* 메인 컨테이너 */
-    .main-container {
-      max-width: 960px;
+    /* =========================================================
+       태블릿/데스크톱 2단 워크스페이스 레이아웃 (768px 이상)
+       ========================================================= */
+    .workspace-layout {
+      display: grid;
+      grid-template-columns: 276px 1fr;
+      gap: 24px;
+      max-width: 1180px;
       margin: 24px auto 60px;
       padding: 0 24px;
+      align-items: start;
+    }
+
+    /* 좌측 고정 사이드바 */
+    .tablet-sidebar {
+      position: sticky;
+      top: 88px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: calc(100vh - 118px);
+      max-height: calc(100vh - 104px);
+      overflow-y: auto;
+      gap: 20px;
+      padding-right: 2px;
+    }
+
+    .sidebar-nav-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .sidebar-nav-label {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      padding: 0 4px 2px;
+      letter-spacing: 0.02em;
+    }
+
+    .sidebar-step-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      background: #FFFFFF;
+      border: 1.5px solid var(--border);
+      color: var(--text-main);
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      font-family: inherit;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .sidebar-step-btn:hover {
+      background: #FCFBF8;
+      border-color: #BFB7A8;
+    }
+
+    .sidebar-step-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #FFFFFF;
+      box-shadow: 0 4px 14px rgba(59, 89, 74, 0.22);
+    }
+
+    .sidebar-step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-size: 0.92rem;
+      font-weight: 700;
+      background: var(--bg-subtle);
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+
+    .sidebar-step-btn.active .sidebar-step-num {
+      background: rgba(255, 255, 255, 0.22);
+      color: #FFFFFF;
+    }
+
+    .sidebar-step-info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .sidebar-step-title {
+      font-size: 0.98rem;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .sidebar-step-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+      line-height: 1.3;
+    }
+
+    .sidebar-step-btn.active .sidebar-step-sub {
+      color: rgba(255, 255, 255, 0.84);
+    }
+
+    /* 좌측 하단 단계별 참조 문구 카드 */
+    .sidebar-ref-card {
+      margin-top: auto;
+      background: #FFFDF8;
+      border: 1.5px solid #DFD5C3;
+      border-top: 4px solid var(--secondary);
+      border-radius: var(--radius-md);
+      padding: 16px 16px 15px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .sidebar-ref-badge {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--secondary);
+      background: #F4EDE2;
+      padding: 2px 9px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+    }
+
+    .sidebar-ref-title {
+      margin: 0 0 8px;
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1.4;
+    }
+
+    .sidebar-ref-quote {
+      margin: 0 0 10px;
+      padding: 9px 11px;
+      background: #F7F4EC;
+      border-left: 3px solid var(--secondary);
+      border-radius: 6px;
+      font-size: 0.86rem;
+      line-height: 1.55;
+      color: #3E3B35;
+      font-weight: 500;
+    }
+
+    .sidebar-ref-tips {
+      margin: 0;
+      padding-left: 16px;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+
+    .sidebar-ref-tips li {
+      margin-bottom: 4px;
+    }
+
+    .sidebar-ref-tips li:last-child {
+      margin-bottom: 0;
+    }
+
+    /* 메인 작업 영역 */
+    .main-container {
+      min-width: 0;
+      width: 100%;
     }
 
     .active-record-banner {
@@ -614,6 +783,34 @@
     }
 
     /* 사용자 매뉴얼 모달 전용 스타일 */
+    .manual-step-switcher {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .manual-switch-btn {
+      padding: 7px 14px;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: #FFFFFF;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+
+    .manual-switch-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #FFFFFF;
+    }
+
     .manual-intro {
       background: var(--bg-accent-soft);
       border-left: 4px solid var(--primary);
@@ -989,6 +1186,7 @@
 
     /* =========================================================
        모바일 버전 (가로 767px 이하)
+       - 상단 가로 탭 복원, 좌측 태블릿 사이드바 숨김
        - 전체 글씨 크기를 한 단계(16px -> 14px 기준) 낮춤
        - 상단 4개 버튼을 무조건 가로 한 줄로 배치
        ========================================================= */
@@ -1004,7 +1202,6 @@
 
       .header-top {
         gap: 8px;
-        margin-bottom: 9px;
       }
 
       .brand-title {
@@ -1059,8 +1256,10 @@
         font-size: 0.84rem;
       }
 
-      .step-tabs {
+      .mobile-step-tabs {
+        display: grid;
         gap: 6px;
+        margin-top: 9px;
       }
 
       .step-tab {
@@ -1079,9 +1278,14 @@
         font-size: 0.8rem;
       }
 
-      .main-container {
+      .workspace-layout {
+        display: block;
         margin: 14px auto 44px;
         padding: 0 12px;
+      }
+
+      .tablet-sidebar {
+        display: none;
       }
 
       .active-record-banner {
@@ -1207,7 +1411,7 @@
       }
 
       .modal-header h3 {
-        font-size: 1.08rem;
+        font-size: 1.05rem;
       }
 
       .modal-body {
@@ -1306,7 +1510,8 @@
         </div>
       </div>
 
-      <nav class="step-tabs" aria-label="작업 단계 선택">
+      <!-- 모바일 전용 상단 3단계 탭 -->
+      <nav class="mobile-step-tabs" aria-label="모바일 작업 단계 선택">
         <button type="button" class="step-tab active" data-step="1" onclick="app.setStep(1)">
           <span class="step-num">1</span> 스스로에게 질문하기
         </button>
@@ -1320,198 +1525,51 @@
     </div>
   </header>
 
-  <!-- 메인 작업 공간 -->
-  <main class="main-container" id="appContent"></main>
+  <!-- 태블릿/데스크톱 2단 워크스페이스 -->
+  <div class="workspace-layout">
+    <!-- 좌측 고정 사이드바 (태블릿 모드) -->
+    <aside class="tablet-sidebar" aria-label="작업 단계 및 참조 안내">
+      <div class="sidebar-nav-section">
+        <div class="sidebar-nav-label">작업 단계 선택</div>
+        <button type="button" class="sidebar-step-btn active" data-step="1" onclick="app.setStep(1)">
+          <span class="sidebar-step-num">1</span>
+          <div class="sidebar-step-info">
+            <span class="sidebar-step-title">스스로에게 질문하기</span>
+            <span class="sidebar-step-sub">판단하기 질문지 (6문항)</span>
+          </div>
+        </button>
+        <button type="button" class="sidebar-step-btn" data-step="2" onclick="app.setStep(2)">
+          <span class="sidebar-step-num">2</span>
+          <div class="sidebar-step-info">
+            <span class="sidebar-step-title">스스로 하기: 탐구</span>
+            <span class="sidebar-step-sub">네 가지 질문 깊이 적용하기</span>
+          </div>
+        </button>
+        <button type="button" class="sidebar-step-btn" data-step="3" onclick="app.setStep(3)">
+          <span class="sidebar-step-num">3</span>
+          <div class="sidebar-step-info">
+            <span class="sidebar-step-title">뒤바꿔보세요</span>
+            <span class="sidebar-step-sub">관점 전환 및 사례 찾기</span>
+          </div>
+        </button>
+      </div>
 
-  <!-- 사용자 매뉴얼 모달 -->
+      <!-- 좌측 가장 아래 단계별 참조 문구 영역 -->
+      <div class="sidebar-ref-card" id="sidebarReferenceBox"></div>
+    </aside>
+
+    <!-- 우측 메인 작업 공간 -->
+    <main class="main-container" id="appContent"></main>
+  </div>
+
+  <!-- 사용자 매뉴얼 모달 (현재 선택된 단계에 따라 내용이 동적으로 전환됨) -->
   <div class="modal-backdrop" id="manualModal" onclick="if(event.target === this) app.closeManualModal()">
     <div class="modal-box">
       <div class="modal-header">
-        <h3>📖 사용자 매뉴얼 — 판단하기 질문지 작성 가이드</h3>
+        <h3 id="manualModalTitle">📖 사용자 매뉴얼</h3>
         <button type="button" class="modal-close" onclick="app.closeManualModal()">&times;</button>
       </div>
-      <div class="modal-body">
-        <div class="manual-intro">
-          바이런 케이티(Byron Katie)의 <strong>‘내면의 작업(The Work)’</strong>은 우리를 괴롭히는 스트레스의 원인이 외부 사건이 아니라 그 사건에 대한 <strong>‘나의 생각’</strong>에 있음을 깨닫게 해주는 자기 탐구 도구입니다.<br />
-          첫 번째 관문인 <strong>1단계 ‘스스로에게 질문하기(판단하기 질문지)’</strong>는 내면의 판단을 솔직하게 종이 위에 꺼내 놓는 과정입니다.
-        </div>
-
-        <!-- 1. 시작 전 화면 구성과 핵심 원칙 -->
-        <section class="manual-section">
-          <h4 class="manual-section-title">1. 시작 전 화면 구성과 핵심 원칙</h4>
-
-          <div class="manual-subcard">
-            <h4>화면 버튼 안내</h4>
-            <ul class="manual-list">
-              <li><strong>상단 도구 모음:</strong> 작성 내용은 브라우저에 자동 저장되며, <strong>저장 / 불러오기</strong>로 기록을 관리하거나 <strong>초기화</strong>로 새 종이를 꺼낼 수 있습니다. 모든 단계를 마친 뒤에는 <strong>요약 및 내보내기</strong>를 눌러 전체 탐구 결과를 한눈에 정리하고 이미지로 공유할 수 있습니다.</li>
-              <li><strong>3단계 진행 탭:</strong> 이 워크북은 <strong>1. 스스로에게 질문하기(판단 적기) → 2. 스스로 하기: 탐구(4가지 질문) → 3. 뒤바꿔보세요(관점 전환)</strong> 순서로 진행됩니다.</li>
-            </ul>
-          </div>
-
-          <div class="manual-subcard" style="margin-bottom: 0;">
-            <h4>초보자를 위한 3가지 황금률</h4>
-            <ul class="manual-list">
-              <li><strong>착한 사람인 척하지 마세요:</strong> 화면 안내문에도 적혀 있듯 “가혹하고 유치하며 편협하게, 검열하지 말고 떠오르는 그대로” 적어야 합니다. ‘나도 이해해야지’, ‘어른스럽게 넘어가야지’라며 생각을 포장하면 내면의 진짜 스트레스를 찾아낼 수 없습니다.</li>
-              <li><strong>특정한 ‘한 장면’을 떠올리세요:</strong> “그 사람은 원래 이기적이다”처럼 막연한 전체 평가보다, 어제 오후 회의 시간, 지난 주말 저녁 식사 자리처럼 구체적인 시간과 장면을 하나 정해 그때의 감정을 적는 것이 훨씬 효과적입니다.</li>
-              <li><strong>짧고 단호한 문장으로 쓰세요:</strong> 1단계에서 적은 문장 하나하나가 2단계(4가지 질문)의 재료가 됩니다. 수식어를 길게 늘이기보다 속마음을 직설적이고 간결하게 적으세요.</li>
-            </ul>
-          </div>
-        </section>
-
-        <!-- 2. 판단하기 질문지 6개 문항 상세 가이드 -->
-        <section class="manual-section">
-          <h4 class="manual-section-title">2. 판단하기 질문지 6개 문항 상세 가이드</h4>
-          <div class="manual-scenario-note">
-            💡 <strong>공통 작성 예시 상황:</strong> 이해를 돕기 위해 <em>‘직장 동료 김대리가 회의 시간에 내 아이디어를 자기 생각인 것처럼 발표한 상황’</em>을 공통 예시로 들어 각 문항을 설명합니다.
-          </div>
-
-          <!-- 질문 1 -->
-          <div class="manual-q-card">
-            <div class="manual-q-header">
-              <span class="manual-q-badge">질문 1</span>
-              <h5 class="manual-q-title">감정과 이유 적기</h5>
-            </div>
-            <div class="manual-q-quote">
-              당신을 화나게 하거나 슬프게 하거나 실망시키는 사람은 누구이며, 그 이유는 무엇인가요?
-            </div>
-            <ul class="manual-list">
-              <li><strong>문항 설명:</strong> 나를 불편하게 만든 대상(사람 이름)을 특정하고, 그때 올라온 핵심 감정(화가 난다, 슬프다, 혼란스럽다, 두렵다, 실망스럽다 중 선택 또는 직접 입력)과 그 이유를 연결하는 첫 문장입니다.</li>
-              <li><strong>작성 팁:</strong> 상황 설명을 구구절절 쓰기보다, 내 감정을 건드린 상대의 행동을 콕 집어 적습니다.</li>
-            </ul>
-            <div class="manual-example-box">
-              <div class="manual-example-label">작성 예시</div>
-              <ul>
-                <li>나는 (김대리) 때문에 [화가 난다]. 왜냐하면 내가 밤새워 준비한 기획 아이디어를 회의 시간에 자기 생각인 것처럼 가로채서 발표했기 때문이다.</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- 질문 2 -->
-          <div class="manual-q-card">
-            <div class="manual-q-header">
-              <span class="manual-q-badge">질문 2</span>
-              <h5 class="manual-q-title">원하는 변화와 요구 적기</h5>
-            </div>
-            <div class="manual-q-quote">
-              당신은 그 사람이 어떻게 바뀌기를 원하나요? 당신은 그 사람이 어떻게 하기를 원하나요?
-            </div>
-            <ul class="manual-list">
-              <li><strong>문항 설명:</strong> 내가 상대방에게 바라는 구체적인 행동 변화나 태도를 적는 문항입니다. 내가 상대를 어떻게 통제하고 싶어 하는지 드러내는 단계입니다.</li>
-              <li><strong>작성 팁:</strong> “나는 [이름]이(가) ~하기를 원한다”라는 문장 형태로 솔직하게 요구사항을 나열하세요.</li>
-            </ul>
-            <div class="manual-example-box">
-              <div class="manual-example-label">작성 예시</div>
-              <ul>
-                <li>나는 김대리가 팀장님 앞에서 사실대로 내 아이디어였다고 정정하기를 원한다.</li>
-                <li>나는 김대리가 내 공을 가로챈 것에 대해 진심으로 사과하기를 원한다.</li>
-                <li>나는 김대리가 양심을 가지고 일하기를 원한다.</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- 질문 3 -->
-          <div class="manual-q-card">
-            <div class="manual-q-header">
-              <span class="manual-q-badge">질문 3</span>
-              <h5 class="manual-q-title">조언하기 (해야 할 일 / 하지 말아야 할 일)</h5>
-            </div>
-            <div class="manual-q-quote">
-              그 사람이 해야 하거나 하지 말아야 할 것들(행위, 태도, 생각, 느낌 등)은 무엇인가요?
-            </div>
-            <ul class="manual-list">
-              <li><strong>문항 설명:</strong> 내가 상대방의 인생 코치나 심판관이 되었다고 상상하고, 그 사람이 지켜야 할 규칙이나 훈계를 적는 문항입니다.</li>
-              <li><strong>작성 팁:</strong> “[이름]는(은) ~해야 한다”, “[이름]는(은) ~하지 말아야 한다” 형식으로 평소 속으로 맴돌던 잔소리를 그대로 꺼내 놓으세요.</li>
-            </ul>
-            <div class="manual-example-box">
-              <div class="manual-example-label">작성 예시</div>
-              <ul>
-                <li>김대리는 남의 아이디어를 훔치지 말아야 한다.</li>
-                <li>김대리는 동료의 노력을 존중할 줄 알아야 한다.</li>
-                <li>김대리는 자기 실력으로 인정받으려고 노력해야 한다.</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- 질문 4 -->
-          <div class="manual-q-card">
-            <div class="manual-q-header">
-              <span class="manual-q-badge">질문 4</span>
-              <h5 class="manual-q-title">나의 필요(욕구) 적기</h5>
-            </div>
-            <div class="manual-q-quote">
-              당신은 그 사람에게 무엇인가를 필요로 하나요? 그 사람이 당신에게 어떻게 해주면, 당신은 행복해질까요?
-            </div>
-            <ul class="manual-list">
-              <li><strong>문항 설명:</strong> 내 마음의 평화와 행복을 위해 상대방이 나에게 해줘야만 한다고 믿는 조건을 적는 문항입니다. 질문 2와 비슷해 보이지만, ‘내가 행복해지려면’이라는 전제가 붙어 내가 상대에게 얼마나 내 기분을 맡기고 있는지 보여줍니다.</li>
-              <li><strong>작성 팁:</strong> “내가 행복해지려면 김대리가 나에게 ~해 주어야 한다 / 나는 김대리가 ~하기를 필요로 한다”라는 문장을 완성해 보세요.</li>
-            </ul>
-            <div class="manual-example-box">
-              <div class="manual-example-label">작성 예시</div>
-              <ul>
-                <li>내가 마음 편히 회사를 다니려면 김대리가 내 능력을 인정하고 공개적으로 고마움을 표현해야 한다.</li>
-                <li>내가 기분이 풀리려면 김대리가 자신의 잘못을 깨닫고 미안해해야 한다.</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- 질문 5 -->
-          <div class="manual-q-card">
-            <div class="manual-q-header">
-              <span class="manual-q-badge">질문 5</span>
-              <h5 class="manual-q-title">상대방에 대한 판단과 꼬리표 붙이기</h5>
-            </div>
-            <div class="manual-q-quote">
-              당신은 그 사람을 어떻게 생각하나요? 목록을 만들어 보세요.
-            </div>
-            <ul class="manual-list">
-              <li><strong>문항 설명:</strong> 그 사람을 규정짓는 모든 부정적인 형용사나 꼬리표를 쏟아내는 문항입니다. 가장 유치하고 편협하게 써도 되는 단계입니다.</li>
-              <li><strong>작성 팁:</strong> 체면 차리지 말고 머릿속에 떠오르는 단어를 쉼표로 구분해 가며 마음껏 나열하세요.</li>
-            </ul>
-            <div class="manual-example-box">
-              <div class="manual-example-label">작성 예시</div>
-              <ul>
-                <li>김대리는 이기적이고, 얌체 같고, 기회주의적이고, 뻔뻔하고, 신뢰할 수 없는 사람이다.</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- 질문 6 -->
-          <div class="manual-q-card" style="margin-bottom: 0;">
-            <div class="manual-q-header">
-              <span class="manual-q-badge">질문 6</span>
-              <h5 class="manual-q-title">다시는 경험하고 싶지 않은 일 적기</h5>
-            </div>
-            <div class="manual-q-quote">
-              당신이 그 사람이나 그것, 그 상황과 다시는 경험하고 싶지 않은 점은 무엇인가요?
-            </div>
-            <ul class="manual-list">
-              <li><strong>문항 설명:</strong> 이 사건을 통해 내가 가장 두려워하거나 피하고 싶어 하는 핵심 지점을 확인하는 마무리 문항입니다.</li>
-              <li><strong>작성 팁:</strong> “나는 앞으로 다시는 ~하고 싶지 않다 / 하지 않겠다”로 문장을 완성해 보세요.</li>
-            </ul>
-            <div class="manual-example-box">
-              <div class="manual-example-label">작성 예시</div>
-              <ul>
-                <li>나는 앞으로 다시는 내가 공들인 성과를 다른 사람에게 빼앗기는 경험을 하고 싶지 않다.</li>
-                <li>나는 앞으로 다시는 김대리와 같은 팀에서 일하고 싶지 않다.</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <!-- 3. 작성을 마친 뒤 활용법 -->
-        <section class="manual-section">
-          <h4 class="manual-section-title">3. 작성을 마친 뒤 활용법</h4>
-          <div class="manual-subcard" style="margin-bottom: 0;">
-            <p style="margin: 0 0 10px; font-size: 0.95rem;">
-              6번 문항까지 솔직하게 다 적으셨다면 화면 상단의 <strong>‘2 스스로 하기: 탐구’</strong> 탭을 눌러 다음 단계로 넘어가세요.
-            </p>
-            <ul class="manual-list">
-              <li><strong>2단계 (네 가지 질문 탐구):</strong> 방금 적은 문장 하나하나를 두고 스스로에게 네 가지 질문(① 그게 진실인가요? ② 당신은 그게 진실인지 확실히 알 수 있나요? ③ 그 생각을 할 때 당신은 어떻게 반응하나요? ④ 그 생각이 없다면 당신은 누구일까요?)을 던지게 됩니다.</li>
-              <li><strong>3단계 (뒤바꿔보세요):</strong> 판단하기 질문지를 솔직하고 적나라하게 적었을수록, 2단계의 질문과 3단계의 ‘뒤바꾸기’를 거칠 때 마음이 가벼워지는 해방감을 훨씬 선명하게 경험하실 수 있습니다.</li>
-            </ul>
-          </div>
-        </section>
-      </div>
+      <div class="modal-body" id="manualModalBody"></div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" onclick="app.closeManualModal()">확인 및 닫기</button>
       </div>
@@ -1585,6 +1643,7 @@
         this.storageKey = 'the_work_tablet_workbook_v2';
         this.archiveStorageKey = 'the_work_saved_archives_v1';
         this.currentStep = 1;
+        this.manualStep = 1;
         this.activeInquiryIndex = 1;
         this.loadedArchiveId = null;
         this.confirmDeleteId = null;
@@ -1599,6 +1658,7 @@
           setTimeout(() => this.autoResizeAll(), 120);
         });
 
+        this.renderSidebarReference();
         this.render();
       }
 
@@ -1709,8 +1769,61 @@
         document.querySelectorAll('.step-tab').forEach(tab => {
           tab.classList.toggle('active', Number(tab.dataset.step) === step);
         });
+        document.querySelectorAll('.sidebar-step-btn').forEach(btn => {
+          btn.classList.toggle('active', Number(btn.dataset.step) === step);
+        });
+        this.renderSidebarReference();
         this.render();
         window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      /* 좌측 사이드바 하단 단계별 참조 문구 렌더링 */
+      renderSidebarReference() {
+        const refBox = document.getElementById('sidebarReferenceBox');
+        if (!refBox) return;
+
+        const references = {
+          1: {
+            badge: '1단계 핵심 참조',
+            title: '검열하지 말고 날것 그대로 적으세요',
+            quote: '“종이 위에서만큼은 착한 사람인 척하지 마세요. 가혹하고 유치하게 떠오르는 생각을 그대로 꺼내 놓을 때 치유가 시작됩니다.”',
+            tips: [
+              '특정한 한 장면과 한 사람을 떠올리세요.',
+              '긴 설명보다 짧고 단호한 문장으로 쓰세요.',
+              '1~5번 문장이 2단계 탐구의 재료가 됩니다.'
+            ]
+          },
+          2: {
+            badge: '2단계 핵심 참조',
+            title: '머리가 아닌 내면의 대답에 머무르세요',
+            quote: '“네 가지 질문에는 정답이 없습니다. 논리로 따지지 말고, 질문과 함께 고요히 머물며 내면에서 올라오는 진실을 지켜보세요.”',
+            tips: [
+              '탐구 1·2는 ‘예/아니오’로 단순하게 멈추세요.',
+              '탐구 3은 생각을 믿을 때의 신체·감정 반응을 봅니다.',
+              '탐구 4는 그 생각이 없는 상태의 나를 상상합니다.'
+            ]
+          },
+          3: {
+            badge: '3단계 핵심 참조',
+            title: '남을 향한 화살을 거울로 돌려보세요',
+            quote: '“뒤바꾸기는 자책이나 죄책감이 아닙니다. 내가 상대를 향해 던진 판단이 사실은 나 자신과 현실을 비추는 거울임을 발견하는 해방입니다.”',
+            tips: [
+              '① 나 자신에게 ② 상대방에게 ③ 정반대로 바꾸세요.',
+              '각 문장이 참인 구체적 사례 3가지씩 찾아보세요.',
+              '6번은 두려움을 ‘기꺼이/고대한다’로 전환합니다.'
+            ]
+          }
+        };
+
+        const info = references[this.currentStep] || references[1];
+        refBox.innerHTML = `
+          <span class="sidebar-ref-badge">${info.badge}</span>
+          <h4 class="sidebar-ref-title">${info.title}</h4>
+          <blockquote class="sidebar-ref-quote">${info.quote}</blockquote>
+          <ul class="sidebar-ref-tips">
+            ${info.tips.map(tip => `<li>${tip}</li>`).join('')}
+          </ul>
+        `;
       }
 
       updateField(key, value) {
@@ -2317,9 +2430,11 @@
       }
 
       /* =========================================
-         사용자 매뉴얼 모달
+         단계별 사용자 매뉴얼 모달
          ========================================= */
-      openManualModal() {
+      openManualModal(targetStep = null) {
+        this.manualStep = targetStep || this.currentStep || 1;
+        this.renderManualModalContent();
         const modal = document.getElementById('manualModal');
         if (modal) {
           const body = modal.querySelector('.modal-body');
@@ -2328,11 +2443,506 @@
         }
       }
 
+      switchManualStep(step) {
+        this.manualStep = step;
+        this.renderManualModalContent();
+        const modal = document.getElementById('manualModal');
+        if (modal) {
+          const body = modal.querySelector('.modal-body');
+          if (body) body.scrollTop = 0;
+        }
+      }
+
       closeManualModal() {
         const modal = document.getElementById('manualModal');
         if (modal) {
           modal.classList.remove('open');
         }
+      }
+
+      renderManualModalContent() {
+        const titleEl = document.getElementById('manualModalTitle');
+        const bodyEl = document.getElementById('manualModalBody');
+        if (!titleEl || !bodyEl) return;
+
+        const titles = {
+          1: '📖 1단계 매뉴얼 — 판단하기 질문지 작성 가이드',
+          2: '📖 2단계 매뉴얼 — 스스로 하기: 탐구 (네 가지 질문) 가이드',
+          3: '📖 3단계 매뉴얼 — 뒤바꿔보세요 (관점 전환) 가이드'
+        };
+
+        titleEl.textContent = titles[this.manualStep] || titles[1];
+
+        const switcherHtml = `
+          <div class="manual-step-switcher">
+            <button type="button" class="manual-switch-btn ${this.manualStep === 1 ? 'active' : ''}" onclick="app.switchManualStep(1)">
+              1단계 매뉴얼 (질문하기)
+            </button>
+            <button type="button" class="manual-switch-btn ${this.manualStep === 2 ? 'active' : ''}" onclick="app.switchManualStep(2)">
+              2단계 매뉴얼 (네 가지 탐구)
+            </button>
+            <button type="button" class="manual-switch-btn ${this.manualStep === 3 ? 'active' : ''}" onclick="app.switchManualStep(3)">
+              3단계 매뉴얼 (뒤바꾸기)
+            </button>
+          </div>
+        `;
+
+        if (this.manualStep === 1) {
+          bodyEl.innerHTML = switcherHtml + this.getStep1ManualHtml();
+        } else if (this.manualStep === 2) {
+          bodyEl.innerHTML = switcherHtml + this.getStep2ManualHtml();
+        } else {
+          bodyEl.innerHTML = switcherHtml + this.getStep3ManualHtml();
+        }
+      }
+
+      getStep1ManualHtml() {
+        return `
+          <div class="manual-intro">
+            바이런 케이티(Byron Katie)의 <strong>‘내면의 작업(The Work)’</strong>은 우리를 괴롭히는 스트레스의 원인이 외부 사건이 아니라 그 사건에 대한 <strong>‘나의 생각’</strong>에 있음을 깨닫게 해주는 자기 탐구 도구입니다.<br />
+            첫 번째 관문인 <strong>1단계 ‘스스로에게 질문하기(판단하기 질문지)’</strong>는 내면의 판단을 솔직하게 종이 위에 꺼내 놓는 과정입니다.
+          </div>
+
+          <section class="manual-section">
+            <h4 class="manual-section-title">1. 시작 전 화면 구성과 핵심 원칙</h4>
+
+            <div class="manual-subcard">
+              <h4>화면 버튼 안내</h4>
+              <ul class="manual-list">
+                <li><strong>상단 도구 모음:</strong> 작성 내용은 브라우저에 자동 저장되며, <strong>저장 / 불러오기</strong>로 기록을 관리하거나 <strong>초기화</strong>로 새 종이를 꺼낼 수 있습니다. 모든 단계를 마친 뒤에는 <strong>요약 및 내보내기</strong>를 눌러 전체 탐구 결과를 한눈에 정리하고 이미지로 공유할 수 있습니다.</li>
+                <li><strong>3단계 진행 탭:</strong> 이 워크북은 <strong>1. 스스로에게 질문하기(판단 적기) → 2. 스스로 하기: 탐구(4가지 질문) → 3. 뒤바꿔보세요(관점 전환)</strong> 순서로 진행됩니다.</li>
+              </ul>
+            </div>
+
+            <div class="manual-subcard" style="margin-bottom: 0;">
+              <h4>초보자를 위한 3가지 황금률</h4>
+              <ul class="manual-list">
+                <li><strong>착한 사람인 척하지 마세요:</strong> 화면 안내문에도 적혀 있듯 “가혹하고 유치하며 편협하게, 검열하지 말고 떠오르는 그대로” 적어야 합니다. ‘나도 이해해야지’, ‘어른스럽게 넘어가야지’라며 생각을 포장하면 내면의 진짜 스트레스를 찾아낼 수 없습니다.</li>
+                <li><strong>특정한 ‘한 장면’을 떠올리세요:</strong> “그 사람은 원래 이기적이다”처럼 막연한 전체 평가보다, 어제 오후 회의 시간, 지난 주말 저녁 식사 자리처럼 구체적인 시간과 장면을 하나 정해 그때의 감정을 적는 것이 훨씬 효과적입니다.</li>
+                <li><strong>짧고 단호한 문장으로 쓰세요:</strong> 1단계에서 적은 문장 하나하나가 2단계(4가지 질문)의 재료가 됩니다. 수식어를 길게 늘이기보다 속마음을 직설적이고 간결하게 적으세요.</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="manual-section">
+            <h4 class="manual-section-title">2. 판단하기 질문지 6개 문항 상세 가이드</h4>
+            <div class="manual-scenario-note">
+              💡 <strong>공통 작성 예시 상황:</strong> 이해를 돕기 위해 <em>‘직장 동료 김대리가 회의 시간에 내 아이디어를 자기 생각인 것처럼 발표한 상황’</em>을 공통 예시로 들어 각 문항을 설명합니다.
+            </div>
+
+            <div class="manual-q-card">
+              <div class="manual-q-header">
+                <span class="manual-q-badge">질문 1</span>
+                <h5 class="manual-q-title">감정과 이유 적기</h5>
+              </div>
+              <div class="manual-q-quote">
+                당신을 화나게 하거나 슬프게 하거나 실망시키는 사람은 누구이며, 그 이유는 무엇인가요?
+              </div>
+              <ul class="manual-list">
+                <li><strong>문항 설명:</strong> 나를 불편하게 만든 대상(사람 이름)을 특정하고, 그때 올라온 핵심 감정(화가 난다, 슬프다, 혼란스럽다, 두렵다, 실망스럽다 중 선택 또는 직접 입력)과 그 이유를 연결하는 첫 문장입니다.</li>
+                <li><strong>작성 팁:</strong> 상황 설명을 구구절절 쓰기보다, 내 감정을 건드린 상대의 행동을 콕 집어 적습니다.</li>
+              </ul>
+              <div class="manual-example-box">
+                <div class="manual-example-label">작성 예시</div>
+                <ul>
+                  <li>나는 (김대리) 때문에 [화가 난다]. 왜냐하면 내가 밤새워 준비한 기획 아이디어를 회의 시간에 자기 생각인 것처럼 가로채서 발표했기 때문이다.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="manual-q-card">
+              <div class="manual-q-header">
+                <span class="manual-q-badge">질문 2</span>
+                <h5 class="manual-q-title">원하는 변화와 요구 적기</h5>
+              </div>
+              <div class="manual-q-quote">
+                당신은 그 사람이 어떻게 바뀌기를 원하나요? 당신은 그 사람이 어떻게 하기를 원하나요?
+              </div>
+              <ul class="manual-list">
+                <li><strong>문항 설명:</strong> 내가 상대방에게 바라는 구체적인 행동 변화나 태도를 적는 문항입니다. 내가 상대를 어떻게 통제하고 싶어 하는지 드러내는 단계입니다.</li>
+                <li><strong>작성 팁:</strong> “나는 [이름]이(가) ~하기를 원한다”라는 문장 형태로 솔직하게 요구사항을 나열하세요.</li>
+              </ul>
+              <div class="manual-example-box">
+                <div class="manual-example-label">작성 예시</div>
+                <ul>
+                  <li>나는 김대리가 팀장님 앞에서 사실대로 내 아이디어였다고 정정하기를 원한다.</li>
+                  <li>나는 김대리가 내 공을 가로챈 것에 대해 진심으로 사과하기를 원한다.</li>
+                  <li>나는 김대리가 양심을 가지고 일하기를 원한다.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="manual-q-card">
+              <div class="manual-q-header">
+                <span class="manual-q-badge">질문 3</span>
+                <h5 class="manual-q-title">조언하기 (해야 할 일 / 하지 말아야 할 일)</h5>
+              </div>
+              <div class="manual-q-quote">
+                그 사람이 해야 하거나 하지 말아야 할 것들(행위, 태도, 생각, 느낌 등)은 무엇인가요?
+              </div>
+              <ul class="manual-list">
+                <li><strong>문항 설명:</strong> 내가 상대방의 인생 코치나 심판관이 되었다고 상상하고, 그 사람이 지켜야 할 규칙이나 훈계를 적는 문항입니다.</li>
+                <li><strong>작성 팁:</strong> “[이름]는(은) ~해야 한다”, “[이름]는(은) ~하지 말아야 한다” 형식으로 평소 속으로 맴돌던 잔소리를 그대로 꺼내 놓으세요.</li>
+              </ul>
+              <div class="manual-example-box">
+                <div class="manual-example-label">작성 예시</div>
+                <ul>
+                  <li>김대리는 남의 아이디어를 훔치지 말아야 한다.</li>
+                  <li>김대리는 동료의 노력을 존중할 줄 알아야 한다.</li>
+                  <li>김대리는 자기 실력으로 인정받으려고 노력해야 한다.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="manual-q-card">
+              <div class="manual-q-header">
+                <span class="manual-q-badge">질문 4</span>
+                <h5 class="manual-q-title">나의 필요(욕구) 적기</h5>
+              </div>
+              <div class="manual-q-quote">
+                당신은 그 사람에게 무엇인가를 필요로 하나요? 그 사람이 당신에게 어떻게 해주면, 당신은 행복해질까요?
+              </div>
+              <ul class="manual-list">
+                <li><strong>문항 설명:</strong> 내 마음의 평화와 행복을 위해 상대방이 나에게 해줘야만 한다고 믿는 조건을 적는 문항입니다. 질문 2와 비슷해 보이지만, ‘내가 행복해지려면’이라는 전제가 붙어 내가 상대에게 얼마나 내 기분을 맡기고 있는지 보여줍니다.</li>
+                <li><strong>작성 팁:</strong> “내가 행복해지려면 김대리가 나에게 ~해 주어야 한다 / 나는 김대리가 ~하기를 필요로 한다”라는 문장을 완성해 보세요.</li>
+              </ul>
+              <div class="manual-example-box">
+                <div class="manual-example-label">작성 예시</div>
+                <ul>
+                  <li>내가 마음 편히 회사를 다니려면 김대리가 내 능력을 인정하고 공개적으로 고마움을 표현해야 한다.</li>
+                  <li>내가 기분이 풀리려면 김대리가 자신의 잘못을 깨닫고 미안해해야 한다.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="manual-q-card">
+              <div class="manual-q-header">
+                <span class="manual-q-badge">질문 5</span>
+                <h5 class="manual-q-title">상대방에 대한 판단과 꼬리표 붙이기</h5>
+              </div>
+              <div class="manual-q-quote">
+                당신은 그 사람을 어떻게 생각하나요? 목록을 만들어 보세요.
+              </div>
+              <ul class="manual-list">
+                <li><strong>문항 설명:</strong> 그 사람을 규정짓는 모든 부정적인 형용사나 꼬리표를 쏟아내는 문항입니다. 가장 유치하고 편협하게 써도 되는 단계입니다.</li>
+                <li><strong>작성 팁:</strong> 체면 차리지 말고 머릿속에 떠오르는 단어를 쉼표로 구분해 가며 마음껏 나열하세요.</li>
+              </ul>
+              <div class="manual-example-box">
+                <div class="manual-example-label">작성 예시</div>
+                <ul>
+                  <li>김대리는 이기적이고, 얌체 같고, 기회주의적이고, 뻔뻔하고, 신뢰할 수 없는 사람이다.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="manual-q-card" style="margin-bottom: 0;">
+              <div class="manual-q-header">
+                <span class="manual-q-badge">질문 6</span>
+                <h5 class="manual-q-title">다시는 경험하고 싶지 않은 일 적기</h5>
+              </div>
+              <div class="manual-q-quote">
+                당신이 그 사람이나 그것, 그 상황과 다시는 경험하고 싶지 않은 점은 무엇인가요?
+              </div>
+              <ul class="manual-list">
+                <li><strong>문항 설명:</strong> 이 사건을 통해 내가 가장 두려워하거나 피하고 싶어 하는 핵심 지점을 확인하는 마무리 문항입니다.</li>
+                <li><strong>작성 팁:</strong> “나는 앞으로 다시는 ~하고 싶지 않다 / 하지 않겠다”로 문장을 완성해 보세요.</li>
+              </ul>
+              <div class="manual-example-box">
+                <div class="manual-example-label">작성 예시</div>
+                <ul>
+                  <li>나는 앞으로 다시는 내가 공들인 성과를 다른 사람에게 빼앗기는 경험을 하고 싶지 않다.</li>
+                  <li>나는 앞으로 다시는 김대리와 같은 팀에서 일하고 싶지 않다.</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <section class="manual-section">
+            <h4 class="manual-section-title">3. 작성을 마친 뒤 활용법</h4>
+            <div class="manual-subcard" style="margin-bottom: 0;">
+              <p style="margin: 0 0 10px; font-size: 0.95rem;">
+                6번 문항까지 솔직하게 다 적으셨다면 다음 단계인 <strong>‘2. 스스로 하기: 탐구’</strong>로 넘어가세요.
+              </p>
+              <ul class="manual-list">
+                <li><strong>2단계 (네 가지 질문 탐구):</strong> 방금 적은 문장 하나하나를 두고 스스로에게 네 가지 질문을 던지게 됩니다.</li>
+                <li><strong>3단계 (뒤바꿔보세요):</strong> 판단하기 질문지를 솔직하고 적나라하게 적었을수록, 2단계의 질문과 3단계의 ‘뒤바꾸기’를 거칠 때 마음이 가벼워지는 해방감을 훨씬 선명하게 경험하실 수 있습니다.</li>
+              </ul>
+            </div>
+          </section>
+        `;
+      }
+
+      getStep2ManualHtml() {
+        return `
+          <div class="manual-intro">
+            <strong>2단계 ‘스스로 하기: 탐구’</strong>는 1단계에서 적어 내려간 나의 판단 문장(1~5번 진술)을 하나씩 꺼내어, <strong>네 가지 질문</strong>이라는 현미경 아래에 조용히 비춰 보는 핵심 과정입니다.<br />
+            이 단계의 목적은 생각을 억지로 바꾸는 것이 아니라, <strong>그 생각이 진실인지 스스로 확인하고 그 생각을 믿을 때 내 삶에 무슨 일이 일어나는지 알아차리는 것</strong>입니다.
+          </div>
+
+          <section class="manual-section">
+            <h4 class="manual-section-title">1. 탐구 전 화면 사용법과 핵심 태도</h4>
+            <div class="manual-subcard" style="margin-bottom: 0;">
+              <h4>초보자를 위한 탐구 3원칙</h4>
+              <ul class="manual-list">
+                <li><strong>진술 선택 탭 활용:</strong> 화면 상단의 <code>1번 진술</code> ~ <code>5번 진술</code> 버튼을 누르면 1단계에서 쓴 문장이 자동으로 불려오며, 각 진술별로 탐구 내용이 개별 저장됩니다.</li>
+                <li><strong>‘예 / 아니오’로 단순하게 멈추기:</strong> 탐구 1과 2는 옳고 그름을 따지는 토론이 아닙니다. 머리로 변명하거나 긴 이유를 지어내기 전에, 내면에서 올라오는 첫 대답이 ‘예’인지 ‘아니오’인지 조용히 귀 기울여 보세요.</li>
+                <li><strong>2번·3번·4번 질문의 초점 구분하기:</strong> 2번은 <em>‘생각의 절대성 검증’</em>, 3번은 <em>‘생각을 믿을 때의 현실 반응 관찰’</em>, 4번은 <em>‘생각이 없는 상태의 순수한 나 체험’</em>으로 초점이 명확히 다릅니다.</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="manual-section">
+            <h4 class="manual-section-title">2. 네 가지 탐구 질문 상세 가이드 및 예시</h4>
+            <div class="manual-scenario-note">
+              💡 <strong>공통 탐구 대상 문장 (1단계 3번 진술 예시):</strong><br />
+              <em>“김대리는 남의 아이디어를 훔치지 말아야 한다.”</em> (상황: 회의 시간에 김대리가 내 아이디어를 자기 생각처럼 발표한 장면)
+            </div>
+
+            <!-- 탐구 1 -->
+            <div class="manual-q-card">
+              <div class="manual-q-header">
+                <span class="manual-q-badge">탐구 1</span>
+                <h5 class="manual-q-title">그게 진실인가요? (Is it true?)</h5>
+              </div>
+              <div class="manual-q-quote">
+                서두르지 마세요. 그저 마음을 열고 진실과 함께 앉아 내면의 대답에 귀 기울여 보세요.
+              </div>
+              <ul class="manual-list">
+                <li><strong>질문의 의도:</strong> 내가 철석같이 믿고 있는 이 문장이 정말 사실인지 묻습니다. ‘당연히 아니오라고 답해야지’라고 계산하지 말고, 그 순간 마음속에 <strong>‘예’</strong>라는 대답이 올라온다면 솔직하게 <strong>‘예’</strong>를 선택하세요.</li>
+                <li><strong>작성 팁:</strong> ‘예’ 또는 ‘아니오’를 선택한 뒤, 왜 그렇게 느껴지는지 떠오르는 짧은 생각을 그대로 적습니다.</li>
+              </ul>
+              <div class="manual-example-box">
+                <div class="manual-example-label">작성 예시</div>
+                <ul>
+                  <li><strong>선택:</strong> [예]</li>
+                  <li><strong>메모:</strong> 직장 동료라면 최소한의 상도덕을 지켜야 하고, 남의 아이디어를 가로채지 말아야 하는 건 당연한 사실처럼 느껴진다.</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- 탐구 2 -->
+            <div class="manual-q-card">
+              <div class="manual-q-header">
+                <span class="manual-q-badge">탐구 2</span>
+                <h5 class="manual-q-title">당신은 그게 진실인지 확실히 알 수 있나요?</h5>
+              </div>
+              <div class="manual-q-quote">
+                이미 안다고 생각하는 것 밑에 있는 대답을 발견해 보세요. 고통을 일으키는 것은 자신의 해석인 경우가 많습니다.
+              </div>
+              <ul class="manual-list">
+                <li><strong>탐구 1과의 핵심 차이:</strong> 1번에서 ‘예’라고 답했다면, 2번은 한 걸음 더 깊이 들어가 <strong>“당신이 그 사람의 내면 사정과 우주의 모든 인과까지 다 알아서, 현실에서 그 일이 절대 일어나면 안 되었다고 100% 확신할 수 있는가?”</strong>를 묻습니다.</li>
+                <li><strong>작성 팁:</strong> 현실에서는 이미 김대리가 그렇게 행동했습니다. ‘~하지 말아야 한다’는 믿음이 객관적 사실인지, 아니면 ‘내 기준에 맞지 않아 괴롭다’는 나의 해석인지 들여다보세요.</li>
+              </ul>
+              <div class="manual-example-box">
+                <div class="manual-example-label">작성 예시</div>
+                <ul>
+                  <li><strong>선택:</strong> [아니오]</li>
+                  <li><strong>메모:</strong> 현실에서 이미 김대리는 그 말을 해버렸다. 내가 100% 확실히 알 수 있는 건 ‘김대리가 그렇게 말해서 내가 지금 화가 났다’는 것뿐이다. 그가 왜 그런 선택을 했는지, 그 일이 내 커리어에 궁극적으로 어떤 결과를 가져올지는 내가 다 알 수 없다.</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- 탐구 3 -->
+            <div class="manual-q-card">
+              <div class="manual-q-header">
+                <span class="manual-q-badge">탐구 3</span>
+                <h5 class="manual-q-title">그 생각을 할 때 당신은 어떻게 반응하나요?</h5>
+              </div>
+              <div class="manual-q-quote">
+                자기를 어떻게 대하며 상대방을 어떻게 대하나요? 몸의 어느 부위에서 어떤 감각을 느끼며, 머릿속에서는 어떤 말들이 오가나요?
+              </div>
+              <ul class="manual-list">
+                <li><strong>질문의 의도 (원인과 결과 확인):</strong> “김대리는 남의 아이디어를 훔치지 말아야 한다”라는 생각을 사실로 믿고 붙잡을 때, <strong>내 몸과 마음과 행동에 어떤 고통과 반응이 일어나는지</strong> 생생하게 관찰하는 단계입니다.</li>
+                <li><strong>작성 팁:</strong> ① 행동과 말투(상대에게 보이는 태도), ② 신체 감각(가슴 조임, 열감, 어깨 경직 등), ③ 머릿속 자기 대화(보복 상상, 억울함 되새김)의 3가지로 나누어 적어보세요.</li>
+              </ul>
+              <div class="manual-example-box">
+                <div class="manual-example-label">작성 예시</div>
+                <ul>
+                  <li><strong>행동과 말투:</strong> 김대리 얼굴도 쳐다보기 싫어지고 말투가 차갑고 날카로워진다. 다른 동료들에게 은근히 김대리 험담을 하며 내 편을 만들려 한다.</li>
+                  <li><strong>신체 감각:</strong> 명치 끝이 꽉 막힌 듯 답답하고 얼굴에 열이 오르며, 퇴근 후에도 심장이 두근거려 잠을 설친다.</li>
+                  <li><strong>머릿속 생각들:</strong> “저런 얌체 같은 인간은 꼭 망신당해야 해”, “다음 회의 때 어떻게든 망신을 줄까?” 같은 공격적인 생각이 머릿속을 떠나지 않는다.</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- 탐구 4 -->
+            <div class="manual-q-card" style="margin-bottom: 0;">
+              <div class="manual-q-header">
+                <span class="manual-q-badge">탐구 4</span>
+                <h5 class="manual-q-title">그 생각이 없다면, 당신은 누구일까요?</h5>
+              </div>
+              <div class="manual-q-quote">
+                눈을 감고 기다리세요. 같은 상황에서 그 생각을 할 능력이 없었다고 상상해 보세요. 무엇이 보이나요? 어떻게 느껴지나요?
+              </div>
+              <ul class="manual-list">
+                <li><strong>탐구 3과의 핵심 대비:</strong> 사건 자체를 없던 일로 지우거나 상대를 억지로 용서하라는 뜻이 아닙니다. 회의실 상황은 똑같지만, 내 머릿속에 <strong>‘김대리는 ~하지 말아야 한다’는 생각 자체가 애초에 떠오르지 않는 상태</strong>라면 내가 어떤 모습일지 상상해 보는 질문입니다.</li>
+                <li><strong>작성 팁:</strong> 그 생각이 사라졌을 때 내 몸의 감각이 어떻게 변하는지, 그리고 그 상황에서 훨씬 담담하고 지혜롭게 할 수 있는 행동이 무엇인지 적어보세요.</li>
+              </ul>
+              <div class="manual-example-box">
+                <div class="manual-example-label">작성 예시</div>
+                <ul>
+                  <li><strong>느낌과 신체 변화:</strong> 명치를 누르던 답답함과 분노의 열기가 사라지고 호흡이 깊고 편안해진다.</li>
+                  <li><strong>상대를 대하는 태도:</strong> 김대리를 미워하느라 에너지를 쏟는 대신, 회의 자리에서 차분하고 당당하게 “김대리님이 제 기획안의 핵심을 잘 짚어주셨네요. 제가 준비한 세부 실행안도 이어서 공유하겠습니다”라고 내 역할을 자연스럽게 챙길 수 있을 것이다.</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <section class="manual-section">
+            <h4 class="manual-section-title">3. 탐구를 마친 뒤 활용법</h4>
+            <div class="manual-subcard" style="margin-bottom: 0;">
+              <ul class="manual-list">
+                <li><strong>여러 문장 탐구하기:</strong> 1번부터 5번 진술 중 마음이 가장 무겁게 걸리는 문장 1~2개를 먼저 깊이 탐구한 뒤, 여유가 되면 나머지 문장도 차례로 탐구해 보세요.</li>
+                <li><strong>3단계로 이동:</strong> 네 가지 질문을 통해 생각의 힘이 느슨해졌다면, 이제 <strong>‘3. 뒤바꿔보세요’</strong>로 넘어가 원래 진술을 새로운 각도로 비춰 봅니다.</li>
+              </ul>
+            </div>
+          </section>
+        `;
+      }
+
+      getStep3ManualHtml() {
+        return `
+          <div class="manual-intro">
+            <strong>3단계 ‘뒤바꿔보세요(Turnarounds)’</strong>는 1단계에서 상대방을 향해 썼던 진술의 주어와 방향을 바꾸어, <strong>내가 놓치고 있던 또 다른 진실을 발견하는 단계</strong>입니다.<br />
+            뒤바꾸기를 통해 우리는 상대를 바꾸려 애쓰던 무기력함에서 벗어나, <strong>내가 스스로 선택하고 변화시킬 수 있는 삶의 주도권</strong>을 되찾게 됩니다.
+          </div>
+
+          <section class="manual-section">
+            <h4 class="manual-section-title">1. 뒤바꾸기 작성의 3가지 황금률</h4>
+            <div class="manual-subcard" style="margin-bottom: 0;">
+              <h4>올바르게 관점을 전환하는 법</h4>
+              <ul class="manual-list">
+                <li><strong>자책이나 죄책감이 아닙니다:</strong> 뒤바꾸기는 “결국 다 내 잘못이구나”라며 스스로를 비난하는 과정이 아닙니다. 호기심을 가지고 <em>“이 문장을 이렇게 뒤집어 보면, 내 삶에서 실제로 참인 부분이 있을까?”</em>를 탐험하는 과정입니다.</li>
+                <li><strong>반드시 구체적인 사례를 찾으세요:</strong> 문장만 기계적으로 바꾸면 머리로만 이해하고 끝납니다. 뒤바꾼 문장이 진실인 <strong>구체적인 기억이나 행동 사례를 최소 1~3가지씩</strong> 찾아 적을 때 진짜 통찰이 일어납니다.</li>
+                <li><strong>자연스러운 문장으로 다듬으세요:</strong> 조사(은/는, 이/가)를 자연스럽게 고쳐서 읽었을 때 내 마음에 가장 묵직하게 와닿는 문장으로 적으세요.</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="manual-section">
+            <h4 class="manual-section-title">2. 뒤바꾸기 유형별 상세 가이드 및 예시</h4>
+            <div class="manual-scenario-note">
+              💡 <strong>공통 원문 진술 예시:</strong><br />
+              • 3번 진술: <em>“김대리는 동료의 노력을 존중해야 한다.”</em> / • 5번 진술: <em>“김대리는 이기적이다.”</em>
+            </div>
+
+            <!-- 뒤바꾸기 1 -->
+            <div class="manual-q-card">
+              <div class="manual-q-header">
+                <span class="manual-q-badge">뒤바꾸기 1</span>
+                <h5 class="manual-q-title">나 자신에게로 (To the Self)</h5>
+              </div>
+              <div class="manual-q-quote">
+                상대방 이름 대신 ‘나’를 집어넣어, 내가 나 자신에게 어떻게 하고 있는지 살펴봅니다.
+              </div>
+              <ul class="manual-list">
+                <li><strong>작성 방법:</strong> 원문의 ‘김대리’ 자리에 ‘나’를 넣고, 목적어 자리도 ‘나(내 노력)’로 바꿉니다.</li>
+                <li><strong>핵심 질문:</strong> 나는 내 노력을 스스로 존중하고 있는가? 혹은 내가 나 자신에게 이기적으로 굴고 있는 부분은 없는가?</li>
+              </ul>
+              <div class="manual-example-box">
+                <div class="manual-example-label">작성 예시</div>
+                <ul>
+                  <li><strong>뒤바꾼 진술:</strong> 나는 내 노력을 존중해야 한다. (또는: 나는 이기적이다.)</li>
+                  <li><strong>구체적 사례:</strong> ① 나는 밤새워 아이디어를 준비해 놓고도 내 몸과 수면을 돌보지 않고 스스로를 몰아붙였다. ② 회의 때 내 의견임을 당당히 밝히지 못하고 속으로만 끙끙 앓으며 내 노력을 스스로 보호하지 않았다. ③ 김대리에게 화를 내느라 내 소중한 주말 시간과 평온함을 갉아먹는 이기적인 선택을 하고 있다.</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- 뒤바꾸기 2 -->
+            <div class="manual-q-card">
+              <div class="manual-q-header">
+                <span class="manual-q-badge">뒤바꾸기 2</span>
+                <h5 class="manual-q-title">상대방에게 내가 (To the Other)</h5>
+              </div>
+              <div class="manual-q-quote">
+                주어와 목적어를 맞바꾸어, 내가 상대방에게 똑같이 행동하고 있는 지점을 찾습니다.
+              </div>
+              <ul class="manual-list">
+                <li><strong>작성 방법:</strong> ‘김대리가 나에게 ~해야 한다’를 <strong>‘내가 김대리에게 ~해야 한다’</strong>로 바꿉니다.</li>
+                <li><strong>핵심 질문:</strong> 내가 김대리를 판단하고 미워하는 바로 그 순간, 나는 김대리를 한 인간으로 존중하고 있는가?</li>
+              </ul>
+              <div class="manual-example-box">
+                <div class="manual-example-label">작성 예시</div>
+                <ul>
+                  <li><strong>뒤바꾼 진술:</strong> 나는 김대리의 노력을 존중해야 한다. (또는: 나는 김대리에게 이기적이다.)</li>
+                  <li><strong>구체적 사례:</strong> ① 김대리 역시 팀장님께 인정받고 싶어서 압박감 속에 발표를 준비했을 텐데, 그 사람의 고충은 전혀 헤아리지 않았다. ② 회의 이후 김대리가 내게 말을 걸 때도 무시하고 차갑게 대하며 그의 존재를 존중하지 않았다. ③ 오직 내 공로만 인정받으려 했을 뿐, 팀 전체의 발표가 잘된 점은 보지 못했다.</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- 뒤바꾸기 3 -->
+            <div class="manual-q-card">
+              <div class="manual-q-header">
+                <span class="manual-q-badge">뒤바꾸기 3</span>
+                <h5 class="manual-q-title">정반대로 뒤바꾸기 (To the Opposite)</h5>
+              </div>
+              <div class="manual-q-quote">
+                원래 진술을 정반대(~하면 안 된다, ~하지 않는다)로 바꾸고, 현실에서 왜 그것이 사실인지 숙고합니다.
+              </div>
+              <ul class="manual-list">
+                <li><strong>작성 방법:</strong> ‘~해야 한다’를 ‘~하지 말아야 한다’로, ‘~이다’를 ‘~이 아니다’로 정반대로 뒤집습니다.</li>
+                <li><strong>핵심 질문:</strong> 현실에서 이미 그 일이 일어났다면, 그 일이 일어날 수밖에 없었던 현실적 이유나 긍정적 배움은 무엇인가?</li>
+              </ul>
+              <div class="manual-example-box">
+                <div class="manual-example-label">작성 예시</div>
+                <ul>
+                  <li><strong>뒤바꾼 진술:</strong> 김대리는 동료의 노력을 존중하지 말아야 한다. (또는: 김대리는 이기적이지 않다.)</li>
+                  <li><strong>구체적 사례:</strong> ① 현실에서 김대리가 그렇게 행동하지 않았기 때문에, 오히려 현실이 진실이다. ② 이번 일 덕분에 나는 앞으로 기획안을 공유할 때 작성자 표기와 사전 보고 절차를 명확히 해야 한다는 중요한 업무 습관을 배웠다. ③ 김대리는 평소에 내가 바쁠 때 자료 정리를 대신 도와준 적도 있으므로 온전히 이기적인 사람만은 아니다.</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- 뒤바꾸기 4 -->
+            <div class="manual-q-card">
+              <div class="manual-q-header">
+                <span class="manual-q-badge">뒤바꾸기 4</span>
+                <h5 class="manual-q-title">추가 뒤바꾸기</h5>
+              </div>
+              <ul class="manual-list">
+                <li><strong>활용 방법:</strong> 1단계의 다른 문항(예: 1번 감정 이유, 2번 바라는 변화, 4번 필요로 하는 것)에서 떠오르는 또 다른 핵심 진술을 자유롭게 뒤바꾸어 적는 공간입니다.</li>
+              </ul>
+              <div class="manual-example-box">
+                <div class="manual-example-label">작성 예시</div>
+                <ul>
+                  <li><strong>원문(2번):</strong> 나는 김대리가 진심으로 사과하기를 원한다.</li>
+                  <li><strong>뒤바꾸기:</strong> 나는 내가 나 자신에게 사과하기를 원한다. (내 마음을 돌보지 않고 분노 속에 방치한 것에 대해 스스로 다독여 주기)</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- 6번 뒤바꾸기 -->
+            <div class="manual-q-card" style="margin-bottom: 0;">
+              <div class="manual-q-header">
+                <span class="manual-q-badge">6번 뒤바꾸기</span>
+                <h5 class="manual-q-title">회피와 두려움을 수용으로 전환하기</h5>
+              </div>
+              <div class="manual-q-quote">
+                1단계 6번의 “나는 앞으로 다시는 ~ 하고 싶지 않다 / 하지 않겠다”를 “나는 기꺼이 ~ 하겠다”와 “나는 ~ 하기를 고대한다”로 바꿉니다.
+              </div>
+              <ul class="manual-list">
+                <li><strong>문항의 깊은 의미:</strong> 특정 상황을 두려워하고 피하려 애쓰는 동안 우리는 늘 긴장 속에 살게 됩니다. 다시 비슷한 상황이 오더라도 <strong>“그 일이 내 내면을 들여다볼 좋은 기회가 될 테니 기꺼이 맞이하겠다”</strong>라고 마음을 열 때 진정한 자유가 찾아옵니다.</li>
+              </ul>
+              <div class="manual-example-box">
+                <div class="manual-example-label">작성 예시</div>
+                <ul>
+                  <li><strong>원문(1단계 6번):</strong> 나는 앞으로 다시는 내가 공들인 성과를 다른 사람에게 빼앗기는 경험을 하고 싶지 않다.</li>
+                  <li><strong>뒤바꾸기 ①:</strong> 나는 기꺼이 내 아이디어가 다른 사람의 입을 통해 발표되는 상황을 경험하겠다.</li>
+                  <li><strong>뒤바꾸기 ②:</strong> 나는 그런 상황이 다시 온다면, 흔들리지 않고 내 의견을 차분히 보충 설명하며 성장할 기회를 고대한다.</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <section class="manual-section">
+            <h4 class="manual-section-title">3. 전체 작업을 마친 뒤 마무리 활용법</h4>
+            <div class="manual-subcard" style="margin-bottom: 0;">
+              <ul class="manual-list">
+                <li><strong>요약 및 카카오톡 공유:</strong> 하단의 <strong>‘요약 및 카카오톡 공유’</strong>(또는 상단 <strong>‘요약 및 내보내기’</strong>) 버튼을 누르면 1~3단계 전체 기록이 한 장의 깔끔한 리포트로 정리됩니다. 이미지로 저장하거나 카카오톡으로 바로 전송해 보관하세요.</li>
+                <li><strong>기록 보관함 저장:</strong> 상단 <strong>‘저장 / 불러오기’</strong>에서 제목을 붙여 저장해 두면, 며칠 뒤 마음이 흔들릴 때 다시 꺼내 읽어보며 평온을 되찾을 수 있습니다.</li>
+              </ul>
+            </div>
+          </section>
+        `;
       }
 
       /* =========================================
