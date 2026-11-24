@@ -2310,8 +2310,8 @@
           case 2: {
             const want = (targetState.q2Want || '').trim();
             return want
-              ? `나는 ${name} 이(가) ${want} (하기를 원한다.)`
-              : `나는 ${name} 이(가) [원하는 변화] (하기를 원한다.) (2번 미작성)`;
+              ? `나는 ${name} 이(가) ${want} (기를 원한다.)
+              : `나는 ${name} 이(가) [원하는 변화] 하기를 원한다.(2번 미작성)`;
           }
           case 3: {
             const s1 = (targetState.q3Should || '').trim();
@@ -2446,7 +2446,7 @@
                 data-min-width="260"
                 placeholder="어떻게 바뀌고 행동하기를 원하는지 적어주세요"
                 oninput="app.updateField('q2Want', this.value)">${this.escapeHtml(this.state.q2Want)}</textarea>
-              <span class="sentence-text">(하기를 원한다.)</span>
+              <span class="sentence-text">하기를 원한다.</span>
             </div>
           </section>
 
