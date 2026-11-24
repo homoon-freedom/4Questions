@@ -1889,7 +1889,6 @@
         this.audioEl = document.getElementById('bgAudio');
         if (!this.audioEl) return;
 
-        // 저장된 음량/반복 설정 복원
         let savedVol = 0.7;
         let savedLoop = true;
         try {
@@ -2310,8 +2309,8 @@
           case 2: {
             const want = (targetState.q2Want || '').trim();
             return want
-              ? `나는 ${name} 이(가) ${want} (기를 원한다.)
-              : `나는 ${name} 이(가) [원하는 변화] 하기를 원한다.(2번 미작성)`;
+              ? `나는 ${name} 이(가) ${want} 하기를 원한다.`
+              : `나는 ${name} 이(가) [원하는 변화] 하기를 원한다. (2번 미작성)`;
           }
           case 3: {
             const s1 = (targetState.q3Should || '').trim();
@@ -2578,6 +2577,7 @@
       renderStep2() {
         const idx = this.activeInquiryIndex;
         const currentInquiry = this.state.inquiries[idx] || { q1Yn: '', q1Text: '', q2Yn: '', q2Text: '', q3Text: '', q4Text: '' };
+        const showInquiry2 = currentInquiry.q1Yn !== '아니오';
 
         return `
           <div class="guide-banner">
@@ -2638,26 +2638,28 @@
                 oninput="app.updateInquiryField('q1Text', this.value)">${this.escapeHtml(currentInquiry.q1Text)}</textarea>
             </div>
 
-            <!-- 탐구 2 -->
-            <div style="margin-bottom: 24px;">
-              <div class="q-header">
-                <span class="q-badge">탐구 2</span>
-                <div>
-                  <h3 class="q-title">당신은 그게 진실인지 확실히 알 수 있나요?</h3>
-                  <p class="q-hint">
-                    이미 안다고 생각하는 것 밑에 있는 대답을 발견해 보세요. 당신에게 고통을 일으키는 것은 겉으로는 드러나지 않은 자신의 해석인 경우가 많습니다.
-                  </p>
+            <!-- 탐구 2 (탐구 1의 답변이 '아니오'일 때 숨김) -->
+            ${showInquiry2 ? `
+              <div style="margin-bottom: 24px;">
+                <div class="q-header">
+                  <span class="q-badge">탐구 2</span>
+                  <div>
+                    <h3 class="q-title">당신은 그게 진실인지 확실히 알 수 있나요?</h3>
+                    <p class="q-hint">
+                      이미 안다고 생각하는 것 밑에 있는 대답을 발견해 보세요. 당신에게 고통을 일으키는 것은 겉으로는 드러나지 않은 자신의 해석인 경우가 많습니다.
+                    </p>
+                  </div>
                 </div>
+                <div class="yn-group">
+                  <button type="button" class="yn-btn ${currentInquiry.q2Yn === '예' ? 'selected' : ''}" onclick="app.selectInquiryYn('q2Yn', '예')">예</button>
+                  <button type="button" class="yn-btn ${currentInquiry.q2Yn === '아니오' ? 'selected' : ''}" onclick="app.selectInquiryYn('q2Yn', '아니오')">아니오</button>
+                </div>
+                <textarea rows="2"
+                  class="auto-field"
+                  placeholder="확실히 알 수 있는지, 혹은 나의 해석이 더해졌는지 깊이 들여다본 내용을 적어보세요..."
+                  oninput="app.updateInquiryField('q2Text', this.value)">${this.escapeHtml(currentInquiry.q2Text)}</textarea>
               </div>
-              <div class="yn-group">
-                <button type="button" class="yn-btn ${currentInquiry.q2Yn === '예' ? 'selected' : ''}" onclick="app.selectInquiryYn('q2Yn', '예')">예</button>
-                <button type="button" class="yn-btn ${currentInquiry.q2Yn === '아니오' ? 'selected' : ''}" onclick="app.selectInquiryYn('q2Yn', '아니오')">아니오</button>
-              </div>
-              <textarea rows="2"
-                class="auto-field"
-                placeholder="확실히 알 수 있는지, 혹은 나의 해석이 더해졌는지 깊이 들여다본 내용을 적어보세요..."
-                oninput="app.updateInquiryField('q2Text', this.value)">${this.escapeHtml(currentInquiry.q2Text)}</textarea>
-            </div>
+            ` : ''}
 
             <!-- 탐구 3 -->
             <div style="margin-bottom: 24px;">
@@ -3101,7 +3103,7 @@
                 <h5 class="manual-q-title">그 생각을 할 때 당신은 어떻게 반응하나요?</h5>
               </div>
               <div class="manual-q-quote">
-                자기를 어떻게 대하며 상대방을 어떻게 대하나요? 몸의 어느 부위에서 어떤 감각을 느끼며, 머릿속에서는 어떤 말들이 오가나요?
+                자기를 어떻게 대하며 상대방을 어떻게 대하나요? 몸의 어느 부위에서 어떤 감각(따끔따끔한, 화끈 달아오르는 등)을 느끼며, 머릿속에서는 어떤 말들이 오가나요?
               </div>
               <ul class="manual-list">
                 <li><strong>질문의 의도:</strong> 그 생각을 사실로 믿고 붙잡을 때 내 몸과 마음과 행동에 어떤 고통과 반응이 일어나는지 생생하게 관찰합니다.</li>
