@@ -2317,16 +2317,16 @@
             const s1 = (targetState.q3Should || '').trim();
             const s2 = (targetState.q3ShouldNot || '').trim();
             const parts = [];
-            if (s1) parts.push(`${name} 는(은) ${s1} (해야 한다.)`);
-            if (s2) parts.push(`${name} 는(은) ${s2} (하지 말아야 한다.)`);
+            if (s1) parts.push(`${name} 는(은) ${s1} 해야 한다.`);
+            if (s2) parts.push(`${name} 는(은) ${s2} 하지 말아야 한다.`);
             return parts.length ? parts.join('\n') : `${name} 는(은) ~ 해야 한다 / 하지 말아야 한다. (3번 미작성)`;
           }
           case 4: {
             const n1 = (targetState.q4Should || '').trim();
             const n2 = (targetState.q4Need || '').trim();
             const parts = [];
-            if (n1) parts.push(`${name} 는(은) ${n1} (해야 한다.)`);
-            if (n2) parts.push(`나는 ${name} 이(가) ${n2} (기를 필요로 한다.)`);
+            if (n1) parts.push(`${name} 는(은) ${n1} 해야 한다.`);
+            if (n2) parts.push(`나는 ${name} 이(가) ${n2} 기를 필요로 한다.`);
             return parts.length ? parts.join('\n') : `나는 ${name} 이(가) ~ 기를 필요로 한다. (4번 미작성)`;
           }
           case 5: {
@@ -2467,7 +2467,7 @@
                 data-min-width="260"
                 placeholder="해야 할 행위, 태도, 생각, 느낌"
                 oninput="app.updateField('q3Should', this.value)">${this.escapeHtml(this.state.q3Should)}</textarea>
-              <span class="sentence-text">(해야 한다.)</span>
+              <span class="sentence-text">해야 한다.</span>
             </div>
 
             <div class="sentence-flow">
@@ -2478,7 +2478,7 @@
                 data-min-width="260"
                 placeholder="하지 말아야 할 행위, 태도, 생각, 느낌"
                 oninput="app.updateField('q3ShouldNot', this.value)">${this.escapeHtml(this.state.q3ShouldNot)}</textarea>
-              <span class="sentence-text">(하지 말아야 한다.)</span>
+              <span class="sentence-text">하지 말아야 한다.</span>
             </div>
           </section>
 
@@ -2500,7 +2500,7 @@
                 data-min-width="260"
                 placeholder="나를 행복하게 해주기 위해 해야 할 것"
                 oninput="app.updateField('q4Should', this.value)">${this.escapeHtml(this.state.q4Should)}</textarea>
-              <span class="sentence-text">(해야 한다.)</span>
+              <span class="sentence-text">해야 한다.</span>
             </div>
 
             <div class="sentence-flow">
@@ -2512,7 +2512,7 @@
                 data-min-width="260"
                 placeholder="필요로 하는 말, 행동, 태도"
                 oninput="app.updateField('q4Need', this.value)">${this.escapeHtml(this.state.q4Need)}</textarea>
-              <span class="sentence-text">(기를 필요로 한다.)</span>
+              <span class="sentence-text">기를 필요로 한다.</span>
             </div>
           </section>
 
