@@ -2304,14 +2304,14 @@
             const emo = (targetState.q1Emotion || '').trim() || '화가 난다';
             const reason = (targetState.q1Reason || '').trim();
             return reason
-              ? `나는 ${name} 때문에 ${emo}. 왜냐하면 ${reason} 때문이다.`
+              ? `나는 ${name} 때문에 ${emo}. 왜냐하면 ${reason} (때문이다.)`
               : `나는 ${name} 때문에 ${emo}. (1번 이유 미작성)`;
           }
           case 2: {
             const want = (targetState.q2Want || '').trim();
             return want
-              ? `나는 ${name} 이(가) ${want} 하기를 원한다.`
-              : `나는 ${name} 이(가) [원하는 변화] 하기를 원한다. (2번 미작성)`;
+              ? `나는 ${name} 이(가) ${want} (하기를 원한다.)`
+              : `나는 ${name} 이(가) [원하는 변화] (하기를 원한다.) (2번 미작성)`;
           }
           case 3: {
             const s1 = (targetState.q3Should || '').trim();
@@ -2424,7 +2424,7 @@
                 data-min-width="260"
                 placeholder="그 사람 때문에 힘든 구체적인 이유를 적어주세요"
                 oninput="app.updateField('q1Reason', this.value)">${this.escapeHtml(this.state.q1Reason)}</textarea>
-              <span class="sentence-text">때문이다.</span>
+              <span class="sentence-text">(때문이다.)</span>
             </div>
           </section>
 
@@ -2446,7 +2446,7 @@
                 data-min-width="260"
                 placeholder="어떻게 바뀌고 행동하기를 원하는지 적어주세요"
                 oninput="app.updateField('q2Want', this.value)">${this.escapeHtml(this.state.q2Want)}</textarea>
-              <span class="sentence-text">하기를 원한다.</span>
+              <span class="sentence-text">(하기를 원한다.)</span>
             </div>
           </section>
 
@@ -2553,7 +2553,7 @@
                 data-min-width="260"
                 placeholder="다시는 경험하고 싶지 않은 일이나 상황"
                 oninput="app.updateField('q6NoMoreWant', this.value)">${this.escapeHtml(this.state.q6NoMoreWant)}</textarea>
-              <span class="sentence-text">하고 싶지 않다.</span>
+              <span class="sentence-text">(하고 싶지 않다.)</span>
             </div>
 
             <div class="sentence-flow">
@@ -2563,7 +2563,7 @@
                 data-min-width="260"
                 placeholder="다시는 하지 않겠다고 다짐하는 행동"
                 oninput="app.updateField('q6NoMoreDo', this.value)">${this.escapeHtml(this.state.q6NoMoreDo)}</textarea>
-              <span class="sentence-text">하지 않겠다.</span>
+              <span class="sentence-text">(하지 않겠다.)</span>
             </div>
           </section>
 
@@ -3593,7 +3593,7 @@
               <div class="report-q">6) 다시는 경험하고 싶지 않은 점</div>
               <div class="report-a">${
                 (this.state.q6NoMoreWant.trim() || this.state.q6NoMoreDo.trim())
-                  ? `${this.state.q6NoMoreWant.trim() ? `나는 앞으로 다시는 ${this.escapeHtml(this.state.q6NoMoreWant.trim())} 하고 싶지 않다.\n` : ''}${this.state.q6NoMoreDo.trim() ? `나는 앞으로 다시는 ${this.escapeHtml(this.state.q6NoMoreDo.trim())} 하지 않겠다.` : ''}`.trim()
+                  ? `${this.state.q6NoMoreWant.trim() ? `나는 앞으로 다시는 ${this.escapeHtml(this.state.q6NoMoreWant.trim())} (하고 싶지 않다.)\n` : ''}${this.state.q6NoMoreDo.trim() ? `나는 앞으로 다시는 ${this.escapeHtml(this.state.q6NoMoreDo.trim())} (하지 않겠다.)` : ''}`.trim()
                   : '(작성된 내용 없음)'
               }</div>
             </div>
