@@ -678,7 +678,7 @@
       color: #FFFFFF;
     }
 
-    /* 2단계 진술 선택 바 */
+    /* 2단계 / 3단계 진술 선택 바 */
     .statement-selector {
       display: flex;
       flex-wrap: wrap;
@@ -1675,6 +1675,7 @@
         this.currentStep = 1;
         this.manualStep = 1;
         this.activeInquiryIndex = 1;
+        this.activeTurnaroundIndex = 1;
         this.loadedArchiveId = null;
         this.confirmDeleteId = null;
 
@@ -1707,6 +1708,28 @@
       /* =========================================
          워크북 상태 및 데이터 관리
          ========================================= */
+      createEmptyTurnaroundSet() {
+        return [
+          { statement: '', reason: '' },
+          { statement: '', reason: '' },
+          { statement: '', reason: '' },
+          { statement: '', reason: '' }
+        ];
+      }
+
+      normalizeTurnaroundSet(arr) {
+        const empty = this.createEmptyTurnaroundSet();
+        if (!Array.isArray(arr)) return empty;
+        return empty.map((defItem, i) => {
+          const item = arr[i];
+          if (!item || typeof item !== 'object') return defItem;
+          return {
+            statement: item.statement || '',
+            reason: item.reason || ''
+          };
+        });
+      }
+
       getDefaultState() {
         return {
           targetName: '',
@@ -1727,12 +1750,13 @@
             4: { q1Yn: '', q1Text: '', q2Yn: '', q2Text: '', q3Text: '', q4Text: '' },
             5: { q1Yn: '', q1Text: '', q2Yn: '', q2Text: '', q3Text: '', q4Text: '' }
           },
-          turnarounds: [
-            { statement: '', reason: '' },
-            { statement: '', reason: '' },
-            { statement: '', reason: '' },
-            { statement: '', reason: '' }
-          ],
+          turnaroundsByStatement: {
+            1: this.createEmptyTurnaroundSet(),
+            2: this.createEmptyTurnaroundSet(),
+            3: this.createEmptyTurnaroundSet(),
+            4: this.createEmptyTurnaroundSet(),
+            5: this.createEmptyTurnaroundSet()
+          },
           q6TurnaroundWilling: '',
           q6TurnaroundLookForward: ''
         };
@@ -1741,6 +1765,17 @@
       normalizeState(raw) {
         const def = this.getDefaultState();
         if (!raw || typeof raw !== 'object') return def;
+
+        const rawMap = (raw.turnaroundsByStatement && typeof raw.turnaroundsByStatement === 'object')
+          ? raw.turnaroundsByStatement
+          : {};
+
+        const normalizedTurnarounds = {};
+        [1, 2, 3, 4, 5].forEach(num => {
+          const candidate = rawMap[num] || (num === 1 ? raw.turnarounds : null);
+          normalizedTurnarounds[num] = this.normalizeTurnaroundSet(candidate);
+        });
+
         return {
           ...def,
           ...raw,
@@ -1751,9 +1786,7 @@
             4: { ...def.inquiries[4], ...(raw.inquiries && raw.inquiries[4] ? raw.inquiries[4] : {}) },
             5: { ...def.inquiries[5], ...(raw.inquiries && raw.inquiries[5] ? raw.inquiries[5] : {}) }
           },
-          turnarounds: Array.isArray(raw.turnarounds) && raw.turnarounds.length === 4
-            ? raw.turnarounds.map(t => ({ statement: t.statement || '', reason: t.reason || '' }))
-            : def.turnarounds
+          turnaroundsByStatement: normalizedTurnarounds
         };
       }
 
@@ -1854,8 +1887,8 @@
             title: '남을 향한 화살을 거울로 돌려보세요',
             quote: '“뒤바꾸기는 자책이나 죄책감이 아닙니다. 내가 상대를 향해 던진 판단이 사실은 나 자신과 현실을 비추는 거울임을 발견하는 해방입니다.”',
             tips: [
+              '1~5번 진술별로 독립적인 뒤바꾸기를 작성합니다.',
               '① 나 자신에게 ② 상대방에게 ③ 정반대로 바꾸세요.',
-              '각 문장이 참인 구체적 사례 3가지씩 찾아보세요.',
               '6번은 두려움을 ‘기꺼이/고대한다’로 전환합니다.'
             ]
           }
@@ -1915,8 +1948,33 @@
         this.render();
       }
 
+      setTurnaroundIndex(idx) {
+        this.activeTurnaroundIndex = idx;
+        this.render();
+      }
+
+      getTurnaroundSet(stmtNum, targetState = this.state) {
+        if (!targetState.turnaroundsByStatement) {
+          targetState.turnaroundsByStatement = {};
+        }
+        if (!Array.isArray(targetState.turnaroundsByStatement[stmtNum])) {
+          targetState.turnaroundsByStatement[stmtNum] = this.createEmptyTurnaroundSet();
+        }
+        return targetState.turnaroundsByStatement[stmtNum];
+      }
+
+      hasTurnaroundData(stmtNum, targetState = this.state) {
+        const list = this.getTurnaroundSet(stmtNum, targetState);
+        return list.some(item => (item.statement || '').trim() || (item.reason || '').trim());
+      }
+
       updateTurnaround(index, field, value) {
-        this.state.turnarounds[index][field] = value;
+        const stmtNum = this.activeTurnaroundIndex;
+        const list = this.getTurnaroundSet(stmtNum);
+        if (!list[index]) {
+          list[index] = { statement: '', reason: '' };
+        }
+        list[index][field] = value;
         this.saveState();
       }
 
@@ -2388,35 +2446,39 @@
 
       renderStep3() {
         const name = this.getDisplayName();
-        const idx = this.activeInquiryIndex;
+        const stmtNum = this.activeTurnaroundIndex;
+        const currentTurnarounds = this.getTurnaroundSet(stmtNum);
 
         return `
           <!-- 불러온 기록 배너 바로 아래 고정되는 선택한 진술 박스 -->
           <div class="sticky-turnaround-statement-box">
             <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
               <span style="font-size: 0.84rem; font-weight: 700; color: var(--text-muted);">
-                뒤바꾸기 기준 진술 선택
+                뒤바꾸기 기준 진술 선택 (1~5번 진술별 독립 저장)
               </span>
               <div class="statement-selector" style="margin-bottom: 0;">
-                ${[1, 2, 3, 4, 5].map(num => `
-                  <button type="button"
-                    class="stmt-tab ${idx === num ? 'active' : ''}"
-                    onclick="app.setInquiryIndex(${num})">
-                    ${num}번 진술
-                  </button>
-                `).join('')}
+                ${[1, 2, 3, 4, 5].map(num => {
+                  const hasData = this.hasTurnaroundData(num);
+                  return `
+                    <button type="button"
+                      class="stmt-tab ${stmtNum === num ? 'active' : ''}"
+                      onclick="app.setTurnaroundIndex(${num})">
+                      ${num}번 진술 ${hasData ? '✓' : ''}
+                    </button>
+                  `;
+                }).join('')}
               </div>
             </div>
             <div class="active-statement-box">
-              <div class="active-statement-label">현재 선택한 진술 (${idx}번 문항)</div>
-              <div class="active-statement-text">${this.escapeHtml(this.getStatementSummary(idx))}</div>
+              <div class="active-statement-label">현재 뒤바꾸기 중인 진술 (${stmtNum}번 문항)</div>
+              <div class="active-statement-text">${this.escapeHtml(this.getStatementSummary(stmtNum))}</div>
             </div>
           </div>
 
           <div class="guide-banner">
-            <h2>3단계. 뒤바꿔보세요</h2>
+            <h2>3단계. 뒤바꿔보세요 (${stmtNum}번 진술 독립 입력)</h2>
             <p>
-              처음 진술을 바꾸어 쓰는 것입니다. 다른 사람 이름 대신 자기 이름('나')을 집어넣거나 정반대로 뒤바꾸어 보세요.<br />
+              선택한 <strong>${stmtNum}번 진술</strong>을 바꾸어 쓰는 것입니다. 다른 사람 이름 대신 자기 이름('나')을 집어넣거나 정반대로 뒤바꾸어 보세요.<br />
               예) "철수는 내게 친절해야 한다" → ① "나는 내게 친절해야 한다" / ② "나는 철수에게 친절해야 한다" / ③ "철수는 내게 친절하면 안 된다"
             </p>
           </div>
@@ -2435,10 +2497,10 @@
           </section>
 
           ${[
-            { idx: 0, label: '뒤바꾸기 1 (나 자신에게로)', hint: `상대방(${name}) 대신 '나'를 넣어 진술을 바꾸고, 왜 진실한지 구체적인 예를 찾아보세요.` },
-            { idx: 1, label: '뒤바꾸기 2 (상대방에게 내가)', hint: `내가 상대방(${name})에게 그렇게 해야 하거나 하고 있다는 관점으로 바꾸고, 구체적인 예를 적어보세요.` },
-            { idx: 2, label: '뒤바꾸기 3 (정반대로 뒤바꾸기)', hint: `원래 진술을 정반대(~하면 안 된다, ~하지 않는다)로 바꾸고, 현실에서 왜 그것이 사실인지 숙고해보세요.` },
-            { idx: 3, label: '뒤바꾸기 4 (추가 뒤바꾸기)', hint: `또 다른 진술이나 추가적인 뒤바꾸기가 떠오른다면 자유롭게 적어보세요.` }
+            { idx: 0, label: `${stmtNum}번 · 뒤바꾸기 1 (나 자신에게로)`, hint: `상대방(${name}) 대신 '나'를 넣어 진술을 바꾸고, 왜 진실한지 구체적인 예를 찾아보세요.` },
+            { idx: 1, label: `${stmtNum}번 · 뒤바꾸기 2 (상대방에게 내가)`, hint: `내가 상대방(${name})에게 그렇게 해야 하거나 하고 있다는 관점으로 바꾸고, 구체적인 예를 적어보세요.` },
+            { idx: 2, label: `${stmtNum}번 · 뒤바꾸기 3 (정반대로 뒤바꾸기)`, hint: `원래 진술을 정반대(~하면 안 된다, ~하지 않는다)로 바꾸고, 현실에서 왜 그것이 사실인지 숙고해보세요.` },
+            { idx: 3, label: `${stmtNum}번 · 뒤바꾸기 4 (추가 뒤바꾸기)`, hint: `또 다른 진술이나 추가적인 뒤바꾸기가 떠오른다면 자유롭게 적어보세요.` }
           ].map(item => `
             <section class="q-card">
               <div class="q-header">
@@ -2451,14 +2513,14 @@
                 <textarea rows="1"
                   class="auto-field"
                   style="font-weight: 600;"
-                  placeholder="뒤바꾼 진술 문장을 입력하세요..."
-                  oninput="app.updateTurnaround(${item.idx}, 'statement', this.value)">${this.escapeHtml(this.state.turnarounds[item.idx].statement)}</textarea>
+                  placeholder="${stmtNum}번 진술에 대한 뒤바꾼 문장을 입력하세요..."
+                  oninput="app.updateTurnaround(${item.idx}, 'statement', this.value)">${this.escapeHtml(currentTurnarounds[item.idx].statement)}</textarea>
               </div>
               <div>
                 <textarea rows="2"
                   class="auto-field"
                   placeholder="이 뒤바꾸기가 처음 진술만큼 진실하거나 더 진실한 구체적인 이유와 사례를 적어보세요..."
-                  oninput="app.updateTurnaround(${item.idx}, 'reason', this.value)">${this.escapeHtml(this.state.turnarounds[item.idx].reason)}</textarea>
+                  oninput="app.updateTurnaround(${item.idx}, 'reason', this.value)">${this.escapeHtml(currentTurnarounds[item.idx].reason)}</textarea>
               </div>
             </section>
           `).join('')}
@@ -2846,13 +2908,14 @@
       getStep3ManualHtml() {
         return `
           <div class="manual-intro">
-            <strong>3단계 ‘뒤바꿔보세요’</strong>는 1단계에서 상대방을 향해 썼던 진술의 주어와 방향을 바꾸어, <strong>내가 놓치고 있던 또 다른 진실을 발견하는 단계</strong>입니다.
+            <strong>3단계 ‘뒤바꿔보세요’</strong>는 1단계에서 상대방을 향해 썼던 진술(1~5번 진술 각각)의 주어와 방향을 바꾸어, <strong>내가 놓치고 있던 또 다른 진실을 발견하는 단계</strong>입니다.
           </div>
 
           <section class="manual-section">
             <h4 class="manual-section-title">1. 뒤바꾸기 작성의 3가지 황금률</h4>
             <div class="manual-subcard" style="margin-bottom: 0;">
               <ul class="manual-list">
+                <li><strong>진술별 독립 작성:</strong> <code>1번 진술</code> ~ <code>5번 진술</code> 탭을 눌러 각 진술마다 독립적인 뒤바꾸기를 적고 저장할 수 있습니다.</li>
                 <li><strong>자책이나 죄책감이 아닙니다:</strong> 스스로를 비난하는 것이 아니라, <em>“이 문장을 이렇게 뒤집어 보면 내 삶에서 실제로 참인 부분이 있을까?”</em>를 호기심으로 탐험하는 과정입니다.</li>
                 <li><strong>반드시 구체적인 사례를 찾으세요:</strong> 뒤바꾼 문장이 진실인 구체적인 기억이나 행동 사례를 최소 1~3가지씩 찾아 적을 때 진짜 통찰이 일어납니다.</li>
               </ul>
@@ -3096,6 +3159,7 @@
         this.state = this.normalizeState(JSON.parse(JSON.stringify(found.data)));
         this.loadedArchiveId = found.id;
         this.activeInquiryIndex = 1;
+        this.activeTurnaroundIndex = 1;
         this.saveState();
         this.closeArchiveModal();
         this.setStep(1);
@@ -3246,17 +3310,29 @@
           `;
         }).join('');
 
-        const turnaroundBlocks = this.state.turnarounds
-          .map((t, i) => {
-            if (!t.statement.trim() && !t.reason.trim()) return '';
-            return `
-              <div class="report-item">
-                <div class="report-q">뒤바꾸기 ${i + 1}</div>
-                <div class="report-a"><strong>${this.escapeHtml(t.statement || '(문장 미입력)')}</strong>${t.reason ? `\n${this.escapeHtml(t.reason)}` : ''}</div>
-              </div>
-            `;
-          })
-          .join('');
+        const turnaroundBlocks = [1, 2, 3, 4, 5].map(num => {
+          const list = this.getTurnaroundSet(num);
+          const innerItems = list
+            .map((t, i) => {
+              if (!t.statement.trim() && !t.reason.trim()) return '';
+              return `
+                <div style="margin-top: 8px;">
+                  <div style="font-weight: 700; color: var(--secondary); font-size: 0.86rem;">뒤바꾸기 ${i + 1}</div>
+                  <div class="report-a"><strong>${this.escapeHtml(t.statement || '(문장 미입력)')}</strong>${t.reason ? `\n${this.escapeHtml(t.reason)}` : ''}</div>
+                </div>
+              `;
+            })
+            .filter(Boolean)
+            .join('');
+
+          if (!innerItems) return '';
+          return `
+            <div class="report-item" style="border-top: 1px dashed #E5DFD3; padding-top: 12px; margin-top: 12px;">
+              <div class="report-q">[${num}번 진술 뒤바꾸기] ${this.escapeHtml(this.getStatementSummary(num))}</div>
+              ${innerItems}
+            </div>
+          `;
+        }).join('');
 
         const q6TurnParts = [];
         if (this.state.q6TurnaroundWilling.trim()) {
@@ -3394,6 +3470,7 @@
         this.state = this.getDefaultState();
         this.loadedArchiveId = null;
         this.activeInquiryIndex = 1;
+        this.activeTurnaroundIndex = 1;
         this.saveState();
         this.closeResetModal();
         this.setStep(1);
